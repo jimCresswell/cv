@@ -17,12 +17,15 @@ html {
 
 /* Body */
 body {
-  padding: 2em;
+  padding: 0 0.5em;
+  background-color: #e9e9e9;
+  font-family: Helvetica,FreeSans,"Liberation Sans",Helmet,Arial,sans-serif;
 }
 
 /* Links */
 a {
   text-decoration: none;
+  color: darkorange;
 }
 
 /**
@@ -31,13 +34,15 @@ a {
 
 main {
   font-size: 1rem;
-  max-width: 30em;
+  max-width: 36em;
   margin: 0 auto;
+  padding: 2em;
+  background-color: #FFFFFF;
 }
 
 main > header,
 main > section {
-  margin-bottom: 2em;
+  margin-bottom: 3em;
 }
 
 
@@ -50,11 +55,11 @@ main > header {
 }
 
 main > header > h1 {
-  margin-bottom: 0.6em;
+  margin-bottom: 1em;
 }
 
 main > header > p {
-  font-size: 1.1em;
+  font-size: 1.2em;
   margin-bottom: 0.4em;
 }
 
@@ -64,7 +69,8 @@ main > header > p {
  */
 
 main > section > h2 {
-  margin-bottom: 0.6em;
+  text-align: center;
+  margin-bottom: 1em;
 }
 
 main > section > ol,
@@ -80,19 +86,22 @@ main > section > ul {
 
 section.job {
   font-size: 1rem;
-  margin-left: 1em;
   margin-bottom: 1em;
 }
 
 section.job > header {
-  margin-bottom: 0.5em;
-}
-
-section.job > header > h3,
-section.job > header > p {
-  margin-bottom: 0.1em;
+  margin-bottom: 0.6em;
 }
 
 section.job > p {
   margin-bottom: 0.4em;
+}
+
+section.job > header > h3 + p {
+  font-size: 1.2em;
+  margin-bottom: 0.1em;
+}
+
+section.job .duration {
+  color: #808080;
 }
