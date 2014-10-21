@@ -1,6 +1,7 @@
 {
   "name": "cv",
   "version": "0.0.1",
+  "private": true,
   "description": "CV for Jim Cresswell",
   "main": "index.html",
   "scripts": {
