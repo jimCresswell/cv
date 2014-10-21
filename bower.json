@@ -10,7 +10,7 @@
   "keywords": [
     "CV"
   ],
-  "license": "GPL v2.0",
+  "license": "MIT",
   "private": true,
   "ignore": [
     "**/.*",

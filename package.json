@@ -1,0 +1,22 @@
+{
+  "name": "cv",
+  "version": "0.0.1",
+  "description": "CV for Jim Cresswell",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jimCresswell/cv.git"
+  },
+  "keywords": [
+    "CV",
+    "jimCresswell"
+  ],
+  "author": "Jim Cresswell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jimCresswell/cv/issues"
+  }
+}
