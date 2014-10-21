@@ -47,6 +47,10 @@ main > header > h1 {
   margin-bottom: 0.6em;
 }
 
+main > header > p {
+  margin-bottom: 0.4em;
+}
+
 /**
  * Main section lists.
  */
@@ -71,8 +75,12 @@ section.job {
   margin-bottom: 1em;
 }
 
-section.job header {
+section.job > header {
   margin-bottom: 0.4em;
+}
+
+section.job > header > h3 {
+  margin-bottom: 0.2em;
 }
 
 section.job > p {
