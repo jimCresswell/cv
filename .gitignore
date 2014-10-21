@@ -40,5 +40,7 @@ Thumbs.db
 #Vim
 *.swp
 
-#Node
+#Dependencies
 node_modules/
+bower_components/
+
