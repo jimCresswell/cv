@@ -1,11 +1,80 @@
+/**
+ * Root text size set in px,
+ * main, header, section and footer text size in rems,
+ * everything else in ems.
+ */
+
+/* Control margins */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol {
+  margin: 0;
+}
+
+/* Base font size */
 html {
-	font-size: 18px;
+  font-size: 18px;
 }
 
+/* Body */
 body {
-	padding: 1em;
+  padding: 2em;
 }
 
-h1 {
-	margin: 0;
+/**
+ * Main and immediate sections.
+ */
+
+main {
+  font-size: 1rem;
+  max-width: 30em;
+  margin: 0 auto; 
+}
+
+main > header,
+main > section {
+  font-size: 1rem;
+  margin-bottom: 2em;
+}
+
+/**
+ * Main header.
+ */
+
+main > header {
+  text-align: center;
+}
+
+main > header > h1 {
+  margin-bottom: 0.6em;
+}
+
+/**
+ * Main section lists.
+ */
+
+main > section > h2 {
+  margin-bottom: 0.6em;
+}
+
+main > section > ol,
+main > section > ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/**
+ * Job sections
+ */
+
+section.job {
+  font-size: 1rem;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+section.job header {
+  margin-bottom: 0.4em;
+}
+
+section.job > p {
+  margin-bottom: 0.4em;
 }
