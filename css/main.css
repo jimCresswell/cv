@@ -32,7 +32,7 @@ a {
 main {
   font-size: 1rem;
   max-width: 30em;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 main > header,
@@ -46,7 +46,6 @@ main > section {
  */
 
 main > header {
-  font-size: 1.1rem;
   text-align: center;
 }
 
@@ -55,6 +54,7 @@ main > header > h1 {
 }
 
 main > header > p {
+  font-size: 1.1em;
   margin-bottom: 0.4em;
 }
 
