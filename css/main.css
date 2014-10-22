@@ -88,25 +88,25 @@ main > section > ul {
  * Job sections
  */
 
-section.job {
+section.occupation {
   font-size: 1rem;
   margin-bottom: 2em;
 }
 
-section.job > header {
+section.occupation > header {
   margin-bottom: 0.6em;
 }
 
-section.job > p {
+section.occupation > p {
   margin-bottom: 0.4em;
 }
 
-section.job > header > h3 + p {
+section.occupation > header > h3 + p {
   font-size: 1.2em;
   margin-bottom: 0.1em;
 }
 
-section.job .duration {
+section.occupation .duration {
   color: #808080;
 }
 
