@@ -1,6 +1,6 @@
 # My CV
 
-[http://jimcresswell.net/cv]
+http://jimcresswell.net/cv
 
 * Clone the repo.
 * You'll need Node and npm installed.
