@@ -5,17 +5,17 @@
  */
 
 
-/* Control margins */
+/* Control the margins. */
 body, h1, h2, h3, h4, h5, h6, p, ul, ol {
   margin: 0;
 }
 
-/* Base font size */
+/* Base font size. */
 html {
   font-size: 14px;
 }
 
-/* Body */
+/* Body. */
 body {
   padding: 0 0.5em;
   font-family: Helvetica,FreeSans,"Liberation Sans",Helmet,Arial,sans-serif;
@@ -24,11 +24,12 @@ body {
   animation: color_change 110s infinite ease-in-out;
 }
 
-/* Links */
+/* Links. */
 a {
   text-decoration: none;
   color: darkorange;
 }
+
 
 /**
  * Main and immediate sections.
@@ -51,6 +52,7 @@ main > section {
 main > section:last-child {
   margin-bottom: 0;
 }
+
 
 /**
  * Main header.
@@ -95,8 +97,9 @@ main > section > ol > li:last-child {
     margin-bottom: 0;
 }
 
+
 /**
- * Occupation sections
+ * Occupation sections.
  */
 
 section.occupation {
@@ -114,7 +117,7 @@ section.occupation > p {
 
 section.occupation > header > h3 + p {
   font-size: 1.1em;
-  margin-bottom: 0.1em;
+  margin-bottom: 0.2em;
 }
 
 section.occupation .duration {
@@ -122,7 +125,94 @@ section.occupation .duration {
 }
 
 
-/* Animation definitions */
+/**
+ * Landscape and larger phones
+ */
+@media (min-width: 480px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/**
+ * Wide view port.
+ */
+@media (min-width: 800px) {
+  main {
+    max-width: 50em;
+  }
+
+  main > header {
+    max-width: 38em;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  main > header > h1 {
+    font-size: 2.2em;
+    margin-bottom: 0.4em;
+  }
+
+  main > section > h2 {
+    font-size: 1.8em;
+    margin-bottom: 0.8em;
+  }
+
+  section.occupation > header {
+    float: left;
+    max-width: 18em;
+  }
+
+  section.occupation > p {
+    margin-left: 22em;
+  }
+
+  section.occupation > header > h3 {
+    margin-bottom: 0.2em;
+  }
+  section.occupation > header > h3 + p {
+    margin-bottom: 0.3em;
+  }
+}
+
+
+/**
+ * Wider view port.
+ */
+@media (min-width: 1200px) {
+  html {
+    font-size: 18px;
+  }
+
+  main {
+    max-width: 60em;
+    padding-left: 4em;
+    padding-right: 4em;
+  }
+
+  section.occupation > header {
+    max-width: 26em;
+  }
+
+  section.occupation > p {
+    margin-left: 29em;
+  }
+}
+
+
+/**
+ * Semantic clearfix.
+ */
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+/**
+ * Animation definitions.
+ */
 @-webkit-keyframes color_change {
   0% { background-color: #e9e9e9; }
   10% { background-color: rgba(255,165,0,0.4); } /* orange */
