@@ -1,0 +1,16 @@
+/**
+ * @media print stylesheet.
+ */
+
+body {
+  padding: 0;
+  background-color: white;
+}
+
+main {
+  padding-bottom: 0;
+}
+
+section.occupation {
+  page-break-inside: avoid;
+}
