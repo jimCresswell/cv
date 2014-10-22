@@ -26,8 +26,9 @@ body {
 
 /* Links. */
 a {
+  font-weight: bold;
+  color: coral;
   text-decoration: none;
-  color: darkorange;
 }
 
 
