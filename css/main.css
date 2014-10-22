@@ -172,6 +172,30 @@ section.occupation .duration {
 
 
 /**
+ * Wider view port.
+ */
+@media (min-width: 1200px) {
+  html {
+    font-size: 18px;
+  }
+
+  main {
+    max-width: 60em;
+    padding-left: 4em;
+    padding-right: 4em;
+  }
+
+  section.occupation > header {
+    max-width: 26em;
+  }
+
+  section.occupation > p {
+    margin-left: 29em;
+  }
+}
+
+
+/**
  * Semantic clearfix.
  */
 .group:after {
