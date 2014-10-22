@@ -40,7 +40,6 @@ main {
   padding: 2em 0.4em;
   margin: 0 auto;
   background-color: white;
-  opacity: 1;
 }
 
 main > header,
@@ -49,6 +48,9 @@ main > section {
   margin-bottom: 3em;
 }
 
+main > section:last-child {
+  margin-bottom: 0;
+}
 
 /**
  * Main header.
@@ -80,20 +82,25 @@ main > section > h2 {
   margin-bottom: 1.2em;
 }
 
-main > section > ol,
-main > section > ul {
+main > section > ol {
   list-style-type: none;
   padding-left: 0;
 }
 
+main > section > ol > li {
+    margin-bottom: 2em;
+}
+
+main > section > ol > li:last-child {
+    margin-bottom: 0;
+}
 
 /**
- * Job sections
+ * Occupation sections
  */
 
 section.occupation {
   font-size: 1rem;
-  margin-bottom: 2em;
 }
 
 section.occupation > header {
