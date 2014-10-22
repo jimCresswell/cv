@@ -20,8 +20,8 @@ body {
   padding: 0 0.5em;
   font-family: Helvetica,FreeSans,"Liberation Sans",Helmet,Arial,sans-serif;
   background-color: #e9e9e9;
-  -webkit-animation: color_change 60s infinite alternate ease-in-out;
-  animation: color_change 60s infinite alternate ease-in-out;
+  -webkit-animation: color_change 110s infinite ease-in-out;
+  animation: color_change 110s infinite ease-in-out;
 }
 
 /* Links */
@@ -114,29 +114,27 @@ section.occupation .duration {
 /* Animation definitions */
 @-webkit-keyframes color_change {
   0% { background-color: #e9e9e9; }
-  5% { background-color: rgba(255,165,0,0.5); } /* orange */
-  15% { background-color: #e9e9e9; }
-  25% { background-color: rgba(0,0,255,0.5); } /* blue */
-  35% { background-color: #e9e9e9; }
-  45% { background-color: rgba(255,0,0,0.5); } /* red */
-  55% { background-color: #e9e9e9; }
-  65% { background-color: rgba(0,255,0,0.5); } /* green */
-  75% { background-color: #e9e9e9; }
-  85% { background-color: rgba(255,105,180,0.4); } /* hotpink */
-  95% { background-color: #e9e9e9; }
-  100% { background-color: rgba(0,0,255,0.5); } /* blue */
+  10% { background-color: rgba(255,165,0,0.4); } /* orange */
+  20% { background-color: #e9e9e9; }
+  30% { background-color: rgba(0,0,255,0.4); } /* blue */
+  40% { background-color: #e9e9e9; }
+  50% { background-color: rgba(255,0,0,0.4); } /* red */
+  60% { background-color: #e9e9e9; }
+  70% { background-color: rgba(0,255,0,0.4); } /* green */
+  80% { background-color: #e9e9e9; }
+  90% { background-color: rgba(255,105,180,0.4); } /* hotpink */
+  100% { background-color: #e9e9e9; }
 }
 @keyframes color_change {
   0% { background-color: #e9e9e9; }
-  5% { background-color: rgba(255,165,0,0.5); } /* orange */
-  15% { background-color: #e9e9e9; }
-  25% { background-color: rgba(0,0,255,0.5); } /* blue */
-  35% { background-color: #e9e9e9; }
-  45% { background-color: rgba(255,0,0,0.5); } /* red */
-  55% { background-color: #e9e9e9; }
-  65% { background-color: rgba(0,255,0,0.5); } /* green */
-  75% { background-color: #e9e9e9; }
-  85% { background-color: rgba(255,105,180,0.4); } /* hotpink */
-  95% { background-color: #e9e9e9; }
-  100% { background-color: rgba(0,0,255,0.5); } /* blue */
+  10% { background-color: rgba(255,165,0,0.4); } /* orange */
+  20% { background-color: #e9e9e9; }
+  30% { background-color: rgba(0,0,255,0.4); } /* blue */
+  40% { background-color: #e9e9e9; }
+  50% { background-color: rgba(255,0,0,0.4); } /* red */
+  60% { background-color: #e9e9e9; }
+  70% { background-color: rgba(0,255,0,0.4); } /* green */
+  80% { background-color: #e9e9e9; }
+  90% { background-color: rgba(255,105,180,0.4); } /* hotpink */
+  100% { background-color: #e9e9e9; }
 }
