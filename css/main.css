@@ -36,7 +36,7 @@ a {
 
 main {
   font-size: 1rem;
-  max-width: 36em;
+  max-width: 38em;
   padding: 2em 0.4em;
   margin: 0 auto;
   background-color: white;
@@ -79,7 +79,7 @@ main > section > h2 {
   text-align: center;
   padding-bottom: 0.6em;
   border-bottom: solid 1px lightgrey;
-  margin-bottom: 1.6em;
+  margin-bottom: 1.4em;
 }
 
 main > section > ol {
@@ -104,16 +104,16 @@ section.occupation {
 }
 
 section.occupation > header {
-  margin-bottom: 0.6em;
+  margin-bottom: 0.8em;
 }
 
 section.occupation > p {
   line-height: 1.4;
-  margin-bottom: 0.4em;
+  margin-bottom: 0.6em;
 }
 
 section.occupation > header > h3 + p {
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin-bottom: 0.1em;
 }
 
