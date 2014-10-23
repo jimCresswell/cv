@@ -136,7 +136,7 @@ section.occupation .duration {
 }
 
 /**
- * Wide view port.
+ * Wide view port (e.g. landscape tablet).
  */
 @media (min-width: 800px) {
   main {
@@ -178,9 +178,9 @@ section.occupation .duration {
 
 
 /**
- * Wider view port.
+ * Wider view port (e.g. monitor, tv).
  */
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   html {
     font-size: 18px;
   }
