@@ -28,7 +28,7 @@ body {
 /* Links. */
 a {
   font-weight: bold;
-  color: coral;
+  color: DarkRed;
   text-decoration: none;
 }
 
@@ -51,7 +51,10 @@ main > footer {
   padding: 0 0.6em;
 }
 
-main > header,
+main > header {
+  margin-bottom: 3.2em;
+}
+
 main > section {
   margin-bottom: 3em;
 }
@@ -71,7 +74,7 @@ main > header > h1 {
 
 main > header > p {
   font-size: 1.2em;
-  margin-bottom: 0.4em;
+  margin-bottom: 1em;
 }
 
 
@@ -85,6 +88,15 @@ main > section > h2 {
   padding-bottom: 0.6em;
   border-bottom: solid 1px lightgrey;
   margin-bottom: 1.4em;
+}
+
+main > section > h2 + p {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+main > section > h2 + p > a {
+  font-weight: normal;
 }
 
 main > section > ol {
@@ -180,7 +192,6 @@ main > footer {
 
   main > header > h1 {
     font-size: 2.2em;
-    margin-bottom: 0.4em;
   }
 
   main > section > h2 {
