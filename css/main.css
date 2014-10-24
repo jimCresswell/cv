@@ -5,8 +5,9 @@
  */
 
 
-/* Control the margins. */
+/* Control the margins and padding. */
 body, h1, h2, h3, h4, h5, h6, p, ul, ol {
+  padding: 0;
   margin: 0;
 }
 
@@ -45,13 +46,14 @@ main {
 }
 
 main > header,
-main > section {
+main > section,
+main > footer {
   padding: 0 0.6em;
-  margin-bottom: 3em;
 }
 
-main > section:last-child {
-  margin-bottom: 0;
+main > header,
+main > section {
+  margin-bottom: 3em;
 }
 
 
@@ -123,6 +125,33 @@ section.occupation > header > h3 + p {
 
 section.occupation .duration {
   color: #808080;
+}
+
+
+/**
+ * Main footer and external nav
+ */
+
+main > footer {
+  margin-top: 1em;
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  width: -webkit-fit-content;
+}
+
+.external-nav ul {
+  list-style-type: none;
+}
+
+.external-nav li {
+  display: inline;
+  margin-left: 3em;
+}
+
+.external-nav li:first-of-type {
+  margin-left: 0;
 }
 
 
@@ -208,6 +237,14 @@ section.occupation .duration {
   content: "";
   display: table;
   clear: both;
+}
+
+
+/**
+ * Hidden elements for e.g. attaching to a profile on another site.
+ */
+.hidden {
+  display: none !important;
 }
 
 
