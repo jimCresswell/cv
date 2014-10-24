@@ -147,13 +147,10 @@ section.occupation .duration {
 main > footer {
   margin-top: 1em;
   margin-bottom: 2em;
-  margin-left: auto;
-  margin-right: auto;
-  width: fit-content;
-  width: -webkit-fit-content;
 }
 
 .external-nav ul {
+  text-align: center;
   list-style-type: none;
 }
 
