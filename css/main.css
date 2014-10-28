@@ -72,6 +72,10 @@ main > header > h1 {
   margin-bottom: 0.8em;
 }
 
+main > header > h1 > a {
+  color: inherit;
+}
+
 main > header > p {
   font-size: 1.2em;
   margin-bottom: 1em;
