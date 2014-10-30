@@ -2,6 +2,10 @@
  * @media print stylesheet.
  */
 
+@page {
+	margin: 1in;
+}
+
 body {
   padding: 0;
   background-color: white;
@@ -15,6 +19,23 @@ main {
   padding-bottom: 0;
 }
 
-section.occupation {
+main > header,
+main > section {
+  margin-bottom: 4em;
+}
+
+main > section > h2 {
+  margin-bottom: 2em;
+}
+
+main > section > ol > li {
+    margin-bottom: 2.5em;
+}
+
+section.occupation p {
   page-break-inside: avoid;
+}
+
+.print-only {
+  display: initial;
 }

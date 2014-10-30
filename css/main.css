@@ -255,8 +255,13 @@ main > footer {
 /**
  * Hidden elements for e.g. attaching to a profile on another site.
  */
+
 .hidden {
-  display: none !important;
+  display: none !important; /* Just for linking to google plus for authorship. */
+}
+
+.print-only {
+  display: none;
 }
 
 
