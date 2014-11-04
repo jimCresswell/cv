@@ -197,7 +197,6 @@ main > footer {
 
   main > section > h2 {
     font-size: 1.8em;
-    margin-bottom: 0.8em;
   }
 
   section.occupation > header {
@@ -230,6 +229,10 @@ main > footer {
     max-width: 60em;
     padding-left: 1em;
     padding-right: 1em;
+  }
+
+  main > section > h2 + p {
+    margin-bottom: 3em;
   }
 
   section.occupation > header {
