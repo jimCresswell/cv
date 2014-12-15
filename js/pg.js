@@ -43,7 +43,7 @@
         var instructionsEl = wrapperEl.getElementsByClassName('instructions')[0];
         var instructions = '<p class="title">Pong!</p>' +
                             '<p class="thanks">Pong code by <a href="https://github.com/KanoComputing/Pong.js">Kano</a>. Konami sensing by <a href="http://code.snaptortoise.com/konami-js/">snaptortoise</a>.</p>' +
-                            '<p>Up arrow, down arrow, first to ' + winningScore + ' wins!<p>';
+                            '<p>You\'re on the left. <strong>Up arrow, down arrow</strong>, first to ' + winningScore + ' wins!<p>';
         // I'm still not sorry.
         instructionsEl.innerHTML = instructions;
 
