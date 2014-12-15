@@ -5,6 +5,7 @@
     'use strict';
 
     var winningScore = 3;
+    var isAttached = false;
 
     // Attach a new game to the DOM.
     attach();
@@ -24,19 +25,19 @@
 
     // Configure DOM behaviours.
     function easterEgg() {
+        var pong;
         var hideClass = 'noshow';
         var wrapperEl = document.getElementById('pg-wrapper');
         wrapperEl.classList.remove(hideClass);
-        var pong = new window.Pong(wrapperEl);
 
-        configureGame(pong);
+        // Bring game window into view.
+        wrapperEl.scrollIntoView();
 
         // Allow up and down keys for game without moving document.
         function nope(event) {
             event.preventDefault();
         }
         window.document.addEventListener('keydown', nope, false);
-
 
         // Instructions.
         var instructionsEl = wrapperEl.getElementsByClassName('instructions')[0];
@@ -49,10 +50,16 @@
         // The 'go away' button.
         var closeEl = wrapperEl.getElementsByClassName('close')[0];
         closeEl.addEventListener('click', function() {
-            pong.pause();
             window.document.removeEventListener('keydown', nope);
             wrapperEl.classList.add(hideClass);
         }, true);
+
+        // Start the game
+        if (isAttached === false) {
+            isAttached = true;
+            pong = new window.Pong(wrapperEl);
+            configureGame(pong);
+        }
     }
 
     // Configure game behaviours.
