@@ -36,6 +36,15 @@ section.occupation p {
   page-break-inside: avoid;
 }
 
+.screen-only {
+  display: none;
+}
+
 .print-only {
   display: initial;
+}
+
+/* Hide any snow */
+.snow {
+  display: none !important;
 }
