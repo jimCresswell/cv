@@ -263,6 +263,10 @@ main > footer {
   display: none !important; /* Just for linking to google plus for authorship. */
 }
 
+.noshow {
+  display: none; /* Overidable. */
+}
+
 .print-only {
   display: none;
 }

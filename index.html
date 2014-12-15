@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/pg.css">
     <link rel="stylesheet" href="css/print.css" media="print">
 
     <!-- IE hack -->
@@ -24,6 +25,7 @@
         <p>I am a software engineer focussed on HTML5 and JavaScript web app full life-cycle development and software QA automation strategy and tooling.</p>
         <p>I am also a doctor of cosmology with experience in data reduction, analysis and modelling.</p>
         <p>Here is the <a href="https://github.com/jimCresswell/cv">source code</a> for this CV.<span class="print-only"> Here is an <a href="http://jimCresswell.net/cv">online copy</a>.</span></p>
+        <div id="pg-wrapper" class="pg noshow"><span class="instructions"></span><span class="close">x</span></div>
       </header>
       <section class="employment">
         <h2>Employment</h2>
@@ -141,9 +143,11 @@
         </section>
       </footer>
     </main>
-    <script src="js/main.js" async></script>
+    <script src="bower_components/pong.js/build/Pong.js" async></script>
+    <script src="js/kn.js" async></script>
+    <script src="js/pg.js" async></script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-<!-- 
+<!--
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
