@@ -25,6 +25,7 @@
         <p>I am a software engineer focussed on HTML5 and JavaScript web app full life-cycle development and software QA automation strategy and tooling.</p>
         <p>I am also a doctor of cosmology with experience in data reduction, analysis and modelling.</p>
         <p>Here is the <a href="https://github.com/jimCresswell/cv">source code</a> for this CV.<span class="print-only"> Here is an <a href="http://jimCresswell.net/cv">online copy</a>.</span></p>
+        <div style="font-weight:900;color:white;background-color:darkorange;width:5em;margin:0 auto;line-height:1.5em;" onclick="this.style.display='none';snowStorm.stop();">No Snow!</div>
         <div id="pg-wrapper" class="pg noshow"><span class="instructions"></span><span class="close">x</span></div>
       </header>
       <section class="employment">
@@ -146,6 +147,12 @@
     <script src="bower_components/pong.js/build/Pong.js" async></script>
     <script src="js/kn.js" async></script>
     <script src="js/pg.js" async></script>
+    <script src="js/vendor/snowstorm.js"></script>
+    <script>
+      snowStorm.snowColor = '#99ccff';   // blue-ish snow!?
+      snowStorm.flakesMaxActive = 96;    // show more snow on screen at once
+      snowStorm.useTwinkleEffect = true; // let the snow flicker in and out of view
+    </script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <!--
     <script>
