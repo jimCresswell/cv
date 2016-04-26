@@ -144,7 +144,7 @@ section.occupation .duration {
 
 
 /**
- * Main footer and external nav
+ * Main footer.
  */
 
 main > footer {
@@ -152,20 +152,19 @@ main > footer {
   margin-bottom: 2em;
 }
 
+/**
+ * External nav.
+ */
 .external-nav ul {
+  border-top: double 3px lightgrey;
+  padding-top: 2em;
   text-align: center;
   list-style-type: none;
 }
 
 .external-nav li {
-  display: inline;
-  margin-left: 3em;
+  margin-bottom: 2em;
 }
-
-.external-nav li:first-of-type {
-  margin-left: 0;
-}
-
 
 /**
  * Landscape and larger phones
@@ -212,6 +211,18 @@ main > footer {
   }
   section.occupation > header > h3 + p {
     margin-bottom: 0.3em;
+  }
+
+  /**
+   * External nav.
+   */
+  .external-nav li {
+    display: inline;
+    margin-left: 3em;
+  }
+
+  .external-nav li:first-of-type {
+    margin-left: 0;
   }
 }
 
