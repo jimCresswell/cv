@@ -94,7 +94,11 @@ main > section > h2 {
   margin-bottom: 1.4em;
 }
 
-main > section > h2 + p {
+main > section > p {
+  font-size: 1.1em;
+}
+
+main > section > header > p {
   text-align: center;
   font-size: 1.1em;
   max-width: 38em;
@@ -241,7 +245,7 @@ main > footer {
     padding-right: 1em;
   }
 
-  main > section > h2 + p {
+  main > section > header > p {
     margin-bottom: 3em;
   }
 
