@@ -1,5 +1,5 @@
 /**
- * Mmm, Easter Egg...
+ * Configure the easter egg.
  */
 (function(window){
     'use strict';
