@@ -30,6 +30,9 @@
         var wrapperEl = document.getElementById('pg-wrapper');
         wrapperEl.classList.remove(hideClass);
 
+        // Start the background colours animation.
+        document.body.classList.add("colourful")
+
         // Bring game window into view.
         wrapperEl.scrollIntoView();
 
@@ -52,6 +55,9 @@
         closeEl.addEventListener('click', function() {
             window.document.removeEventListener('keydown', nope);
             wrapperEl.classList.add(hideClass);
+
+            // Remove the background colours animation.
+            document.body.classList.remove("colourful")
         }, true);
 
         // Start the game

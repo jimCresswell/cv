@@ -1,11 +1,11 @@
 {
   "name": "cv",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "CV for Jim Cresswell",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "gulp serve && exit 1 # Launches the page in a browser.",
     "postinstall": "bower install"
   },
   "repository": {
@@ -22,7 +22,7 @@
     "url": "https://github.com/jimCresswell/cv/issues"
   },
   "devDependencies": {
-    "gulp": "~3.8.8",
-    "browser-sync": "~1.5.8"
+    "gulp": "^3.9.1",
+    "browser-sync": "^2.18.5"
   }
 }
