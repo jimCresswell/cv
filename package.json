@@ -24,5 +24,8 @@
   "devDependencies": {
     "gulp": "~3.8.8",
     "browser-sync": "~1.5.8"
+  },
+  "custom_fields": {
+    "audience": "delivery"
   }
 }
