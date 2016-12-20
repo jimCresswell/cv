@@ -21,7 +21,7 @@ main {
 
 main > header,
 main > section {
-  margin-bottom: 2.5em;
+  margin-bottom: 4em;
 }
 
 main > header > h1 {
@@ -29,6 +29,7 @@ main > header > h1 {
 }
 
 main > section > h2 {
+  margin-bottom: 1.5em;
 	font-size: 2.1em;
 }
 
