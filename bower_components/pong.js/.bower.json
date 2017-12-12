@@ -1,0 +1,40 @@
+{
+  "name": "pong.js",
+  "homepage": "https://github.com/KanoComputing/Pong.js",
+  "authors": [
+    "Tancredi Trugenberger <tancredi.trugenberger@gmail.com>"
+  ],
+  "description": "Configurable HTML5 Pong game for the browser",
+  "main": "build/Pong.js",
+  "keywords": [
+    "pong",
+    "game",
+    "canvas",
+    "webgl",
+    "html5",
+    "pong.js",
+    "pong-js"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests",
+    ".npmignore",
+    "src",
+    "examples"
+  ],
+  "_release": "bc2f3e499e",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "bc2f3e499ebe1fa91fa14b22a5270baab8ee0806"
+  },
+  "_source": "git://github.com/KanoComputing/Pong.js.git",
+  "_target": "*",
+  "_originalSource": "pong.js",
+  "_direct": true
+}
