@@ -1,12 +1,11 @@
 {
   "name": "cv",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "private": true,
   "description": "CV for Jim Cresswell",
   "main": "index.html",
   "scripts": {
-    "test": "gulp serve && exit 1 # Launches the page in a browser.",
-    "postinstall": "bower install"
+    "test": "echo 'no tests'; exit 1"
   },
   "repository": {
     "type": "git",
@@ -20,9 +19,5 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jimCresswell/cv/issues"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "browser-sync": "^2.18.5"
   }
 }

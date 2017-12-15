@@ -2049,7 +2049,7 @@ Arena.prototype.resize = function () {
 module.exports = Arena;
 
 },{"./config":84,"./utils":86,"pixi":50}],76:[function(require,module,exports){
- 
+
 var pixi = require('pixi'),
     geometry = require('geometry'),
     config = require('./config'),
@@ -2239,12 +2239,12 @@ Ball.prototype.checkPlayerCollision = function (player) {
 
         if (player.side === 'left') {
             this.bounce(1, 0);
-            // Move ball away from paddle so in the incidence that the ball changes size, 
+            // Move ball away from paddle so in the incidence that the ball changes size,
             // the ball doesn't stay in contact with the paddle
             this.x += this.size;
         } else {
             this.bounce(-1, 0);
-            // Move ball away from paddle so in the incidence that the ball changes size, 
+            // Move ball away from paddle so in the incidence that the ball changes size,
             // the ball doesn't stay in contact with the paddle
             this.x -= (this.size / 2 + 1);
         }
