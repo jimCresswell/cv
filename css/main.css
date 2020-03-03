@@ -166,17 +166,21 @@ main > footer {
   margin-bottom: 2em;
 }
 
+main > footer > section {
+  margin-bottom: 2em;
+}
+
 /**
- * External nav.
+ * Footer information including external nav.
  */
-.external-nav ul {
+footer ul {
   border-top: double 3px lightgrey;
   padding-top: 2em;
   text-align: center;
   list-style-type: none;
 }
 
-.external-nav li {
+footer li {
   margin-bottom: 2em;
 }
 
@@ -228,14 +232,14 @@ main > footer {
   }
 
   /**
-   * External nav.
+   * Footer information including external nav.
    */
-  .external-nav li {
+  footer li {
     display: inline;
     margin-left: 3em;
   }
 
-  .external-nav li:first-of-type {
+  footer li:first-of-type {
     margin-left: 0;
   }
 }
