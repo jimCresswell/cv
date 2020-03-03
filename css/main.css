@@ -104,6 +104,10 @@ main > section > p {
   margin-bottom: 1.2em;
 }
 
+main > section.contact > p {
+  text-align: center;
+}
+
 main > section > header > p {
   text-align: center;
   font-size: 1.1em;
