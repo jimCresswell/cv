@@ -13,8 +13,19 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
 
 /* Base font size. */
 html {
-  font-size: 14px;
+  font-size: 20px;
 }
+/**
+ * Wider view port (e.g. monitor, tv).
+ */
+@media (min-width: 1280px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+
+
 
 /* Body. */
 body {
@@ -185,15 +196,6 @@ footer li {
 }
 
 /**
- * Landscape and larger phones
- */
-@media (min-width: 480px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-/**
  * Wide view port (e.g. landscape tablet).
  */
 @media (min-width: 800px) {
@@ -249,10 +251,6 @@ footer li {
  * Wider view port (e.g. monitor, tv).
  */
 @media (min-width: 1280px) {
-  html {
-    font-size: 18px;
-  }
-
   main {
     max-width: 60em;
     padding-left: 1em;
