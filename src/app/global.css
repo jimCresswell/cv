@@ -1,0 +1,363 @@
+/* ===========================
+   Import Tailwind CSS
+   =========================== */
+
+/**
+ * These directives import Tailwind's base styles, components, and utilities.
+ * Place them at the top of your CSS file to ensure Tailwind's styles are loaded first.
+ */
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+ 
+ /* ===========================
+    Custom Colors
+    =========================== */
+ 
+ /**
+  * Define custom colors with individual HSL values.
+  * These are your brand or primary colors.
+  */
+ :root {
+   /* Steel Blue */
+   --color-steel-blue-h: 210;
+   --color-steel-blue-s: 50%;
+   --color-steel-blue-l: 50%;
+   --color-steel-blue: hsl(var(--color-steel-blue-h), var(--color-steel-blue-s), var(--color-steel-blue-l));
+ 
+   /* Amaranth Purple */
+   --color-amaranth-purple-h: 350;
+   --color-amaranth-purple-s: 70%;
+   --color-amaranth-purple-l: 40%;
+   --color-amaranth-purple: hsl(var(--color-amaranth-purple-h), var(--color-amaranth-purple-s), var(--color-amaranth-purple-l));
+ 
+   /* Atomic Tangerine */
+   --color-atomic-tangerine-h: 20;
+   --color-atomic-tangerine-s: 70%;
+   --color-atomic-tangerine-l: 60%;
+   --color-atomic-tangerine: hsl(var(--color-atomic-tangerine-h), var(--color-atomic-tangerine-s), var(--color-atomic-tangerine-l));
+ 
+   /* Ghost White */
+   --color-ghost-white-h: 240;
+   --color-ghost-white-s: 20%;
+   --color-ghost-white-l: 99%;
+   --color-ghost-white: hsl(var(--color-ghost-white-h), var(--color-ghost-white-s), var(--color-ghost-white-l));
+ }
+ 
+ /* ===========================
+    Fundamental Colors
+    =========================== */
+ 
+ /**
+  * Define fundamental colors like black, white, and various shades of gray.
+  * These are essential for any theme.
+  */
+ :root {
+   --color-black: hsl(0, 0%, 0%);
+   --color-white: hsl(0, 0%, 100%);
+   /* Grayscale Shades */
+   --color-gray-95: hsl(0, 0%, 95%);
+   --color-gray-85: hsl(0, 0%, 85%);
+   --color-gray-70: hsl(0, 0%, 70%);
+   --color-gray-50: hsl(0, 0%, 50%);
+   --color-gray-35: hsl(0, 0%, 35%);
+   --color-gray-25: hsl(0, 0%, 25%);
+   --color-gray-20: hsl(0, 0%, 20%);
+   --color-gray-10: hsl(0, 0%, 10%);
+ }
+ 
+ /* ===========================
+    Feedback Colors
+    =========================== */
+ 
+ /**
+  * Define base feedback colors for success, error, warning, and info.
+  */
+ :root {
+   /* Base HSL values for feedback colors */
+   --color-success-h: 120; /* Green */
+   --color-error-h: 0;     /* Red */
+   --color-warning-h: 40;  /* Orange */
+   --color-info-h: var(--color-steel-blue-h); /* Use primary hue */
+ 
+   --color-success-s: 50%;
+   --color-error-s: 70%;
+   --color-warning-s: 100%;
+   --color-info-s: var(--color-steel-blue-s);
+ 
+   --color-success-l: 50%;
+   --color-error-l: 50%;
+   --color-warning-l: 50%;
+   --color-info-l: var(--color-steel-blue-l);
+ 
+   /* Construct feedback colors */
+   --color-success-base: hsl(var(--color-success-h), var(--color-success-s), var(--color-success-l));
+   --color-error-base: hsl(var(--color-error-h), var(--color-error-s), var(--color-error-l));
+   --color-warning-base: hsl(var(--color-warning-h), var(--color-warning-s), var(--color-warning-l));
+   --color-info-base: hsl(var(--color-info-h), var(--color-info-s), var(--color-info-l));
+ }
+ 
+ /* High-Contrast Feedback Colors */
+ :root {
+   /* Adjusted lightness for high-contrast theme */
+   --color-success-bright-l: 40%;
+   --color-error-bright-l: 50%;
+   --color-warning-bright-l: 50%;
+   --color-info-bright-l: 50%;
+ 
+   /* High-Contrast feedback colors */
+   --color-success-bright: hsl(var(--color-success-h), 100%, var(--color-success-bright-l));
+   --color-error-bright: hsl(var(--color-error-h), 100%, var(--color-error-bright-l));
+   --color-warning-bright: hsl(30, 100%, var(--color-warning-bright-l)); /* Slight hue shift for contrast */
+   --color-info-bright: hsl(var(--color-info-h), 100%, var(--color-info-bright-l));
+ }
+ 
+ /* ===========================
+    Focus Ring Colors
+    =========================== */
+ 
+ /**
+  * Define focus ring colors for accessibility.
+  */
+ :root {
+   /* Focus ring for light theme */
+   --color-focus-ring-light-h: var(--color-steel-blue-h);
+   --color-focus-ring-light-s: 100%;
+   --color-focus-ring-light-l: 60%;
+   --color-focus-ring-light: hsl(var(--color-focus-ring-light-h), var(--color-focus-ring-light-s), var(--color-focus-ring-light-l));
+ 
+   /* Focus ring for dark theme */
+   --color-focus-ring-dark-h: var(--color-steel-blue-h);
+   --color-focus-ring-dark-s: 100%;
+   --color-focus-ring-dark-l: 70%;
+   --color-focus-ring-dark: hsl(var(--color-focus-ring-dark-h), var(--color-focus-ring-dark-s), var(--color-focus-ring-dark-l));
+ 
+   /* Focus ring for high-contrast theme */
+   --color-focus-ring-high-contrast-h: 300; /* Magenta */
+   --color-focus-ring-high-contrast-s: 100%;
+   --color-focus-ring-high-contrast-l: 50%;
+   --color-focus-ring-high-contrast: hsl(var(--color-focus-ring-high-contrast-h), var(--color-focus-ring-high-contrast-s), var(--color-focus-ring-high-contrast-l));
+ }
+ 
+ /* ===========================
+    Derived Colors with High-Level Semantic Roles
+    =========================== */
+ 
+ /**
+  * Assign base colors to high-level semantic roles.
+  * These roles will be used to define the detailed semantic roles in themes.
+  */
+ :root {
+   /* High-Level Semantic Roles */
+   --color-primary-base: var(--color-steel-blue);
+   --color-secondary-base: var(--color-amaranth-purple);
+   --color-accent-base: var(--color-atomic-tangerine);
+   --color-background-base: var(--color-ghost-white);
+   --color-text-base: var(--color-black);
+   --color-neutral-light: var(--color-gray-95);
+   --color-neutral-medium: var(--color-gray-50);
+   --color-neutral-dark: var(--color-gray-25);
+ }
+ 
+ /* Hover Variants using transformations */
+ :root {
+   /* Primary Hover Color */
+   --color-primary-hover: hsl(
+     var(--color-steel-blue-h),
+     var(--color-steel-blue-s),
+     calc(var(--color-steel-blue-l) - 10%)
+   );
+ 
+   /* Secondary Hover Color */
+   --color-secondary-hover: hsl(
+     var(--color-amaranth-purple-h),
+     var(--color-amaranth-purple-s),
+     calc(var(--color-amaranth-purple-l) - 10%)
+   );
+ }
+ 
+ /* ===========================
+    Theme Definitions
+    =========================== */
+ 
+ /**
+  * Define detailed semantic roles for each theme.
+  * These variables will change based on the active theme.
+  */
+ 
+ /* Light Theme */
+ :root {
+   --color-primary: var(--color-primary-base);
+   --color-secondary: var(--color-secondary-base);
+   --color-accent: var(--color-accent-base);
+   --color-background: var(--color-background-base);
+   --color-text-primary: var(--color-text-base);
+   --color-text-secondary: var(--color-gray-35); /* Dark Gray */
+   --color-border: var(--color-gray-85); /* Light Gray Border */
+   --color-focus-ring: var(--color-focus-ring-light);
+ 
+   /* Feedback Colors */
+   --color-success: var(--color-success-base);
+   --color-error: var(--color-error-base);
+   --color-warning: var(--color-warning-base);
+   --color-info: var(--color-info-base);
+ }
+ 
+ /* Dark Theme */
+ [data-theme="dark"] {
+   --color-primary: var(--color-primary-base);
+   --color-secondary: var(--color-secondary-base);
+   --color-accent: var(--color-accent-base);
+   --color-background: var(--color-black);
+   --color-text-primary: var(--color-white);
+   --color-text-secondary: var(--color-gray-70); /* Medium Light Gray */
+   --color-border: var(--color-gray-25); /* Darker Gray Border */
+   --color-focus-ring: var(--color-focus-ring-dark);
+ 
+   /* Feedback Colors (lightened for dark background) */
+   --color-success: hsl(var(--color-success-h), var(--color-success-s), calc(var(--color-success-l) + 10%));
+   --color-error: hsl(var(--color-error-h), var(--color-error-s), calc(var(--color-error-l) + 10%));
+   --color-warning: hsl(var(--color-warning-h), var(--color-warning-s), calc(var(--color-warning-l) + 10%));
+   --color-info: var(--color-info-base);
+ 
+   /* Hover Variants (lightened for dark theme) */
+   --color-primary-hover: hsl(
+     var(--color-steel-blue-h),
+     var(--color-steel-blue-s),
+     calc(var(--color-steel-blue-l) + 10%)
+   );
+ 
+   --color-secondary-hover: hsl(
+     var(--color-amaranth-purple-h),
+     var(--color-amaranth-purple-s),
+     calc(var(--color-amaranth-purple-l) + 10%)
+   );
+ }
+ 
+ /* High-Contrast Theme */
+ [data-theme="high-contrast"] {
+   --color-primary: var(--color-black);
+   --color-secondary: var(--color-amaranth-purple);
+   --color-accent: var(--color-atomic-tangerine);
+   --color-background: var(--color-white);
+   --color-text-primary: var(--color-black);
+   --color-text-secondary: var(--color-gray-20); /* Very Dark Gray */
+   --color-border: var(--color-black);
+   --color-focus-ring: var(--color-focus-ring-high-contrast);
+ 
+   /* Feedback Colors (brightened for contrast) */
+   --color-success: var(--color-success-bright);
+   --color-error: var(--color-error-bright);
+   --color-warning: var(--color-warning-bright);
+   --color-info: var(--color-info-bright);
+ 
+   /* Hover Variants (no change in high-contrast) */
+   --color-primary-hover: var(--color-primary);
+   --color-secondary-hover: var(--color-secondary);
+ }
+ 
+ /* ===========================
+    Base Styles
+    =========================== */
+ 
+ /**
+  * Use detailed semantic roles in styling.
+  * Styles automatically adapt when the theme changes.
+  */
+ 
+ body {
+   background-color: var(--color-background);
+   color: var(--color-text-primary);
+   font-family: 'Inter', sans-serif;
+ }
+ 
+ a {
+   color: var(--color-primary);
+   text-decoration: underline;
+   text-decoration-thickness: 2px;
+   text-underline-offset: 3px;
+ }
+ 
+ a:hover {
+   color: var(--color-primary-hover);
+ }
+ 
+ button {
+   background-color: var(--color-primary);
+   color: var(--color-white);
+ }
+ 
+ button:hover {
+   background-color: var(--color-primary-hover);
+ }
+ 
+ button:focus,
+ a:focus,
+ input:focus {
+   outline: 2px solid var(--color-focus-ring);
+   outline-offset: 2px;
+ }
+ 
+ hr {
+   border-color: var(--color-border);
+ }
+ 
+ input,
+ textarea {
+   border: 1px solid var(--color-border);
+ }
+ 
+ ::selection {
+   background-color: var(--color-accent);
+   color: var(--color-white);
+ }
+ 
+ /* Secondary Button Styles */
+ .btn-secondary {
+   background-color: var(--color-secondary);
+   color: var(--color-white);
+ }
+ 
+ .btn-secondary:hover {
+   background-color: var(--color-secondary-hover);
+ }
+ 
+ /* ===========================
+    Accessibility Improvements
+    =========================== */
+ 
+ /**
+  * Include support for reduced motion, custom scrollbars, and high-contrast mode.
+  */
+ 
+ @media (prefers-reduced-motion: reduce) {
+   * {
+     animation: none !important;
+     transition: none !important;
+   }
+ }
+ 
+ ::-webkit-scrollbar {
+   width: 10px;
+ }
+ 
+ ::-webkit-scrollbar-track {
+   background: var(--color-background);
+ }
+ 
+ ::-webkit-scrollbar-thumb {
+   background: var(--color-neutral-dark);
+   border-radius: 5px;
+ }
+ 
+ /* High-Contrast Mode Support */
+ @media (prefers-contrast: more) {
+   :root {
+     --color-background: var(--color-white);
+     --color-text-primary: var(--color-black);
+     --color-border: var(--color-black);
+     --color-primary: var(--color-black);
+     --color-focus-ring: var(--color-focus-ring-high-contrast);
+   }
+ }
+ 
