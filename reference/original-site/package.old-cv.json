@@ -1,0 +1,27 @@
+{
+  "name": "cv",
+  "version": "4.5.0",
+  "private": true,
+  "description": "CV for Jim Cresswell",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo 'no tests'; exit 1",
+    "dev": "http-server -o"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jimCresswell/cv.git"
+  },
+  "keywords": [
+    "CV",
+    "jimCresswell"
+  ],
+  "author": "Jim Cresswell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jimCresswell/cv/issues"
+  },
+  "devDependencies": {
+    "http-server": "^14.0.0"
+  }
+}
