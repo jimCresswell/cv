@@ -176,6 +176,8 @@ const cvData = {
     "Jim is passionate about climate and nature-based resilience. He maintains an allotment using ecology-driven principles, avoiding pesticides and supporting biodiversity. He also volunteers with local food initiatives to promote sustainable agriculture.",
     "Jim values systemic change for sustainability, exemplified by projects like Obaith and Reforest Now, and through his continued involvement in public-impact work such as Oak National Academy.",
   ],
-};
+} as const;
+
+export type CVData = typeof cvData;
 
 export default cvData;

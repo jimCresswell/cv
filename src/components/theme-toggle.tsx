@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useRef } from "react"
-import { Moon, Sun } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useEffect, useState, useRef } from "react";
+import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const [isDark, setIsDark] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   // Initialize on mount
   useEffect(() => {
     // Check if dark mode is active
-    const isDarkMode = document.documentElement.classList.contains("dark")
-    setIsDark(isDarkMode)
-  }, [])
+    const isDarkMode = document.documentElement.classList.contains("dark");
+    setIsDark(isDarkMode);
+  }, []);
 
   // Handle click outside to close menu
   useEffect(() => {
@@ -26,67 +26,70 @@ export function ThemeToggle() {
         buttonRef.current &&
         !buttonRef.current.contains(event.target as Node)
       ) {
-        setIsMenuOpen(false)
+        setIsMenuOpen(false);
       }
-    }
+    };
 
     if (isMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside)
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [isMenuOpen])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isMenuOpen) return
+      if (!isMenuOpen) return;
 
       switch (event.key) {
         case "Escape":
-          setIsMenuOpen(false)
-          buttonRef.current?.focus()
-          break
+          setIsMenuOpen(false);
+          buttonRef.current?.focus();
+          break;
         case "Tab":
           if (!menuRef.current?.contains(document.activeElement)) {
-            setIsMenuOpen(false)
+            setIsMenuOpen(false);
           }
-          break
+          break;
       }
-    }
+    };
 
-    document.addEventListener("keydown", handleKeyDown)
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [isMenuOpen])
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMenuOpen]);
 
   // Apply theme
   const applyTheme = (theme: "light" | "dark" | "system") => {
-    const root = document.documentElement
+    const root = document.documentElement;
 
     if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-      root.classList.remove("light", "dark")
-      root.classList.add(systemTheme)
-      setIsDark(systemTheme === "dark")
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+      root.classList.remove("light", "dark");
+      root.classList.add(systemTheme);
+      setIsDark(systemTheme === "dark");
     } else {
-      root.classList.remove("light", "dark")
-      root.classList.add(theme)
-      setIsDark(theme === "dark")
+      root.classList.remove("light", "dark");
+      root.classList.add(theme);
+      setIsDark(theme === "dark");
     }
 
-    localStorage.setItem("theme", theme)
-    setIsMenuOpen(false) // Close menu after selection
-    buttonRef.current?.focus() // Return focus to button
-  }
+    localStorage.setItem("theme", theme);
+    setIsMenuOpen(false); // Close menu after selection
+    buttonRef.current?.focus(); // Return focus to button
+  };
 
   // Toggle menu
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <div className="relative">
@@ -99,7 +102,11 @@ export function ThemeToggle() {
         aria-expanded={isMenuOpen}
         aria-haspopup="true"
       >
-        {isDark ? <Moon className="h-[1.2rem] w-[1.2rem]" /> : <Sun className="h-[1.2rem] w-[1.2rem]" />}
+        {isDark ? (
+          <Moon className="h-[1.2rem] w-[1.2rem]" />
+        ) : (
+          <Sun className="h-[1.2rem] w-[1.2rem]" />
+        )}
         <span className="sr-only">Select theme</span>
       </Button>
 
@@ -155,6 +162,5 @@ export function ThemeToggle() {
         </div>
       )}
     </div>
-  )
+  );
 }
-

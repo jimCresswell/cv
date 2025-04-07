@@ -1,11 +1,12 @@
-import { Header } from "@/components/header"
-import { ExecutiveSummary } from "@/components/executive-summary"
-import { KeySkills } from "@/components/key-skills"
-import { Experience } from "@/components/experience"
-import { Education } from "@/components/education"
-import { Interests } from "@/components/interests"
+import { Header } from "@/components/header";
+import { ExecutiveSummary } from "@/components/executive-summary";
+import { KeySkills } from "@/components/key-skills";
+import { Experience } from "@/components/experience";
+import { Education } from "@/components/education";
+import { Interests } from "@/components/interests";
+import { CVData } from "@/data/cv-data";
 
-export function CVContent({ data }: { data: any }) {
+export function CVContent({ data }: { data: CVData }) {
   return (
     <div className="space-y-8 print:space-y-4">
       <Header
@@ -28,6 +29,5 @@ export function CVContent({ data }: { data: any }) {
 
       <Interests paragraphs={data.interests} />
     </div>
-  )
+  );
 }
-

@@ -1,27 +1,41 @@
-import { Mail, Linkedin, Github, Globe, MapPin } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Mail, Linkedin, Github, Globe, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
-  name: string
-  title: string
-  email: string
-  linkedin: string
-  github?: string
-  website?: string
-  location?: string
+  name: string;
+  title: string;
+  email: string;
+  linkedin: string;
+  github?: string;
+  website?: string;
+  location?: string;
 }
 
-export function Header({ name, title, email, linkedin, github, website, location }: HeaderProps) {
+export function Header({
+  name,
+  title,
+  email,
+  linkedin,
+  github,
+  website,
+  location,
+}: HeaderProps) {
   return (
     <header className="text-center md:text-left border-b pb-6 dark:border-gray-700 print:pb-2">
       <h1 className="text-4xl md:text-5xl font-bold mb-2 print:mb-1">{name}</h1>
-      <p className="text-xl md:text-2xl text-muted-foreground mb-4 print:mb-2">{title}</p>
+      <p className="text-xl md:text-2xl text-muted-foreground mb-4 print:mb-2">
+        {title}
+      </p>
 
       {/* For screen: contact information */}
       <div className="flex flex-col gap-3 justify-center md:justify-start print:hidden">
         <div className="flex flex-wrap gap-3 justify-center md:justify-start">
           <Button variant="outline" size="sm" asChild>
-            <a href={`mailto:${email}`} aria-label="Email" className="inline-flex items-center">
+            <a
+              href={`mailto:${email}`}
+              aria-label="Email"
+              className="inline-flex items-center"
+            >
               <Mail className="h-4 w-4 mr-2" />
               <span>{email}</span>
             </a>
@@ -111,6 +125,5 @@ export function Header({ name, title, email, linkedin, github, website, location
         )}
       </div>
     </header>
-  )
+  );
 }
-
