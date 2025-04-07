@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["color", "commitlint", "geist"],
+  "cSpell.words": ["color", "commitlint", "geist", "SDSS"],
   "files.associations": {
     "*.css": "tailwindcss"
   }
