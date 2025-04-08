@@ -95,28 +95,28 @@ export function Header({
       {/* For print: contact information in a grid */}
       <div className="hidden print:grid print:grid-cols-2 print:gap-x-4 print:gap-y-1 print:w-full print:text-sm">
         <div className="flex items-center">
-          <Mail className="h-3 w-3 flex-shrink-0 mr-2" />
+          <Mail className="h-3 w-3 shrink-0 mr-2" />
           <span>{email}</span>
         </div>
         <div className="flex items-center">
-          <Linkedin className="h-3 w-3 flex-shrink-0 mr-2" />
+          <Linkedin className="h-3 w-3 shrink-0 mr-2" />
           <span>{linkedin.replace("https://linkedin.com/in/", "")}</span>
         </div>
         {github && (
           <div className="flex items-center">
-            <Github className="h-3 w-3 flex-shrink-0 mr-2" />
+            <Github className="h-3 w-3 shrink-0 mr-2" />
             <span>{github.replace("https://github.com/", "")}</span>
           </div>
         )}
         {website && (
           <div className="flex items-center">
-            <Globe className="h-3 w-3 flex-shrink-0 mr-2" />
+            <Globe className="h-3 w-3 shrink-0 mr-2" />
             <span>{website.replace(/^https?:\/\//, "")}</span>
           </div>
         )}
         {location && (
           <div className="flex items-center">
-            <MapPin className="h-3 w-3 flex-shrink-0 mr-2" />
+            <MapPin className="h-3 w-3 shrink-0 mr-2" />
             <span>{location}</span>
           </div>
         )}

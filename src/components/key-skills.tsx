@@ -14,7 +14,7 @@ export function KeySkills({ skills }: KeySkillsProps) {
       <ul className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-3 gap-2 print:gap-1">
         {skills.map((skill, index) => (
           <li key={index} className="flex items-start">
-            <span className="mr-2 text-primary print:mr-1 flex-shrink-0">
+            <span className="mr-2 text-primary print:mr-1 shrink-0">
               •
             </span>
             <span>{skill}</span>
