@@ -12,10 +12,10 @@ export function CVContent({ data }: { data: CVData }) {
       <Header
         name={data.header.name}
         title={data.header.title}
-        email={data.header.email}
         linkedin={data.header.linkedin}
         github={data.header.github}
         website={data.header.website}
+        email={data.header.email}
         location={data.header.location}
       />
 

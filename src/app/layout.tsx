@@ -1,20 +1,20 @@
-import type React from "react"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import type { Metadata } from "next"
-import Script from "next/script"
+import type React from "react";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import type { Metadata } from "next";
+import Script from "next/script";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Jim Cresswell | Engineering Leader",
   description: "CV of Jim Cresswell, Engineering Leader",
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -83,6 +83,5 @@ export default function RootLayout({
         </Script>
       </body>
     </html>
-  )
+  );
 }
-

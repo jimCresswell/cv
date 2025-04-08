@@ -14,10 +14,10 @@ interface HeaderProps {
 export function Header({
   name,
   title,
-  email,
   linkedin,
   github,
   website,
+  email,
   location,
 }: HeaderProps) {
   return (
@@ -30,17 +30,6 @@ export function Header({
       {/* For screen: contact information */}
       <div className="flex flex-col gap-3 justify-center md:justify-start print:hidden">
         <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-          <Button variant="outline" size="sm" asChild>
-            <a
-              href={`mailto:${email}`}
-              aria-label="Email"
-              className="inline-flex items-center"
-            >
-              <Mail className="h-4 w-4 mr-2" />
-              <span>{email}</span>
-            </a>
-          </Button>
-
           <Button variant="outline" size="sm" asChild>
             <a
               href={linkedin}
@@ -83,6 +72,14 @@ export function Header({
                 <Globe className="h-4 w-4 mr-2" />
                 <span>{website.replace(/^https?:\/\//, "")}</span>
               </a>
+            </Button>
+          )}
+          {email && (
+            <Button variant="outline" size="sm" asChild>
+              <span aria-label="Email" className="inline-flex items-center">
+                <Mail className="h-4 w-4 mr-2" />
+                <span>{email}</span>
+              </span>
             </Button>
           )}
 
