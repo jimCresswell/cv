@@ -11,7 +11,9 @@
 - [ ] Get a local copy of fonts for maximising performance.
 - [ ] Add a nav section to the header, with highlighting for current path.
 - [ ] Resolve how to handle client-side theme preferences without causing a hydration mismatch.
-- [ ] Rename utils to server-actions
+- [ ] Use Winston for logging
+- [ ] Add a proper eslint config file
+- [ ] Add eslint rules for filenames, import order, no console, etc.
 
 ### CV
 

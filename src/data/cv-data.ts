@@ -1,7 +1,7 @@
 const cvData = {
   header: {
     name: "Jim Cresswell",
-    title: "Hands-on Engineering Leader",
+    title: "Hands-on Engineering Leadership",
     email: "jim@jimcresswell.net",
     linkedin: "https://linkedin.com/in/jimcresswell",
     github: "https://github.com/jimcresswell",
