@@ -7,8 +7,8 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Jim Cresswell | Engineering Leader",
-  description: "CV of Jim Cresswell, Engineering Leader",
+  title: "Jim Cresswell | Hands-On Engineering Leadership",
+  description: "CV of Jim Cresswell, Hands-On Engineering Leader",
 };
 
 export default function RootLayout({
