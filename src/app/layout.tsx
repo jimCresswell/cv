@@ -22,9 +22,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-gb">
-      <head>
-        <meta name="color-scheme" content="light dark" />
-      </head>
       <body className={inter.className}>
         <div id="root" className="min-h-screen bg-background text-foreground">
           <div className="container mx-auto px-4 py-8 max-w-[45rem] print:px-0 print:py-2">

@@ -22,10 +22,14 @@ export function Header({
 }: HeaderProps) {
   return (
     <header className="text-center md:text-left border-b pb-6 dark:border-gray-700 print:pb-2">
-      <h1 className="text-4xl md:text-5xl font-bold mb-2 print:mb-1">{name}</h1>
-      <p className="text-xl md:text-2xl text-muted-foreground mb-4 print:mb-2">
-        {title}
-      </p>
+      <div className="pb-2">
+        <h1 className="text-4xl md:text-5xl md:text-[3.1rem] font-bold mb-2 print:mb-1">
+          {name}
+        </h1>
+        <p className="text-xl md:text-2xl text-muted-foreground mb-4 print:mb-2">
+          {title}
+        </p>
+      </div>
 
       {/* For screen: contact information */}
       <div className="flex flex-col gap-3 justify-center md:justify-start print:hidden">
