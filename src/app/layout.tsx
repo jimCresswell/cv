@@ -1,8 +1,12 @@
-import type React from "react";
-import { Inter } from "next/font/google";
-import "./globals.css";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import Script from "next/script";
+
+import { ThemeToggle } from "@/components/theme-toggle";
+import { PrintButton } from "@/components/print-button";
+import Link from "next/link";
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,12 +21,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en-gb">
       <head>
         <meta name="color-scheme" content="light dark" />
       </head>
       <body className={inter.className}>
-        {children}
+        <div id="root" className="min-h-screen bg-background text-foreground">
+          <div className="container mx-auto px-4 py-8 max-w-[45rem] print:px-0 print:py-2">
+            <header className="flex justify-between gap-2 mb-4 print:hidden">
+              <Link href="/">Home</Link>
+              <div className="flex gap-2">
+                <PrintButton />
+                <ThemeToggle />
+              </div>
+            </header>
+            <main className="mt-8">{children}</main>
+            <footer className="mt-8">
+              <p className="text-center text-muted-foreground">
+                Jim Cresswell &copy; {new Date().getFullYear()}
+              </p>
+            </footer>
+          </div>
+        </div>
 
         {/* Script to prevent flash of wrong theme */}
         <Script id="theme-script" strategy="beforeInteractive">
