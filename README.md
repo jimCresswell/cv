@@ -12,11 +12,12 @@
 - [ ] Get a local copy of fonts for maximising performance.
 - [ ] Add a nav section to the header, with highlighting for current path.
 - [ ] Resolve how to handle client-side theme preferences without causing a hydration mismatch.
-- [ ] Use Winston for logging
-- [ ] Add a proper eslint config file
-- [ ] Add eslint rules for filenames, import order, no console, etc.
+- [x] Use Winston for logging
+- [x] Add a proper eslint config file
+- [x] Add eslint rules for filenames, import order, no console, etc.
+- [ ] Make sure the site is accessible, keyboard navigable, and screen reader friendly.
 
-### Website
+### CV
 
 - [ ] Review the content
 - [ ] Check the links
@@ -30,7 +31,7 @@
 
 ### Fun
 
-- [ ] Add a chatbot that persuades people why I am the right person for the job. Preferably running a free model in the user's browser.
+- [ ] Add a chatbot that persuades people why I am the right person for the job. Use the new [Chat SDK](https://chat-sdk.dev/). Double check:
   - [ ] Security
   - [ ] Rate limiting
   - [ ] Safety
