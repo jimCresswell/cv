@@ -8,6 +8,7 @@
 - [x] Fix the appearance of the print and theme toggle buttons
 - [x] Make the dropdown menu component not insane.
 - [ ] Move all of the inline scripts to proper code, might require theme provider, suspense boundary (one element gets the theme class, and every single other piece of content is known at build time), error boundary.
+- [ ] Possibly same as above, move all theme handling to [next-theme](https://github.com/pacocoursey/next-themes)
 - [ ] Get a local copy of fonts for maximising performance.
 - [ ] Add a nav section to the header, with highlighting for current path.
 - [ ] Resolve how to handle client-side theme preferences without causing a hydration mismatch.
