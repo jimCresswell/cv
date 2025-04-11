@@ -25,12 +25,7 @@ export const IconSvg = ({
       height={dimension}
       viewBox={`0 0 ${dimension} ${dimension}`}
     >
-      <circle
-        cx={dimension / 2}
-        cy={dimension / 2}
-        r={dimension / 2}
-        fill={background}
-      />
+      <circle cx={dimension / 2} cy={dimension / 2} r={dimension / 2} fill={background} />
       <g fill={foreground}>
         <path d={iconPath} />
       </g>

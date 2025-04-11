@@ -41,9 +41,7 @@ interface PictureMetadata extends Metadata {
  * @returns A SVG path for the word
  */
 export function getIconPath(word: string, dimension: number): string {
-  const textToSVG = TextToSVG.loadSync(
-    "src/fonts/RobotoCondensed-ExtraBold.ttf"
-  );
+  const textToSVG = TextToSVG.loadSync("src/fonts/RobotoCondensed-ExtraBold.ttf");
 
   const svgPath = textToSVG.getD(word, {
     x: dimension / 2,
@@ -62,10 +60,10 @@ export function getIconPath(word: string, dimension: number): string {
  * @param fallback - The fallback dimension if the ID does not contain a dimension
  * @returns The dimension of the icon
  */
-export function getDimensionFromId(id: string, fallback: number = 512): number {
-  const sizeMatch = id?.match(/icon-(\d+)/);
-  if (sizeMatch && sizeMatch[1]) {
-    return parseInt(sizeMatch[1], 10);
+export function getDimensionFromId(id: string, fallback = 512): number {
+  const sizeMatch = /icon-(\d+)/.exec(id);
+  if (sizeMatch?.[1]) {
+    return Number.parseInt(sizeMatch[1], 10);
   }
   return fallback;
 }
@@ -92,32 +90,34 @@ export function getThemeFromId(id: string): string {
  */
 export function getGenerateImageMetadata(
   word: string,
-  contentType: string = "image/png"
-): () => Promise<PictureMetadata[]> {
-  return async function generateImageMetadata() {
+  contentType = "image/png",
+): () => PictureMetadata[] {
+  return function generateImageMetadata() {
     // Dynamically construct metadata for each icon variant.
     const metadataIcons: PictureMetadata[] = themes.flatMap((theme) =>
       iconSizes.map((s) => ({
         alt: `${word} Icon (${theme})`,
-        id: `icon-${s}-${theme}`,
+        id: `icon-${s.toString()}-${theme}`,
         contentType,
         size: { width: s, height: s },
-      }))
+      })),
     );
 
     // Optionally add an Apple Touch Icon (commonly 180x180)
-    metadataIcons.push({
-      alt: `${word} Icon (Apple Touch)`,
-      id: "icon-180-light-apple",
-      contentType,
-      size: { width: 180, height: 180 },
-    });
-    metadataIcons.push({
-      alt: `${word} Icon (Apple Touch)`,
-      id: "icon-180-dark-apple",
-      contentType,
-      size: { width: 180, height: 180 },
-    });
+    metadataIcons.push(
+      {
+        alt: `${word} Icon (Apple Touch)`,
+        id: "icon-180-light-apple",
+        contentType,
+        size: { width: 180, height: 180 },
+      },
+      {
+        alt: `${word} Icon (Apple Touch)`,
+        id: "icon-180-dark-apple",
+        contentType,
+        size: { width: 180, height: 180 },
+      },
+    );
 
     return metadataIcons;
   };
@@ -172,8 +172,8 @@ export function getIconMetadata() {
     iconSizes.map((s) => ({
       rel: "icon",
       media: `(prefers-color-scheme: ${theme})`,
-      url: `icon/icon-${s}-${theme}`,
-    }))
+      url: `icon/icon-${s.toString()}-${theme}`,
+    })),
   );
 
   metadataIcons.apple = metadataIcons.icon.map((icon) => ({

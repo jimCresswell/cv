@@ -1,5 +1,4 @@
 import { ExternalLink } from "lucide-react";
-import { JSX } from "react";
 
 interface Role {
   title: string;
@@ -13,7 +12,7 @@ interface ExperienceItem {
   roles: readonly Role[];
 }
 
-interface ExperienceProps {
+interface ExperienceProperties {
   experience: readonly ExperienceItem[];
 }
 
@@ -28,111 +27,43 @@ function formatWebsiteForDisplay(url: string): string {
     // Handle archive.org URLs specially
     if (url.includes("web.archive.org")) {
       // Extract the original URL from the archive.org URL
-      const originalUrl = url.match(
-        /https?:\/\/web\.archive\.org\/web\/\d+\/(https?:\/\/[^/]+)/
+      const originalUrl = /https?:\/\/web\.archive\.org\/web\/\d+\/(https?:\/\/[^/]+)/.exec(
+        url,
       )?.[1];
       if (originalUrl) {
-        const urlObj = new URL(originalUrl);
-        const domain = urlObj.hostname.replace(/^www\./, "");
-        const path = urlObj.pathname !== "/" ? urlObj.pathname : "";
+        const urlObject = new URL(originalUrl);
+        const domain = urlObject.hostname.replace(/^www\./, "");
+        const path = urlObject.pathname === "/" ? "" : urlObject.pathname;
         return domain + path;
       }
     }
 
     // Handle normal URLs
-    const urlObj = new URL(url);
-    const domain = urlObj.hostname.replace(/^www\./, "");
-    const path = urlObj.pathname !== "/" ? urlObj.pathname : "";
+    const urlObject = new URL(url);
+    const domain = urlObject.hostname.replace(/^www\./, "");
+    const path = urlObject.pathname === "/" ? "" : urlObject.pathname;
     return domain + path;
   } catch (error: unknown) {
     throw new TypeError(`Invalid URL: ${url}`, { cause: error });
   }
 }
 
-// Improved helper function to process text with links
+/**
+ * Process text to handle markdown-style links
+ *
+ * @todo Implement markdown-style link processing
+ *
+ * @param text - The text to process
+ * @returns The processed text
+ */
 function processText(text: string) {
-  if (!text) return "";
-
-  // Special case for Google Scholar link
-  if (text.includes("[Google Scholar]")) {
-    const googleScholarRegex = /\[Google Scholar\]$$([^)]+)$$/;
-    const match = text.match(googleScholarRegex);
-
-    if (match && match[1]) {
-      const url = match[1];
-      const parts = text.split(googleScholarRegex);
-
-      return (
-        <>
-          {parts[0]}
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline"
-          >
-            Google Scholar
-          </a>
-          {parts[2] || ""}
-        </>
-      );
-    }
-  }
-
-  // Regular expression to find markdown links: [text](url)
-  const linkRegex = /\[([^\]]+)\]$$([^)]+)$$/g;
-
-  // Check if there are any links in the text
-  if (!linkRegex.test(text)) {
-    return text;
-  }
-
-  // Reset the regex lastIndex
-  linkRegex.lastIndex = 0;
-
-  // Split the text into parts (text and links)
-  const parts: (string | JSX.Element)[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-
-  while ((match = linkRegex.exec(text)) !== null) {
-    // Add text before the link
-    if (match.index > lastIndex) {
-      parts.push(text.substring(lastIndex, match.index));
-    }
-
-    // Add the link
-    const [fullMatch, linkText, linkUrl] = match;
-    parts.push(
-      <a
-        key={match.index}
-        href={linkUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-primary hover:underline"
-      >
-        {linkText}
-      </a>
-    );
-
-    lastIndex = match.index + fullMatch.length;
-  }
-
-  // Add any remaining text
-  if (lastIndex < text.length) {
-    parts.push(text.substring(lastIndex));
-  }
-
-  return parts;
+  return text;
 }
 
-export function Experience({ experience }: ExperienceProps) {
+export function Experience({ experience }: Readonly<ExperienceProperties>) {
   return (
     <section aria-labelledby="experience-heading" className="print:my-1">
-      <h2
-        id="experience-heading"
-        className="text-2xl font-semibold mb-6 print:text-xl print:mb-2"
-      >
+      <h2 id="experience-heading" className="text-2xl font-semibold mb-6 print:text-xl print:mb-2">
         Professional Experience
       </h2>
 
@@ -174,17 +105,12 @@ export function Experience({ experience }: ExperienceProps) {
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-1">
                     <h4 className="text-lg font-medium">{role.title}</h4>
-                    <span className="text-sm text-muted-foreground">
-                      {role.dates}
-                    </span>
+                    <span className="text-sm text-muted-foreground">{role.dates}</span>
                   </div>
 
                   <div className="space-y-3 print:space-y-1">
                     {role.description_paragraphs.map((paragraph, paraIndex) => (
-                      <p
-                        key={paraIndex}
-                        className="text-base leading-relaxed print:leading-tight"
-                      >
+                      <p key={paraIndex} className="text-base leading-relaxed print:leading-tight">
                         {processText(paragraph)}
                       </p>
                     ))}

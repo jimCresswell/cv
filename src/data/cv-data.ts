@@ -69,8 +69,7 @@ const cvData = {
     },
     {
       company: "Obaith",
-      website:
-        "https://web.archive.org/web/20211114073948/https://www.obaith.com/",
+      website: "https://web.archive.org/web/20211114073948/https://www.obaith.com/",
       roles: [
         {
           title: "Founder",
@@ -99,7 +98,7 @@ const cvData = {
     },
     {
       company: "FT Labs (Financial Times)",
-      website: "http://labs.ft.com/",
+      website: "https://ft.com/",
       roles: [
         {
           title: "Senior Developer",
@@ -127,8 +126,7 @@ const cvData = {
       ],
     },
     {
-      company:
-        "Institute for Cosmology and Gravitation (University of Portsmouth)",
+      company: "Institute for Cosmology and Gravitation (University of Portsmouth)",
       roles: [
         {
           title: "PhD Researcher",
@@ -148,8 +146,7 @@ const cvData = {
       degree: "Doctor of Philosophy (PhD), Cosmology and Gravitation",
       dates: "September 2005 - December 2010",
       thesis: {
-        title:
-          "Luminosity Functions and Galaxy Bias in the Sloan Digital Sky Survey",
+        title: "Luminosity Functions and Galaxy Bias in the Sloan Digital Sky Survey",
         link: "https://www.semanticscholar.org/paper/Luminosity-functions-and-galaxy-bias-in-the-Sloan-Cresswell/f4e7199fef9e73fad0deec60ae2460fbfc2fedb6",
       },
     },
@@ -159,7 +156,7 @@ const cvData = {
       dates: "2004 - 2005",
       thesis: {
         title: "Observing Cosmological Topology",
-        link: "http://en.wikipedia.org/wiki/Shape_of_the_universe",
+        link: "https://en.wikipedia.org/wiki/Shape_of_the_universe",
       },
     },
     {

@@ -12,10 +12,7 @@
     "type": "git",
     "url": "git://github.com/jimCresswell/cv.git"
   },
-  "keywords": [
-    "CV",
-    "jimCresswell"
-  ],
+  "keywords": ["CV", "jimCresswell"],
   "author": "Jim Cresswell",
   "license": "MIT",
   "bugs": {

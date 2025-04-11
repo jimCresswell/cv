@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
 import { Moon, Sun } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+
 import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const menuReference = useRef<HTMLDivElement>(null);
+  const buttonReference = useRef<HTMLButtonElement>(null);
 
   // Initialize on mount
   useEffect(() => {
@@ -21,10 +22,10 @@ export function ThemeToggle() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
+        menuReference.current &&
+        !menuReference.current.contains(event.target as Node) &&
+        buttonReference.current &&
+        !buttonReference.current.contains(event.target as Node)
       ) {
         setIsMenuOpen(false);
       }
@@ -42,18 +43,22 @@ export function ThemeToggle() {
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isMenuOpen) return;
+      if (!isMenuOpen) {
+        return;
+      }
 
       switch (event.key) {
-        case "Escape":
+        case "Escape": {
           setIsMenuOpen(false);
-          buttonRef.current?.focus();
+          buttonReference.current?.focus();
           break;
-        case "Tab":
-          if (!menuRef.current?.contains(document.activeElement)) {
+        }
+        case "Tab": {
+          if (!menuReference.current?.contains(document.activeElement)) {
             setIsMenuOpen(false);
           }
           break;
+        }
       }
     };
 
@@ -68,8 +73,7 @@ export function ThemeToggle() {
     const root = document.documentElement;
 
     if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
+      const systemTheme = globalThis.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
       root.classList.remove("light", "dark");
@@ -83,7 +87,7 @@ export function ThemeToggle() {
 
     localStorage.setItem("theme", theme);
     setIsMenuOpen(false); // Close menu after selection
-    buttonRef.current?.focus(); // Return focus to button
+    buttonReference.current?.focus(); // Return focus to button
   };
 
   // Toggle menu
@@ -94,7 +98,7 @@ export function ThemeToggle() {
   return (
     <div className="relative">
       <Button
-        ref={buttonRef}
+        ref={buttonReference}
         variant="outline"
         size="icon"
         onClick={toggleMenu}
@@ -112,7 +116,7 @@ export function ThemeToggle() {
 
       {isMenuOpen && (
         <div
-          ref={menuRef}
+          ref={menuReference}
           className="absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-popover border border-border z-50"
           role="menu"
           aria-orientation="vertical"
@@ -120,7 +124,9 @@ export function ThemeToggle() {
         >
           <div className="py-1" role="none">
             <button
-              onClick={() => applyTheme("light")}
+              onClick={() => {
+                applyTheme("light");
+              }}
               className="flex items-center w-full px-4 py-2 text-sm text-left hover:bg-accent hover:text-accent-foreground"
               role="menuitem"
             >
@@ -128,7 +134,9 @@ export function ThemeToggle() {
               <span>Light</span>
             </button>
             <button
-              onClick={() => applyTheme("dark")}
+              onClick={() => {
+                applyTheme("dark");
+              }}
               className="flex items-center w-full px-4 py-2 text-sm text-left hover:bg-accent hover:text-accent-foreground"
               role="menuitem"
             >
@@ -136,7 +144,9 @@ export function ThemeToggle() {
               <span>Dark</span>
             </button>
             <button
-              onClick={() => applyTheme("system")}
+              onClick={() => {
+                applyTheme("system");
+              }}
               className="flex items-center w-full px-4 py-2 text-sm text-left hover:bg-accent hover:text-accent-foreground"
               role="menuitem"
             >

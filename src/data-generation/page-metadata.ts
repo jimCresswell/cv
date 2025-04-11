@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { getIconMetadata } from "./icon";
 
 export function getMetadata({

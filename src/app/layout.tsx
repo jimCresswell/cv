@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 import Script from "next/script";
 
-import { ThemeToggle } from "@/components/theme-toggle";
 import { PrintButton } from "@/components/print-button";
-import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 import "./globals.css";
 

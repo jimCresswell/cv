@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source '../../*.{js,ts,jsx,tsx,mdx}';
 
@@ -108,7 +108,9 @@
   }
 
   html {
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   body {
@@ -116,7 +118,9 @@
     color: hsl(var(--foreground));
     font-size: 16px;
     line-height: 1.6;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   /* Improved text readability */

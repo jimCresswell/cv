@@ -14,18 +14,67 @@ $accent-color: $light-coral;
 
 /* Gradients */
 $gradient-top: linear-gradient(0deg, $fire-brick, $smoky-black, $seasalt, $light-coral, $verdigris);
-$gradient-right: linear-gradient(90deg, $fire-brick, $smoky-black, $seasalt, $light-coral, $verdigris);
-$gradient-bottom: linear-gradient(180deg, $fire-brick, $smoky-black, $seasalt, $light-coral, $verdigris);
-$gradient-left: linear-gradient(270deg, $fire-brick, $smoky-black, $seasalt, $light-coral, $verdigris);
-$gradient-top-right: linear-gradient(45deg, $fire-brick, $smoky-black, $seasalt, $light-coral, $verdigris);
-$gradient-bottom-right: linear-gradient(135deg, $fire-brick, $smoky-black, $seasalt, $light-coral, $verdigris);
-$gradient-top-left: linear-gradient(225deg, $fire-brick, $smoky-black, $seasalt, $light-coral, $verdigris);
-$gradient-bottom-left: linear-gradient(315deg, $fire-brick, $smoky-black, $seasalt, $light-coral, $verdigris);
+$gradient-right: linear-gradient(
+  90deg,
+  $fire-brick,
+  $smoky-black,
+  $seasalt,
+  $light-coral,
+  $verdigris
+);
+$gradient-bottom: linear-gradient(
+  180deg,
+  $fire-brick,
+  $smoky-black,
+  $seasalt,
+  $light-coral,
+  $verdigris
+);
+$gradient-left: linear-gradient(
+  270deg,
+  $fire-brick,
+  $smoky-black,
+  $seasalt,
+  $light-coral,
+  $verdigris
+);
+$gradient-top-right: linear-gradient(
+  45deg,
+  $fire-brick,
+  $smoky-black,
+  $seasalt,
+  $light-coral,
+  $verdigris
+);
+$gradient-bottom-right: linear-gradient(
+  135deg,
+  $fire-brick,
+  $smoky-black,
+  $seasalt,
+  $light-coral,
+  $verdigris
+);
+$gradient-top-left: linear-gradient(
+  225deg,
+  $fire-brick,
+  $smoky-black,
+  $seasalt,
+  $light-coral,
+  $verdigris
+);
+$gradient-bottom-left: linear-gradient(
+  315deg,
+  $fire-brick,
+  $smoky-black,
+  $seasalt,
+  $light-coral,
+  $verdigris
+);
 $gradient-radial: radial-gradient($fire-brick, $smoky-black, $seasalt, $light-coral, $verdigris);
 
 /* Fonts */
-$font-primary: 'Helvetica, Arial, sans-serif';
-$font-secondary: 'Georgia, serif';
+$font-primary: "Helvetica, Arial, sans-serif";
+$font-secondary: "Georgia, serif";
 $font-size-base: 16px;
 $line-height-base: 1.5;
 
@@ -42,54 +91,54 @@ $button-padding: $spacing-unit;
 
 /* Usage Examples */
 body {
-    background-color: $background-color;
-    color: $text-color;
-    font-family: $font-primary;
-    font-size: $font-size-base;
-    line-height: $line-height-base;
+  background-color: $background-color;
+  color: $text-color;
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
 }
 
 .container {
-    max-width: $max-width-container;
-    margin: 0 auto;
-    padding: $section-gap;
+  max-width: $max-width-container;
+  margin: 0 auto;
+  padding: $section-gap;
 }
 
 /* Media Queries for Responsiveness */
 @include media-breakpoint-up(md) {
-    .container {
-        padding: $spacing-unit * 6;
-    }
+  .container {
+    padding: $spacing-unit * 6;
+  }
 }
 
 .card {
-    background: $background-color;
-    padding: $card-padding;
-    border-radius: $border-radius-base;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: $background-color;
+  padding: $card-padding;
+  border-radius: $border-radius-base;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .button-primary {
-    background-color: $primary-color;
-    color: $seasalt;
-    padding: $button-padding;
-    border: none;
-    border-radius: $border-radius-base;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  background-color: $primary-color;
+  color: $seasalt;
+  padding: $button-padding;
+  border: none;
+  border-radius: $border-radius-base;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 
-    &:hover {
-        background-color: darken($primary-color, 10%);
-    }
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
 }
 
 .accent-text {
-    color: $accent-color;
+  color: $accent-color;
 }
 
 /* Gradients Usage Example */
 .header {
-    background: $gradient-top;
-    padding: $section-gap;
-    color: $seasalt;
+  background: $gradient-top;
+  padding: $section-gap;
+  color: $seasalt;
 }

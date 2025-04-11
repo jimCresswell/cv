@@ -1,5 +1,6 @@
-import { Metadata } from "next";
-import { getMetadata } from "@/util/page-metadata";
+import type { Metadata } from "next";
+
+import { getMetadata } from "@/data-generation/page-metadata";
 
 /**
  * @todo Centralise page metadata creation

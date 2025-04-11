@@ -1,12 +1,12 @@
-import { Header } from "@/components/header";
-import { ExecutiveSummary } from "@/components/executive-summary";
-import { KeySkills } from "@/components/key-skills";
-import { Experience } from "@/components/experience";
 import { Education } from "@/components/education";
+import { ExecutiveSummary } from "@/components/executive-summary";
+import { Experience } from "@/components/experience";
+import { Header } from "@/components/header";
 import { Interests } from "@/components/interests";
-import { CVData } from "@/data/cv-data";
+import { KeySkills } from "@/components/key-skills";
+import type { CVData } from "@/data/cv-data";
 
-export function CVContent({ data }: { data: CVData }) {
+export function CVContent({ data }: Readonly<{ data: CVData }>) {
   return (
     <div className="space-y-8 print:space-y-4">
       <Header

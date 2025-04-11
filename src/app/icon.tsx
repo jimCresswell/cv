@@ -7,36 +7,30 @@ import {
   getIconPath,
   getGenerateImageMetadata,
   getIconConfig,
-} from "@/util/icon";
+} from "@/data-generation/icon";
+import { logger } from "@/lib/logging";
 
 // The word to be displayed on the icon
 const WORD = "JC";
 
-const { contentType } = await getIconConfig();
+const { contentType } = getIconConfig();
 
-export const generateImageMetadata = await getGenerateImageMetadata(
-  WORD,
-  contentType
-);
+export const generateImageMetadata = getGenerateImageMetadata(WORD, contentType);
 
 // Update the function signature to receive searchParams instead of params
-export default async function Icon({
-  id,
-}: {
-  id: string;
-}): Promise<ImageResponse> {
-  // console.log("Icon params:", id);
+export default function Icon({ id }: { id: string }): ImageResponse {
+  logger.debug(`Icon params: ${id}`);
 
   // Parse the theme and icon size from the file ID.
-  const themeParam = await getThemeFromId(id);
-  const dimension = await getDimensionFromId(id, 512);
+  const themeParameter = getThemeFromId(id);
+  const dimension = getDimensionFromId(id, 512);
 
   // Determine background and foreground colors based on theme
-  const background = themeParam === "dark" ? "black" : "white";
-  const foreground = themeParam === "dark" ? "white" : "black";
+  const background = themeParameter === "dark" ? "black" : "white";
+  const foreground = themeParameter === "dark" ? "white" : "black";
 
   // Get the icon path for the desired word and dimension.
-  const iconPath = await getIconPath(WORD, dimension);
+  const iconPath = getIconPath(WORD, dimension);
 
   // Return an ImageResponse for the chosen icon based on size, content type and median query,
   // except that media queries are not supported by ImageResponse yet.
@@ -53,6 +47,6 @@ export default async function Icon({
     {
       width: dimension,
       height: dimension,
-    }
+    },
   );
 }

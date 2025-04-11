@@ -1,32 +1,31 @@
 "use client";
 
 import type React from "react";
-
 import { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark" | "system";
 
-type ThemeProviderProps = {
+interface ThemeProviderProperties {
   children: React.ReactNode;
   defaultTheme?: Theme;
-};
+}
 
-type ThemeProviderState = {
+interface ThemeProviderState {
   theme: Theme;
   setTheme: (theme: Theme) => void;
-};
+}
 
-const initialState: ThemeProviderState = {
+const ThemeProviderContext = createContext<ThemeProviderState>({
   theme: "system",
-  setTheme: () => null,
-};
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+  setTheme: () => {
+    return;
+  },
+});
 
 export function ThemeProvider({
   children,
   defaultTheme = "system",
-}: ThemeProviderProps) {
+}: Readonly<ThemeProviderProperties>) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
 
   useEffect(() => {
@@ -38,12 +37,11 @@ export function ThemeProvider({
   }, []);
 
   useEffect(() => {
-    const root = window.document.documentElement;
+    const root = globalThis.document.documentElement;
     root.classList.remove("light", "dark");
 
     if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
+      const systemTheme = globalThis.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
       root.classList.add(systemTheme);
@@ -56,40 +54,34 @@ export function ThemeProvider({
 
   // Listen for system theme changes when using system preference
   useEffect(() => {
-    if (theme !== "system") return;
+    if (theme !== "system") {
+      return;
+    }
 
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const mediaQuery = globalThis.matchMedia("(prefers-color-scheme: dark)");
 
     const handleChange = () => {
-      const root = window.document.documentElement;
+      const root = globalThis.document.documentElement;
       root.classList.remove("light", "dark");
       root.classList.add(mediaQuery.matches ? "dark" : "light");
     };
 
     mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
   }, [theme]);
 
-  const value = {
+  const value: ThemeProviderState = {
     theme,
-    setTheme: (theme: Theme) => {
-      setTheme(theme);
-    },
+    setTheme,
   };
 
-  return (
-    <ThemeProviderContext.Provider value={value}>
-      {children}
-    </ThemeProviderContext.Provider>
-  );
+  return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>;
 }
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
-
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
 
   return context;
 };

@@ -15,14 +15,14 @@
 - [ ] Add a proper eslint config file
 - [ ] Add eslint rules for filenames, import order, no console, etc.
 
-### CV
+### Website
 
 - [ ] Review the content
 - [ ] Check the links
 - [ ] Sort out the print formatting, it is not good.
 - [ ] Make sure the HTML is properly semantic and accessible.
 
-### Home page
+### Homepage
 
 - [ ] Get the content from the old home page.
 - [ ] Decide what the impact of the home page should be.

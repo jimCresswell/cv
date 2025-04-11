@@ -1,8 +1,8 @@
-interface ExecutiveSummaryProps {
+interface ExecutiveSummaryProperties {
   paragraphs: readonly string[];
 }
 
-export function ExecutiveSummary({ paragraphs }: ExecutiveSummaryProps) {
+export function ExecutiveSummary({ paragraphs }: Readonly<ExecutiveSummaryProperties>) {
   return (
     <section aria-labelledby="executive-summary-heading" className="print:my-1">
       <h2
@@ -13,10 +13,7 @@ export function ExecutiveSummary({ paragraphs }: ExecutiveSummaryProps) {
       </h2>
       <div className="space-y-4 print:space-y-2">
         {paragraphs.map((paragraph, index) => (
-          <p
-            key={index}
-            className="text-base leading-relaxed print:leading-tight"
-          >
+          <p key={index} className="text-base leading-relaxed print:leading-tight">
             {paragraph}
           </p>
         ))}

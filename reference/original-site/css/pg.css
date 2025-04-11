@@ -16,14 +16,13 @@
   top: 1ex;
   border: 2px solid Crimson;
   color: Crimson;
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(0, 0, 0, 0.75);
   border-radius: 50%;
   font-weight: 900;
-  -webkit-box-shadow: 0.2ex 0.2ex 0.7ex 0 rgba(0,0,0,0.75);
-  -moz-box-shadow: 0.2ex 0.2ex 0.7ex 0 rgba(0,0,0,0.75);
-  box-shadow: 0.2ex 0.2ex 0.7ex 0 rgba(0,0,0,0.75);
+  -webkit-box-shadow: 0.2ex 0.2ex 0.7ex 0 rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0.2ex 0.2ex 0.7ex 0 rgba(0, 0, 0, 0.75);
+  box-shadow: 0.2ex 0.2ex 0.7ex 0 rgba(0, 0, 0, 0.75);
 }
-
 
 .pg > .instructions > p {
   margin-bottom: 0.3em;
@@ -34,4 +33,3 @@
   font-weight: 900;
   margin-bottom: 0.1em;
 }
-

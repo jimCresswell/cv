@@ -1,7 +1,8 @@
 import { Mail, Linkedin, Github, Globe, MapPin } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 
-interface HeaderProps {
+interface HeaderProperties {
   name: string;
   title: string;
   email: string;
@@ -19,16 +20,12 @@ export function Header({
   website,
   email,
   location,
-}: HeaderProps) {
+}: Readonly<HeaderProperties>) {
   return (
     <header className="text-center md:text-left border-b pb-6 dark:border-gray-700 print:pb-2">
       <div className="pb-2">
-        <h1 className="text-4xl md:text-5xl md:text-[3.1rem] font-bold mb-2 print:mb-1">
-          {name}
-        </h1>
-        <p className="text-xl md:text-2xl text-muted-foreground mb-4 print:mb-2">
-          {title}
-        </p>
+        <h1 className="text-4xl md:text-5xl md:text-[3.1rem] font-bold mb-2 print:mb-1">{name}</h1>
+        <p className="text-xl md:text-2xl text-muted-foreground mb-4 print:mb-2">{title}</p>
       </div>
 
       {/* For screen: contact information */}

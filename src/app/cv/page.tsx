@@ -1,8 +1,8 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { CVContent } from "@/components/cv-content";
 import cvData from "@/data/cv-data";
-import { getMetadata } from "@/util/page-metadata";
+import { getMetadata } from "@/data-generation/page-metadata";
 
 export const metadata: Metadata = getMetadata({
   title: "Jim Cresswell | Hands-On Engineering Leadership",
