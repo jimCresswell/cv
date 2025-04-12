@@ -12,7 +12,7 @@ export const metadata: Metadata = getMetadata({
 const OriginalHomePage = () => {
   return (
     <article id="me" itemScope itemType="https://data-vocabulary.org/Person">
-      <h1 className="mainlink">
+      <h1 id="main-title" className="mainlink">
         <a href={cvData.header.linkedin}>
           <span id="s0">@</span>
           <span id="s1">J</span>
