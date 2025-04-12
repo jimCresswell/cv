@@ -5,7 +5,9 @@ const cvData = {
     email: "jim@jimcresswell.net",
     linkedin: "https://linkedin.com/in/jimcresswell",
     github: "https://github.com/jimcresswell",
+    googleScholar: "https://scholar.google.com/citations?user=7yf2vEEAAAAJ&hl=en&oi=ao",
     website: "https://jimcresswell.net",
+    cv: "https://jimcresswell.net/cv",
     location: "United Kingdom",
   },
   executive_summary: [
