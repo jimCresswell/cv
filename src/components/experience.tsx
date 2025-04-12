@@ -1,5 +1,7 @@
 import { ExternalLink } from "lucide-react";
 
+import { markdownLinksToNextLinks } from "@/content-manipulation/text-processing";
+
 interface Role {
   title: string;
   dates: string;
@@ -46,18 +48,6 @@ function formatWebsiteForDisplay(url: string): string {
   } catch (error: unknown) {
     throw new TypeError(`Invalid URL: ${url}`, { cause: error });
   }
-}
-
-/**
- * Process text to handle markdown-style links
- *
- * @todo Implement markdown-style link processing
- *
- * @param text - The text to process
- * @returns The processed text
- */
-function processText(text: string) {
-  return text;
 }
 
 export function Experience({ experience }: Readonly<ExperienceProperties>) {
@@ -111,7 +101,7 @@ export function Experience({ experience }: Readonly<ExperienceProperties>) {
                   <div className="space-y-3 print:space-y-1">
                     {role.description_paragraphs.map((paragraph, paraIndex) => (
                       <p key={paraIndex} className="text-base leading-relaxed print:leading-tight">
-                        {processText(paragraph)}
+                        {markdownLinksToNextLinks(paragraph)}
                       </p>
                     ))}
                   </div>

@@ -10,7 +10,6 @@ import importPlugin from "eslint-plugin-import-x";
 import sonarjs from "eslint-plugin-sonarjs";
 import unicorn from "eslint-plugin-unicorn";
 import globals from "globals";
-import type { ConfigArray } from "typescript-eslint";
 import tseslint from "typescript-eslint";
 
 const thisFile = fileURLToPath(import.meta.url);
@@ -114,7 +113,17 @@ const codeStyleRules: Partial<ESLintRulesRecord> = {
   "@typescript-eslint/restrict-template-expressions": ["off"],
 };
 
-const config: ConfigArray = tseslint.config(
+const config = tseslint.config(
+  /**
+   * NextJS configuration
+   *
+   * Note that adding in next/typescript here causes issues with the typescript-eslint plugin,
+   * which crashes ESLint, but _only_ in the VSCode ESLint extension.
+   */
+  ...compat.config({
+    extends: ["next/core-web-vitals"],
+  }),
+
   /**
    * The main config.
    */
@@ -160,20 +169,6 @@ const config: ConfigArray = tseslint.config(
    */
   {
     files: ["**/*.{ts,tsx}"],
-    plugins: {
-      "@typescript-eslint": tseslint.plugin,
-    },
-    settings: {
-      // "import/parsers": {
-      //   "@typescript-eslint/parser": [".ts", ".tsx", ".d.ts"], // Added .d.ts
-      // },
-      // "import/resolver": {
-      //   typescript: {
-      //     alwaysTryTypes: true,
-      //     project: "./tsconfig.json",
-      //   },
-      // },
-    },
     /**
      * TypeScript rules
      */
@@ -201,6 +196,9 @@ const config: ConfigArray = tseslint.config(
 
       // Errors
       "max-lines": ["error", 2000],
+
+      // This causes issues when using assertion helper functions.
+      "sonarjs/assertions-in-tests": ["off"],
     },
   },
 
@@ -234,13 +232,6 @@ const config: ConfigArray = tseslint.config(
       "no-console": ["off"],
     },
   },
-
-  /**
-   * NextJS configuration
-   */
-  ...compat.config({
-    extends: ["next/core-web-vitals", "next/typescript"],
-  }),
 );
 
 export default config;

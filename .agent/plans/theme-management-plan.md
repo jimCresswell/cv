@@ -1,4 +1,4 @@
-# Theme Management Plan
+# Theme Management Plan COMPLETE
 
 This plan outlines the steps to replace the current custom theme management solution (light/dark/system toggle) with the standard [`next-themes`](https://www.npmjs.com/package/next-themes) library, ensuring proper integration with Next.js App Router and Tailwind CSS v4.
 
@@ -91,26 +91,26 @@ _Follow these steps sequentially. Run tests (`pnpm test`) frequently after relev
 ### 3. Implement Theme Toggle Component (TDD)
 
 1.  **Analyze Existing Toggle:** Review `src/components/theme-toggle.tsx`. Identify:
-    *   UI Structure: Button, Icons (Sun/Moon/System), Dropdown Menu.
-    *   Accessibility Features: `aria-*` attributes, `useRef` for focus management, `useEffect` hooks for keyboard navigation (Esc) and closing on outside click.
-    *   State/Logic to Replace: `isDark` state, `applyTheme` function, initial theme detection `useEffect`.
-    *   State/Logic to Potentially Keep/Adapt: `isMenuOpen` state, `toggleMenu` function, `menuReference`, `buttonReference`, accessibility-related `useEffect` hooks.
+    - UI Structure: Button, Icons (Sun/Moon/System), Dropdown Menu.
+    - Accessibility Features: `aria-*` attributes, `useRef` for focus management, `useEffect` hooks for keyboard navigation (Esc) and closing on outside click.
+    - State/Logic to Replace: `isDark` state, `applyTheme` function, initial theme detection `useEffect`.
+    - State/Logic to Potentially Keep/Adapt: `isMenuOpen` state, `toggleMenu` function, `menuReference`, `buttonReference`, accessibility-related `useEffect` hooks.
 2.  **(TDD) Test (Fail):** Create `src/components/theme-toggle.unit.test.tsx`. Write tests using mocked `next-themes` (see Testing Notes below) for:
-    *   Rendering the toggle button/menu trigger (checking initial icon based on mocked theme).
-    *   Opening/closing the menu on button click.
-    *   Closing the menu on Escape key press.
-    *   Closing the menu on outside click (may require simulating events).
-    *   Displaying options (Light, Dark, System) when menu is open.
-    *   Calling the mocked `setTheme` function with the correct value ('light', 'dark', 'system') when an option is clicked.
-    *   Ensuring correct `aria-*` attributes are present.
+    - Rendering the toggle button/menu trigger (checking initial icon based on mocked theme).
+    - Opening/closing the menu on button click.
+    - Closing the menu on Escape key press.
+    - Closing the menu on outside click (may require simulating events).
+    - Displaying options (Light, Dark, System) when menu is open.
+    - Calling the mocked `setTheme` function with the correct value ('light', 'dark', 'system') when an option is clicked.
+    - Ensuring correct `aria-*` attributes are present.
 3.  **(TDD) Implement:** Update `src/components/theme-toggle.tsx`:
-    *   Remove the `isDark` state and the `applyTheme` function.
-    *   Remove the `useEffect` hook that reads the initial theme from `document.documentElement.classList`.
-    *   Import and use the `useTheme` hook from `next-themes` to get `theme`, `setTheme`, and potentially `resolvedTheme` (to handle 'system').
-    *   Update the main button's icon display logic to use the `theme` or `resolvedTheme` from the hook.
-    *   Update the click handlers for the menu items (Light, Dark, System buttons) to call `setTheme` with the appropriate string.
-    *   Retain/Adapt the `isMenuOpen` state, `toggleMenu` function, refs, and accessibility-related `useEffect` hooks.
-    *   Ensure the component still renders the same visual structure.
+    - Remove the `isDark` state and the `applyTheme` function.
+    - Remove the `useEffect` hook that reads the initial theme from `document.documentElement.classList`.
+    - Import and use the `useTheme` hook from `next-themes` to get `theme`, `setTheme`, and potentially `resolvedTheme` (to handle 'system').
+    - Update the main button's icon display logic to use the `theme` or `resolvedTheme` from the hook.
+    - Update the click handlers for the menu items (Light, Dark, System buttons) to call `setTheme` with the appropriate string.
+    - Retain/Adapt the `isMenuOpen` state, `toggleMenu` function, refs, and accessibility-related `useEffect` hooks.
+    - Ensure the component still renders the same visual structure.
 4.  **(TDD) Test (Pass):** Ensure all tests in `theme-toggle.unit.test.tsx` pass with the refactored component.
 5.  **Integrate Toggle:** Place the updated `ThemeToggle` component in the desired location (e.g., header or navigation bar) within the application layout or relevant components, replacing the old one if necessary.
 
@@ -139,9 +139,9 @@ When unit testing components that use the `useTheme` hook (like `ThemeToggle`), 
 Place this at the top of your test file (`*.unit.test.tsx`):
 
 ```typescript
-import { vi } from 'vitest';
+import { vi } from "vitest";
 
-vi.mock('next-themes', () => ({
+vi.mock("next-themes", () => ({
   useTheme: vi.fn(),
 }));
 ```
@@ -197,8 +197,8 @@ test('should display Moon icon when theme is dark', () => {
 
 **Key Points:**
 
-*   By mocking `useTheme`, you isolate your component from the actual `next-themes` provider and context.
-*   `vi.fn()` creates a mock function that allows you to assert whether it was called, how many times, and with what arguments (`expect(...).toHaveBeenCalledWith(...)`).
-*   You control the `theme` and `resolvedTheme` returned by the hook in each test to simulate different scenarios (light, dark, system resolved to light/dark).
+- By mocking `useTheme`, you isolate your component from the actual `next-themes` provider and context.
+- `vi.fn()` creates a mock function that allows you to assert whether it was called, how many times, and with what arguments (`expect(...).toHaveBeenCalledWith(...)`).
+- You control the `theme` and `resolvedTheme` returned by the hook in each test to simulate different scenarios (light, dark, system resolved to light/dark).
 
-*Self-Correction during implementation: If `shadcn/ui` components are used for the toggle, ensure tests correctly interact with its structure and state changes.*
+_Self-Correction during implementation: If `shadcn/ui` components are used for the toggle, ensure tests correctly interact with its structure and state changes._

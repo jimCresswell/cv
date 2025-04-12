@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 
 import { getMetadata } from "@/data-generation/page-metadata";
 
-/**
- * @todo Centralise page metadata creation
- */
 export const metadata: Metadata = getMetadata({
   title: "Jim Cresswell",
   description: "Creative technologist, engineering leader, gardener",
