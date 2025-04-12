@@ -36,33 +36,16 @@ describe("ThemeToggle", () => {
     expect(screen.getByRole("button", { name: /select theme/i })).toBeInTheDocument();
   });
 
-  it("should display the correct icon based on resolved theme (light)", () => {
+  it("should render both sun and moon icons", () => {
     // Arrange
-    // Default mock returns resolvedTheme: 'light'
+    // The mocked theme ('light' or 'dark') no longer directly controls icon rendering in the component.
     render(<ThemeToggle />);
 
-    // Assert: Check for Sun icon (assuming it's associated with light theme)
-    // Note: The actual selector might depend on how the icon is implemented (e.g., class name, data attribute)
-    // Assuming lucide-react adds class names like 'lucide-sun'
+    // Assert: Check that *both* icons are always present in the button's DOM.
+    // Visibility is handled by CSS based on the html class, which we don't reliably test here.
     const button = screen.getByRole("button", { name: /select theme/i });
     expect(button.querySelector(".lucide-sun")).toBeInTheDocument();
-    expect(button.querySelector(".lucide-moon")).not.toBeInTheDocument();
-  });
-
-  it("should display the correct icon based on resolved theme (dark)", () => {
-    // Arrange
-    mockedUseTheme.mockReturnValue({
-      // Override default mock
-      theme: "dark",
-      setTheme: vi.fn(),
-      resolvedTheme: "dark",
-    });
-    render(<ThemeToggle />);
-
-    // Assert: Check for Moon icon
-    const button = screen.getByRole("button", { name: /select theme/i });
     expect(button.querySelector(".lucide-moon")).toBeInTheDocument();
-    expect(button.querySelector(".lucide-sun")).not.toBeInTheDocument();
   });
 
   it("should open the menu when the toggle button is clicked", () => {

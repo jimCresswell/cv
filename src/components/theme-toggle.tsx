@@ -15,7 +15,7 @@ function isTheme(value: string | undefined): value is Theme {
 }
 
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -53,11 +53,8 @@ export function ThemeToggle() {
         variant="outline"
         size="icon"
       >
-        {resolvedTheme === "dark" ? (
-          <Moon className="h-[1.2rem] w-[1.2rem]" />
-        ) : (
-          <Sun className="h-[1.2rem] w-[1.2rem]" />
-        )}
+        <Moon className="dark-only h-[1.2rem] w-[1.2rem]" />
+        <Sun className="light-only h-[1.2rem] w-[1.2rem]" />
         <span className="sr-only">Select theme</span>
       </Button>
       {isOpen && (

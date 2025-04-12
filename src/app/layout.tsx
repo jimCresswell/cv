@@ -5,14 +5,14 @@ import Link from "next/link";
 import { PrintButton } from "@/components/print-button";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { getIconMetadata } from "@/data-generation/icon";
 
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Jim Cresswell | Hands-On Engineering Leadership",
-  description: "CV of Jim Cresswell, Hands-On Engineering Leader",
+  icons: getIconMetadata(),
 };
 
 export default function RootLayout({
