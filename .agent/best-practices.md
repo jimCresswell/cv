@@ -4,6 +4,10 @@
 
 This document outlines the core development principles and best practices to be followed for the `personal-site` project. As this repository also serves as a portfolio demonstrating technical expertise and adherence to modern standards, maintaining the highest quality is paramount. Consistency, clarity, testability, and maintainability are key goals.
 
+## 0. Quality Assurance
+
+- After major changes, validate those changes with `pnpm type-check`, `pnpm lint`, and `pnpm test`. Fixing issues as they arise is preferred over waiting until the end of a feature or refactoring.
+
 ## 1. Testing
 
 - **Test-Driven Development (TDD)**: Adopt a TDD workflow wherever practical. Write tests (unit, integration, or end-to-end) _before_ writing the implementation code. This ensures testability and clarifies requirements.
@@ -42,7 +46,7 @@ This document outlines the core development principles and best practices to be 
 
 ## 4. React
 
-- **Component Composition**: Build UIs by composing small, reusable components. Favour composition over inheritance.
+- **Component Composition**: Build UIs by composing small, reusable components. Favor composition over inheritance.
 - **Props**: Use clear and consistent prop naming. Destructure props for readability. Define prop types using TypeScript interfaces or types derived from Zod schemas.
 - **State Management**:
   - Prefer local state (`useState`) for component-specific state.
@@ -96,30 +100,35 @@ This document outlines the core development principles and best practices to be 
 
 Robust error handling is essential for maintainability, debugging, and user experience. Treat observability as a first-class concern.
 
-*   **Never Swallow Errors:** Avoid empty `catch` blocks or catching errors without logging or re-throwing them appropriately. Unhandled exceptions should ideally crash the process (in a controlled way) or be reported, not ignored.
-*   **Preserve Context:** When catching and re-throwing errors, wrap the original error to preserve the stack trace and context. Use the `cause` property in `Error` objects (ES2022+) where possible.
-    ```typescript
-    try {
-      // ... operation that might fail
-    } catch (originalError) {
-      logger.error('Operation failed:', { cause: originalError });
-      throw new Error('Failed to complete the operation.', { cause: originalError });
-    }
-    ```
-*   **Structured Logging for Errors:** Log errors with as much context as possible (e.g., request ID, user ID if applicable, relevant data, stack trace). Use a structured logging format (JSON) to make logs easily searchable and parsable by monitoring tools.
-*   **Use Specific Error Types:** Create custom error classes (extending `Error`) for different types of application errors (e.g., `ValidationError`, `DatabaseError`, `AuthorizationError`). This allows for more granular error handling.
-*   **Distinguish Error Types:** Understand the difference between:
-    *   **Operational Errors:** Runtime problems whose outcomes are reasonably expected (e.g., API unavailable, invalid user input, database timeout). These should generally be handled gracefully.
-    *   **Programmer Errors:** Bugs in the code (e.g., null pointer exceptions, type errors, logic flaws). These often indicate a need for a code fix and might warrant crashing the process or alerting developers immediately.
-*   **React Error Boundaries:** Use React Error Boundaries to catch JavaScript errors in UI components, log them, and display a fallback UI instead of crashing the entire component tree. Place them strategically around parts of the UI that might fail independently.
-*   **React Suspense for Data Loading:** Use `<Suspense>` boundaries to handle loading states for asynchronous operations (like data fetching) and display fallback UI (e.g., spinners) gracefully.
-*   **API Route Error Handling:**
-    *   Return meaningful and consistent error responses (e.g., a standard JSON structure like `{ "error": "message", "details": { ... } }`).
-    *   Use appropriate HTTP status codes (e.g., 400 for bad requests/validation errors, 401 for unauthorized, 403 for forbidden, 404 for not found, 500 for generic server errors).
-    *   Avoid leaking sensitive internal details (like stack traces) in production API error responses.
-*   **Graceful Degradation:** Design systems to handle failures in non-critical parts without bringing down the entire application.
-*   **Plan for Observability Tools:** While not implementing immediately, design logging and error handling with future integration of tools like Sentry, Datadog, or LogRocket in mind. Ensure logs contain sufficient information for these tools to be effective.
+- **Never Swallow Errors:** Avoid empty `catch` blocks or catching errors without logging or re-throwing them appropriately. Unhandled exceptions should ideally crash the process (in a controlled way) or be reported, not ignored.
+- **Preserve Context:** When catching and re-throwing errors, wrap the original error to preserve the stack trace and context. Use the `cause` property in `Error` objects (ES2022+) where possible.
+  ```typescript
+  try {
+    // ... operation that might fail
+  } catch (originalError) {
+    logger.error("Operation failed:", { cause: originalError });
+    throw new Error("Failed to complete the operation.", { cause: originalError });
+  }
+  ```
+- **Structured Logging for Errors:** Log errors with as much context as possible (e.g., request ID, user ID if applicable, relevant data, stack trace). Use a structured logging format (JSON) to make logs easily searchable and parsable by monitoring tools.
+- **Use Specific Error Types:** Create custom error classes (extending `Error`) for different types of application errors (e.g., `ValidationError`, `DatabaseError`, `AuthorizationError`). This allows for more granular error handling.
+- **Distinguish Error Types:** Understand the difference between:
+  - **Operational Errors:** Runtime problems whose outcomes are reasonably expected (e.g., API unavailable, invalid user input, database timeout). These should generally be handled gracefully.
+  - **Programmer Errors:** Bugs in the code (e.g., null pointer exceptions, type errors, logic flaws). These often indicate a need for a code fix and might warrant crashing the process or alerting developers immediately.
+- **React Error Boundaries:** Use React Error Boundaries to catch JavaScript errors in UI components, log them, and display a fallback UI instead of crashing the entire component tree. Place them strategically around parts of the UI that might fail independently.
+- **React Suspense for Data Loading:** Use `<Suspense>` boundaries to handle loading states for asynchronous operations (like data fetching) and display fallback UI (e.g., spinners) gracefully.
+- **API Route Error Handling:**
+  - Return meaningful and consistent error responses (e.g., a standard JSON structure like `{ "error": "message", "details": { ... } }`).
+  - Use appropriate HTTP status codes (e.g., 400 for bad requests/validation errors, 401 for unauthorized, 403 for forbidden, 404 for not found, 500 for generic server errors).
+  - Avoid leaking sensitive internal details (like stack traces) in production API error responses.
+- **Graceful Degradation:** Design systems to handle failures in non-critical parts without bringing down the entire application.
+- **Plan for Observability Tools:** While not implementing immediately, design logging and error handling with future integration of tools like Sentry, Datadog, or LogRocket in mind. Ensure logs contain sufficient information for these tools to be effective.
 
 ## 11. Code Quality and Maintainability
 
-*   **Modularity:** Break down code into small, reusable components and functions with clear responsibilities.
+- **Modularity:** Break down code into small, reusable components and functions with clear responsibilities.
+
+## 12. File Organization
+
+- **File Structure**: Use a consistent file structure that aligns with the project's complexity and team's preferences.
+- **File Naming**: Use meaningful and descriptive file names that reflect their purpose and functionality. **Only use kebab-case**.
