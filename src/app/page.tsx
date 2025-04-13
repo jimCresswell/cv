@@ -1,101 +1,57 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+
+import "@/app/retro.css";
+import cvData from "@/data/cv-data";
+import { getMetadata } from "@/data-generation/page-metadata";
+
+export const metadata: Metadata = getMetadata({
+  title: "Jim Cresswell",
+  description: "Creative technologist, engineering leader, gardener",
+});
+
+const OriginalHomePage = () => {
+  return (
+    <article id="me" itemScope itemType="https://data-vocabulary.org/Person">
+      <h1 id="main-title" className="mainlink">
+        <a href={cvData.header.linkedin}>
+          <span id="s0">@</span>
+          <span id="s1">J</span>
+          <span id="s2">i</span>
+          <span id="s3">m</span>
+          <span id="s4">C</span>
+          <span id="s5">r</span>
+          <span id="s6">e</span>
+          <span id="s7">s</span>
+          <span id="s8">s</span>
+          <span id="s9">w</span>
+          <span id="s10">e</span>
+          <span id="s11">l</span>
+          <span id="s12">l</span>
+        </a>
+      </h1>
+      <section className="description">
+        <p>
+          My name is <span itemProp="name">Jim Cresswell</span>. I am an
+          <span itemProp="role">entrepreneur</span> trying to apply small changes to potential
+          systemic tipping points in order to bring about positive big impacts in climate change,
+          biodiversity and social equity.
+        </p>
+        <p>
+          I have a background in technology, science, public services and digital products. Here is
+          my <a href={cvData.header.cv}>CV</a> and here I am on{" "}
+          <a href={cvData.header.linkedin}>LinkedIn</a> and{" "}
+          <a href={cvData.header.github}>GitHub</a>.
+        </p>
+        <p>
+          Here are my
+          <a href={cvData.header.googleScholar}>published papers</a> as a
+          <a href="https://en.wikipedia.org/wiki/Physical_cosmology">cosmologist</a>.
+        </p>
+      </section>
+    </article>
+  );
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+  return <OriginalHomePage />;
 }

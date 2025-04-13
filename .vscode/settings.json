@@ -1,5 +1,20 @@
 {
-    "cSpell.words": [
-        "color"
-    ]
+  "cSpell.words": [
+    "color",
+    "commitlint",
+    "currentcolor",
+    "geist",
+    "jimcresswell",
+    "minmax",
+    "noopener",
+    "oglint",
+    "popover",
+    "SDSS",
+    "Shadcn",
+    "sonarjs",
+    "vars"
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }
