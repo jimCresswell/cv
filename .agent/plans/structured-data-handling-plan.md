@@ -1,74 +1,112 @@
-## Technical Considerations
+# CV Data Management System Implementation Plan
 
-1. **Database Costs**:
-
-   - Vercel Postgres has usage limits; monitor usage through the Vercel dashboard
-   - Consider connecting to an external PostgreSQL instance for more control over scaling
-
-2. **Schema Evolution**:
-
-   - Use database migrations for schema changes
-   - Design the versioning system to accommodate schema changes
-   - Test migrations thoroughly in staging before applying to production
-
-3. **Performance**:
-
-   - Monitor JSON query performance as data grows
-   - Consider using indexes on JSON fields for frequently accessed properties
-   - Implement caching for read-heavy operations
-
-4. **Integration with Existing Workflows**:
-   - Ensure compatibility with your current CI/CD pipeline
-   - Document API usage for other team members
-   - Maintain type safety throughout the codebase# CV Data Management System Implementation Plan
+**Status:** Defined
 
 ## Overview
 
-This document outlines a comprehensive plan for implementing a CV data management system using Vercel, PostgreSQL, Prisma, and Zod. The system will provide schema validation, type safety, and a well-defined API for managing CV data.
+This document outlines a comprehensive plan for implementing a CV data management system using Vercel PostgreSQL, Prisma, and Zod. The system will provide schema validation, type safety, versioning, and a secure API for managing CV data, enabling dynamic updates to the website content.
 
-The implementation follows these core principles:
+## Alignment with Best Practices (`.agent/best-practices.md`)
 
-- **Type Safety**: Using TypeScript and Zod for runtime validation
-- **Schema Enforcement**: Ensuring data conforms to the defined structure
-- **Vercel Integration**: Leveraging Vercel's PostgreSQL offering
-- **Next.js Compatibility**: Designed for seamless integration with the website
+This plan adheres to the project's established best practices:
+
+*   **Type Safety & Runtime Validation:** Leverages Zod for defining data schemas and validating data at runtime boundaries (API routes), inferring TypeScript types directly from Zod schemas (`z.infer`). This aligns with **`best-practices.md#2`**.
+*   **Testing (TDD):** Emphasizes Test-Driven Development for the data service layer and integration testing for API routes. Unit tests will use Vitest/React Testing Library. This aligns with **`best-practices.md#1`**.
+*   **Security:** Implements API token authentication and stresses secure handling of secrets (environment variables). Input validation via Zod is mandatory. This aligns with **`best-practices.md#8`**.
+*   **Modularity & Code Quality:** Separates concerns into data service, API routes, and schemas. Promotes clear code and logging. This aligns with **`best-practices.md#6`**.
+*   **Next.js & React:** Utilizes Next.js API Routes and Server/Client components appropriately. Aligns with **`best-practices.md#3` & `#4`**.
+*   **Error Handling:** Incorporates structured error handling and logging. Aligns with **`best-practices.md#3`** (regarding `error.tsx`) and general robustness.
+
+## Proposed Solution Architecture
+
+```mermaid
+graph LR
+    A[Next.js Frontend (Admin UI)] --> B{API Routes (/api/cv)};
+    B --> C[Data Service Layer (src/lib/cv-data-service.ts)];
+    C --> D[Prisma Client (src/lib/prisma.ts)];
+    D --> E[(Vercel PostgreSQL)];
+
+    subgraph Validation & Types
+        F[Zod Schema (src/lib/schemas/cv-schema.ts)] --> B;
+        F --> C;
+        F --> A;
+    end
+
+    subgraph Security
+        G[API Token Auth] --> B;
+        H[Environment Variables] --> D;
+        H --> G;
+    end
+```
+
+## Technical Considerations
+
+1.  **Database Costs**:
+
+    *   Vercel Postgres has usage limits; monitor usage through the Vercel dashboard
+    *   Consider connecting to an external PostgreSQL instance for more control over scaling
+
+2.  **Schema Evolution**:
+
+    *   Use database migrations for schema changes
+    *   Design the versioning system to accommodate schema changes
+    *   Test migrations thoroughly in staging before applying to production
+
+3.  **Performance**:
+
+    *   Monitor JSON query performance as data grows
+    *   Consider using indexes on JSON fields for frequently accessed properties
+    *   Implement caching for read-heavy operations
+
+4.  **Integration with Existing Workflows**:
+
+    *   Ensure compatibility with your current CI/CD pipeline
+    *   Document API usage for other team members
+    *   Maintain type safety throughout the codebase
 
 ## Current Structure
 
 The current system uses a TypeScript constant (`cvData`) in `src/data/cv-data.ts` with a const assertion. The data is hierarchical, containing:
 
-- Header information
-- Executive summary
-- Key skills
-- Experience (with nested roles)
-- Education (with nested thesis information)
-- Interests
+*   Header information
+*   Executive summary
+*   Key skills
+*   Experience (with nested roles)
+*   Education (with nested thesis information)
+*   Interests
 
 ## Proposed Solution Architecture
 
-```
-┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
-│                 │      │                 │      │                 │
-│  Next.js UI     │◄────►│  API Routes     │◄────►│  PostgreSQL     │
-│  Components     │      │  (with Zod      │      │  (Vercel        │
-│                 │      │   validation)    │      │   Postgres)     │
-└─────────────────┘      └─────────────────┘      └─────────────────┘
-         ▲                        ▲                        ▲
-         │                        │                        │
-         │                        │                        │
-         │                        │                        │
-         ▼                        ▼                        ▼
-┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
-│                 │      │                 │      │                 │
-│  TypeScript     │      │  Prisma ORM     │      │  Zod Schema     │
-│  Types          │      │  Layer          │      │  Validation     │
-│                 │      │                 │      │                 │
-└─────────────────┘      └─────────────────┘      └─────────────────┘
+```mermaid
+graph LR
+    A[Next.js Frontend (Admin UI)] --> B{API Routes (/api/cv)};
+    B --> C[Data Service Layer (src/lib/cv-data-service.ts)];
+    C --> D[Prisma Client (src/lib/prisma.ts)];
+    D --> E[(Vercel PostgreSQL)];
+
+    subgraph Validation & Types
+        F[Zod Schema (src/lib/schemas/cv-schema.ts)] --> B;
+        F --> C;
+        F --> A;
+    end
+
+    subgraph Security
+        G[API Token Auth] --> B;
+        H[Environment Variables] --> D;
+        H --> G;
+    end
 ```
 
 ## Implementation Steps
 
-### 1. Setup Prisma with PostgreSQL
+### 1. Setup Environment Variables
+
+Ensure the following environment variables are defined in your `.env` file (and configured in Vercel):
+
+*   `DATABASE_URL`: The connection string for your Vercel PostgreSQL database (provided by Vercel).
+*   `CV_API_TOKEN`: A securely generated secret token used to authenticate requests to the POST/management endpoints of the CV API.
+
+### 2. Setup Prisma with PostgreSQL
 
 #### Install Dependencies
 
@@ -98,930 +136,695 @@ datasource db {
 }
 
 // Store CV data as a JSON document in PostgreSQL with versioning
+// Note: Using Json type provides flexibility but limits database-level querying/indexing on nested fields.
+// This is suitable for storing the entire CV structure as one unit.
 model CV {
-  id           String   @id @default(cuid())
-  data         Json     // Stores the entire CV as JSON
+  id           String   @id @default(cuid()) // Using CUIDs for unique IDs
+  data         Json
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  version      Int      @default(1)  // Version number that increments with updates
-  lastUpdated  DateTime @default(now()) // Explicit timestamp for data updates
-  updatedBy    String?  // Optional field to track who made the change
+  version      Int      @default(1)
+  lastUpdated  DateTime @default(now())
+  updatedBy    String?  // Optional: Track who made the change (e.g., admin user ID)
+  versions     CVVersion[] // Relation to historical versions
+
+  // Constraint to ensure only one 'main' CV document exists if needed
+  // @@unique([someIdentifierField])
 }
 
 // Store historical versions of CV data
 model CVVersion {
   id           String   @id @default(cuid())
-  cvId         String   // Reference to the parent CV
-  data         Json     // Historical snapshot of the CV data
-  version      Int      // Version number
+  cvId         String
+  cv           CV       @relation(fields: [cvId], references: [id], onDelete: Cascade) // Relation to parent CV
+  data         Json
+  version      Int
   createdAt    DateTime @default(now())
-  updatedBy    String?  // Who made this version
+  updatedBy    String?
 
-  @@unique([cvId, version]) // Ensure version numbers are unique per CV
+  @@index([cvId]) // Index for efficient querying of versions for a specific CV
+  @@unique([cvId, version])
 }
 ```
 
-### 2. Define Zod Schema for Validation
+#### Apply Initial Migration
 
-Create a comprehensive Zod schema in `src/lib/schemas/cv-schema.ts` that matches the structure of your CV data:
+Generate and apply the initial database migration.
+
+```bash
+# Generate migration files based on schema changes
+npx prisma migrate dev --name init_cv_schema
+
+# Apply migrations (in production/staging environments)
+# npx prisma migrate deploy
+```
+
+### 3. Define Zod Schema for Validation
+
+Create `src/lib/schemas/cv-schema.ts` (as shown previously). Ensure the schema accurately reflects the desired CV data structure.
 
 ```typescript
 // src/lib/schemas/cv-schema.ts
-import { z } from "zod";
+import { z } from 'zod';
 
-// Define sub-schemas first
-const headerSchema = z.object({
-  name: z.string(),
-  title: z.string(),
-  email: z.string().email(),
-  linkedin: z.string().url(),
-  github: z.string().url(),
-  googleScholar: z.string().url().optional(),
-  website: z.string().url(),
-  cv: z.string().url(),
-  location: z.string(),
-});
-
-const roleSchema = z.object({
-  title: z.string(),
-  dates: z.string(),
-  description_paragraphs: z.array(z.string()),
-});
-
-const experienceSchema = z.object({
-  company: z.string(),
-  website: z.string().url().optional(),
-  roles: z.array(roleSchema),
-});
-
-const thesisSchema = z.object({
-  title: z.string(),
-  link: z.string().url(),
-});
-
-const educationSchema = z.object({
-  institution: z.string(),
-  degree: z.string(),
-  dates: z.string(),
-  thesis: thesisSchema.optional(),
-});
+// ... (headerSchema, roleSchema, etc. as before)
 
 // Full CV schema
 export const CVSchema = z.object({
-  header: headerSchema,
-  executive_summary: z.array(z.string()),
-  key_skills: z.array(z.string()),
-  experience: z.array(experienceSchema),
-  education: z.array(educationSchema),
-  interests: z.array(z.string()),
+  // ... fields as before
 });
 
-// Create a type from the schema
+// Infer the TypeScript type from the Zod schema (Best Practice)
 export type CVDataType = z.infer<typeof CVSchema>;
 ```
 
-### 3. Create Prisma Client Utility
+### 4. Create Prisma Client Utility
 
-Create a utility to ensure a singleton Prisma client in `src/lib/prisma.ts`:
+Create `src/lib/prisma.ts` (as shown previously) to manage the Prisma client instance.
+
+### 5. Implement Database Seeding (Initial Data Load)
+
+Create a script to populate the database with initial CV data.
+
+*   Add a `seed` script to `package.json`:
+    ```json
+    "scripts": {
+      // ... other scripts
+      "prisma:seed": "node --loader ts-node/esm prisma/seed.ts"
+    }
+    ```
+*   Create `prisma/seed.ts`:
 
 ```typescript
-// src/lib/prisma.ts
-import { PrismaClient } from "@prisma/client";
-import { logger } from "@/lib/logging";
+// prisma/seed.ts
+import { PrismaClient } from '@prisma/client';
+import { CVSchema, CVDataType } from '../src/lib/schemas/cv-schema'; // Adjust path if needed
+import initialCvData from '../src/data/cv-data'; // Assuming initial data is here
+import { logger } from '../src/lib/logging'; // Adjust path if needed
 
-// PrismaClient is attached to the `global` object in development to prevent
-// exhausting your database connection limit.
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+const prisma = new PrismaClient();
 
-export const prisma = globalForPrisma.prisma || new PrismaClient();
+async function main() {
+  logger.info('Starting database seeding...');
 
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+  // 1. Validate initial data (Essential Step!)
+  const validationResult = CVSchema.safeParse(initialCvData);
+  if (!validationResult.success) {
+    logger.error('Initial CV data failed validation:', validationResult.error.errors);
+    // Consider throwing a custom validation error
+    throw new Error('Seeding failed: Initial data validation error.');
+  }
+  const validatedData: CVDataType = validationResult.data;
+
+  // 2. Upsert the main CV record (e.g., using a fixed ID for singleton CV)
+  const cvId = 'main-cv'; // Use a fixed ID for the single main CV
+  const existingCv = await prisma.cV.findUnique({ where: { id: cvId } });
+
+  if (!existingCv) {
+    logger.info(`Creating initial CV record with id: ${cvId}`);
+    await prisma.cV.create({
+      data: {
+        id: cvId,
+        data: validatedData as any, // Cast needed as Prisma expects JsonValue
+        version: 1,
+        updatedBy: 'seed-script',
+      },
+    });
+    logger.info('Initial CV record created.');
+  } else {
+    logger.info(`CV record with id: ${cvId} already exists. Skipping creation.`);
+    // Optionally, update the existing record if needed during development
+    // await prisma.cV.update({
+    //   where: { id: cvId },
+    //   data: {
+    //     data: validatedData as any,
+    //     version: { increment: 1 },
+    //     updatedBy: 'seed-script-update',
+    //     lastUpdated: new Date(),
+    //   },
+    // });
+    // logger.info('Existing CV record updated.');
+  }
+
+  logger.info('Database seeding finished successfully.');
 }
 
-prisma.$use(async (params, next) => {
-  const before = Date.now();
-  const result = await next(params);
-  const after = Date.now();
-  logger.debug(`Query ${params.model}.${params.action} took ${after - before}ms`);
-  return result;
-});
-
-export default prisma;
+main()
+  .catch(async (e) => {
+    logger.error('Seeding failed:', e);
+    await prisma.$disconnect();
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
 ```
 
-### 4. Create Data Access Utilities
+*   Run the seed script: `pnpm prisma:seed`
 
-Create data access utilities in `src/lib/cv-data-service.ts`:
+### 6. Create Data Service Layer
+
+Create `src/lib/cv-data-service.ts` with functions to interact with the database. Apply TDD here.
 
 ```typescript
 // src/lib/cv-data-service.ts
-import { prisma } from "./prisma";
-import { CVSchema, CVDataType } from "./schemas/cv-schema";
-import { logger } from "./logging";
+import { Prisma, PrismaClient, CVVersion } from '@prisma/client'; // Import Prisma types
+import { prisma } from './prisma';
+import { CVSchema, CVDataType } from './schemas/cv-schema';
+import { logger } from './logging'; // Assuming logger setup
 
-export async function saveCVData(cvData: unknown, updatedBy?: string) {
+const MAIN_CV_ID = 'main-cv'; // Define the constant ID for the main CV
+
+/**
+ * Saves or updates the main CV data, handling versioning.
+ * Applies TDD: Write tests for this function first.
+ */
+export async function saveCVData(cvData: unknown, updatedBy?: string): Promise<CVDataType> {
+  logger.info(`Attempting to save CV data. Updated by: ${updatedBy ?? 'system'}`);
+
+  // 1. Validate the incoming data (Best Practice: Runtime Validation)
+  const validationResult = CVSchema.safeParse(cvData);
+  if (!validationResult.success) {
+    logger.error('CV data validation failed:', validationResult.error.errors);
+    // Consider throwing a custom validation error
+    throw new Error(`Invalid CV data provided: ${validationResult.error.message}`);
+  }
+  const validatedData = validationResult.data;
+
   try {
-    // Validate the data against our schema
-    const validatedData = CVSchema.parse(cvData);
-
-    // Start a transaction to update the CV and create a version
-    return prisma.$transaction(async (tx) => {
-      // Get the current CV to determine the next version number
+    // 2. Use a transaction for atomic update and versioning
+    const result = await prisma.$transaction(async (tx) => {
+      // Find the current CV to get its version
       const currentCV = await tx.cV.findUnique({
-        where: { id: "main-cv" },
+        where: { id: MAIN_CV_ID },
       });
 
-      const nextVersion = currentCV ? currentCV.version + 1 : 1;
-
-      // Store current version in history before updating
-      if (currentCV) {
-        await tx.cVVersion.create({
-          data: {
-            cvId: currentCV.id,
-            data: currentCV.data,
-            version: currentCV.version,
-            updatedBy: currentCV.updatedBy,
-          },
-        });
+      if (!currentCV) {
+        logger.error(`CV with id ${MAIN_CV_ID} not found for saving.`);
+        throw new Error(`CV record with id ${MAIN_CV_ID} not found.`);
       }
 
-      // Update or create the main CV
-      const updatedCV = await tx.cV.upsert({
-        where: {
-          id: "main-cv", // Using a fixed ID for the main CV
-        },
-        update: {
-          data: validatedData as any, // Prisma accepts this JSON
-          updatedAt: new Date(),
-          lastUpdated: new Date(),
-          version: nextVersion,
-          updatedBy,
-        },
-        create: {
-          id: "main-cv",
-          data: validatedData as any,
-          version: 1,
-          updatedBy,
+      // Create a historical version entry
+      await tx.cVVersion.create({
+        data: {
+          cvId: MAIN_CV_ID,
+          data: currentCV.data, // Store the *previous* data state
+          version: currentCV.version,
+          updatedBy: currentCV.updatedBy,
+          // createdAt will be defaulted
         },
       });
 
+      // Update the main CV record with new data and incremented version
+      const updatedCV = await tx.cV.update({
+        where: { id: MAIN_CV_ID },
+        data: {
+          data: validatedData as any, // Prisma expects JsonValue
+          version: { increment: 1 },
+          lastUpdated: new Date(),
+          updatedBy: updatedBy ?? 'system',
+        },
+      });
+
+      logger.info(`Successfully saved CV data. New version: ${updatedCV.version}`);
       return updatedCV;
     });
-  } catch (error) {
-    logger.error("Error saving CV data:", error);
-    throw new Error("Failed to save CV data");
-  }
-}
 
-/**
- * Get a specific version of the CV
- */
-export async function getCVDataVersion(version: number): Promise<CVDataType | null> {
-  try {
-    // If requesting the latest version, use the main CV record
-    if (version === -1) {
-      return getCVData();
+    // Validate the data fetched *after* saving (optional sanity check)
+    const finalValidation = CVSchema.safeParse(result.data);
+    if (!finalValidation.success) {
+        logger.warn('Data fetched after save failed validation (might indicate DB/schema mismatch)');
+        // Decide how to handle this - log, alert, etc.
     }
 
-    // Otherwise, fetch the specific version
-    const record = await prisma.cVVersion.findUnique({
-      where: {
-        cvId_version: {
-          cvId: "main-cv",
-          version,
-        },
-      },
-    });
+    // Ensure the returned type matches CVDataType
+    return finalValidation.success ? finalValidation.data : (result.data as CVDataType);
 
-    if (!record) return null;
-
-    // Validate data from DB to ensure it matches schema
-    return CVSchema.parse(record.data);
   } catch (error) {
-    logger.error("Error retrieving CV version:", error);
-    throw new Error("Failed to retrieve CV version");
+    logger.error('Failed to save CV data:', error);
+    // Re-throw or handle specific Prisma errors
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Handle specific Prisma errors (e.g., unique constraint violation)
+      logger.error(`Prisma Error Code: ${error.code}`, error.meta);
+      throw new Error(`Database error during save: ${error.message}`);
+    } else if (error instanceof Error) {
+      // Rethrow validation or other specific errors
+      throw error;
+    } else {
+      throw new Error('An unknown database error occurred during save.');
+    }
   }
 }
 
 /**
- * Get all available versions of the CV
+ * Retrieves the latest version of the main CV data.
+ * Applies TDD: Write tests for this function.
  */
-export async function getCVVersions() {
+export async function getCVData(): Promise<CVDataType | null> {
+  logger.info('Attempting to retrieve latest CV data...');
+  try {
+    const cv = await prisma.cV.findUnique({
+      where: { id: MAIN_CV_ID },
+    });
+
+    if (!cv) {
+      logger.warn(`CV with id ${MAIN_CV_ID} not found.`);
+      return null;
+    }
+
+    // Validate the retrieved data against the schema (Best Practice)
+    const validationResult = CVSchema.safeParse(cv.data);
+    if (!validationResult.success) {
+      logger.error(`Stored CV data (Version: ${cv.version}) failed validation:`, validationResult.error.errors);
+      // Decide how to handle this - return null, throw error, return potentially unsafe data?
+      // Throwing an error is safer if data integrity is critical.
+      throw new Error('Stored CV data is invalid according to the current schema.');
+    }
+
+    logger.info(`Successfully retrieved CV data version ${cv.version}`);
+    return validationResult.data;
+  } catch (error: any) {
+    logger.error('Failed to retrieve CV data:', error);
+    // Handle specific errors if needed
+    if (error.message.includes('Stored CV data is invalid')) {
+        // Rethrow validation error specifically
+        throw error;
+    }
+    if (error.message.includes('not found')) {
+        return null; // Return null for not found
+    }
+    throw new Error('Failed to retrieve CV data due to a database error.');
+  }
+}
+
+/**
+ * Retrieves metadata for all historical versions of the main CV.
+ * Applies TDD: Write tests for this function.
+ */
+export async function getCVVersionsMetadata(): Promise<Omit<CVVersion, 'data' | 'cv'>[]> {
+  logger.info('Retrieving historical CV versions metadata...');
   try {
     const versions = await prisma.cVVersion.findMany({
-      where: { cvId: "main-cv" },
+      where: { cvId: MAIN_CV_ID },
+      orderBy: { version: 'desc' }, // Show newest first
       select: {
+        id: true,
+        cvId: true,
         version: true,
         createdAt: true,
         updatedBy: true,
-      },
-      orderBy: { version: "desc" },
-    });
-
-    const current = await prisma.cV.findUnique({
-      where: { id: "main-cv" },
-      select: {
-        version: true,
-        lastUpdated: true,
-        updatedBy: true,
+        // Exclude 'data' for performance when only metadata is needed
       },
     });
+    logger.info(`Retrieved metadata for ${versions.length} historical versions.`);
+    return versions;
+  } catch (error: any) {
+    logger.error('Failed to retrieve CV versions metadata:', error);
+    throw new Error('Failed to retrieve CV versions metadata due to a database error.');
+  }
+}
 
-    if (current) {
-      return [
-        {
-          version: current.version,
-          createdAt: current.lastUpdated,
-          updatedBy: current.updatedBy,
-          isCurrent: true,
-        },
-        ...versions.map((v) => ({ ...v, isCurrent: false })),
-      ];
+/**
+ * Retrieves a specific historical version of the CV data.
+ * Applies TDD: Write tests for this function.
+ */
+export async function getCVVersionByNumber(version: number): Promise<CVDataType | null> {
+    logger.info(`Retrieving historical CV version: ${version}`);
+    if (version <= 0) {
+        logger.warn('Requested invalid version number <= 0');
+        return null;
     }
+    try {
+        const cvVersion = await prisma.cVVersion.findUnique({
+            where: {
+                cvId_version: {
+                    cvId: MAIN_CV_ID,
+                    version: version,
+                },
+            },
+        });
 
-    return versions.map((v) => ({ ...v, isCurrent: false }));
-  } catch (error) {
-    logger.error("Error retrieving CV versions:", error);
-    throw new Error("Failed to retrieve CV versions");
-  }
+        if (!cvVersion) {
+            logger.warn(`CV version ${version} not found.`);
+            return null;
+        }
+
+        // Validate the historical data against the current schema
+        const validationResult = CVSchema.safeParse(cvVersion.data);
+        if (!validationResult.success) {
+            logger.error(`Stored CV data (Version: ${version}) failed validation against current schema:`, validationResult.error.errors);
+            // Decide how to handle - could indicate schema drift. Maybe return raw JSON or throw?
+            // Returning null or throwing is often safer.
+            throw new Error(`Stored CV version ${version} data is invalid according to the current schema.`);
+        }
+
+        logger.info(`Successfully retrieved CV version ${version}`);
+        return validationResult.data;
+    } catch (error: any) {
+        logger.error(`Failed to retrieve CV version ${version}:`, error);
+        if (error instanceof Error && error.message.includes('Stored CV version')) {
+            throw error; // Rethrow validation error
+        }
+        if (error.message.includes('not found')) {
+            return null; // Return null for not found
+        }
+        throw new Error(`Failed to retrieve CV version ${version} due to a database error.`);
+    }
 }
 
-export async function getCVData(): Promise<CVDataType | null> {
-  try {
-    const record = await prisma.cV.findUnique({
-      where: { id: "main-cv" },
-    });
-
-    if (!record) return null;
-
-    // Validate data from DB to ensure it matches schema
-    return CVSchema.parse(record.data);
-  } catch (error) {
-    logger.error("Error retrieving CV data:", error);
-    throw new Error("Failed to retrieve CV data");
-  }
-}
 ```
 
-### 5. Implement Next.js API Routes
+### 7. Implement API Routes
 
-Create API routes for CV data in `src/app/api/cv/route.ts` (using App Router):
+Create API routes in `src/app/api/cv/` using Next.js App Router conventions. Apply TDD for API routes as well.
+
+First, create a simple authentication utility:
 
 ```typescript
 // src/lib/auth.ts
-export async function verifyApiToken(token: string | null): Promise<boolean> {
-  if (!token) return false;
+import { logger } from './logging';
 
-  // Get the API token from environment variable
-  const apiToken = process.env.CV_API_TOKEN;
-  if (!apiToken) {
-    // If no token is configured, fail closed for security
+/**
+ * Verifies the provided API token against the environment variable.
+ * Uses constant-time comparison for security.
+ */
+export function verifyApiToken(token: string | null): boolean {
+  const expectedToken = process.env.CV_API_TOKEN;
+
+  if (!expectedToken) {
+    logger.error('CRITICAL: CV_API_TOKEN is not set in environment variables.');
+    return false; // Fail closed if the expected token isn't configured
+  }
+
+  if (!token) {
+    return false; // No token provided
+  }
+
+  // Basic constant-time comparison (Consider more robust library for production)
+  if (token.length !== expectedToken.length) {
     return false;
   }
 
-  // Simple constant-time comparison to avoid timing attacks
-  return token === apiToken;
+  let result = 0;
+  for (let i = 0; i < token.length; i++) {
+    result |= token.charCodeAt(i) ^ expectedToken.charCodeAt(i);
+  }
+  return result === 0;
 }
+```
 
+Now, implement the API routes:
+
+```typescript
 // src/app/api/cv/route.ts
-import { NextRequest, NextResponse } from "next/server";
-import { getCVData, saveCVData, getCVVersions, getCVDataVersion } from "@/lib/cv-data-service";
-import { CVSchema } from "@/lib/schemas/cv-schema";
-import { logger } from "@/lib/logging";
-import { verifyApiToken } from "@/lib/auth";
+import { NextRequest, NextResponse } from 'next/server';
+import {
+  getCVData,
+  saveCVData,
+  getCVVersionByNumber,
+} from '@/lib/cv-data-service';
+import { CVSchema } from '@/lib/schemas/cv-schema';
+import { logger } from '@/lib/logging';
+import { verifyApiToken } from '@/lib/auth';
 
-// Public endpoint for CV data
+/**
+ * GET /api/cv
+ * Retrieves the latest CV data (publicly accessible).
+ * Optionally retrieves a specific version using ?version={number} (requires auth).
+ */
 export async function GET(request: NextRequest) {
-  try {
-    // Check if a specific version was requested
-    const searchParams = request.nextUrl.searchParams;
-    const versionParam = searchParams.get("version");
+  const searchParams = request.nextUrl.searchParams;
+  const versionParam = searchParams.get('version');
 
+  try {
     if (versionParam) {
-      const version = parseInt(versionParam, 10);
-      if (isNaN(version)) {
-        return NextResponse.json({ error: "Invalid version parameter" }, { status: 400 });
+      // --- Retrieve Specific Version (Requires Auth) ---
+      const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+      if (!verifyApiToken(token)) {
+        logger.warn('Unauthorized attempt to access specific CV version.');
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
 
-      const data = await getCVDataVersion(version);
+      const version = parseInt(versionParam, 10);
+      if (isNaN(version) || version <= 0) {
+        return NextResponse.json({ error: 'Invalid version number.' }, { status: 400 });
+      }
+
+      logger.info(`API: Attempting to retrieve CV version ${version}`);
+      const data = await getCVVersionByNumber(version);
       if (!data) {
-        return NextResponse.json({ error: "CV version not found" }, { status: 404 });
+        return NextResponse.json({ error: `CV version ${version} not found.` }, { status: 404 });
       }
       return NextResponse.json(data);
+
     } else {
-      // Return the latest version
+      // --- Retrieve Latest Version (Public) ---
+      logger.info('API: Attempting to retrieve latest CV data.');
       const data = await getCVData();
       if (!data) {
-        return NextResponse.json({ error: "CV data not found" }, { status: 404 });
+        // This might happen if seeding hasn't run or data was deleted
+        logger.warn('API: Latest CV data not found.');
+        return NextResponse.json({ error: 'CV data not found.' }, { status: 404 });
       }
       return NextResponse.json(data);
     }
-  } catch (error) {
-    logger.error("Error in CV GET API:", error);
-    return NextResponse.json({ error: "Failed to retrieve CV data" }, { status: 500 });
+  } catch (error: any) {
+    logger.error(`API Error (GET /api/cv): ${error.message}`, { error });
+    // Distinguish between known data errors and unexpected server errors
+    if (error.message.includes('Stored CV data is invalid')) {
+        // Log critical error, but maybe return a generic message to the client
+        return NextResponse.json({ error: 'Internal data consistency error.' }, { status: 500 });
+    }
+    if (error.message.includes('not found')) {
+        return NextResponse.json({ error: error.message }, { status: 404 });
+    }
+    return NextResponse.json({ error: 'Failed to retrieve CV data due to a server error.' }, { status: 500 });
   }
 }
 
-// Protected endpoint for CV updates
+/**
+ * POST /api/cv
+ * Saves new CV data (protected by API token).
+ */
 export async function POST(request: NextRequest) {
+  // 1. Authentication
+  const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+  if (!verifyApiToken(token)) {
+    logger.warn('Unauthorized POST attempt to /api/cv.');
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // 2. Get Request Body
+  let body;
   try {
-    // Check API token for authentication
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.startsWith("Bearer ") ? authHeader.substring(7) : null;
+    body = await request.json();
+  } catch (e) {
+    logger.error('API Error: Failed to parse request body.', { error: e });
+    return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 });
+  }
 
-    const isAuthorized = await verifyApiToken(token);
-    if (!isAuthorized) {
-      logger.warn("Unauthorized CV update attempt");
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // 3. Input Validation (using the existing Zod schema)
+  const validationResult = CVSchema.safeParse(body);
+  if (!validationResult.success) {
+    logger.warn('API Error: Invalid data submitted.', { errors: validationResult.error.format() });
+    return NextResponse.json(
+      { error: 'Invalid data provided.', details: validationResult.error.format() },
+      { status: 400 }
+    );
+  }
+
+  // 4. Identify Updater (Optional: Get from headers or token claims if using JWT)
+  const updatedBy = request.headers.get('X-User-Identifier') ?? 'api-post';
+
+  // 5. Call Data Service
+  try {
+    logger.info(`API: Attempting to save new CV data. Updated by: ${updatedBy}`);
+    const savedData = await saveCVData(validationResult.data, updatedBy);
+    logger.info(`API: Successfully saved CV data. New version: ${savedData.version}`); // Assuming saveCVData returns the saved object with version
+    // Return the newly saved data or just success
+    // Returning the data confirms what was saved and its version
+    return NextResponse.json({ message: 'CV data saved successfully.', data: savedData }, { status: 200 });
+  } catch (error: any) {
+    logger.error(`API Error (POST /api/cv): ${error.message}`, { error });
+    // Handle specific known errors from the service layer
+    if (error.message.includes('Invalid CV data provided')) {
+        return NextResponse.json({ error: error.message }, { status: 400 });
     }
-
-    const body = await request.json();
-
-    // Validate incoming data
-    const validationResult = CVSchema.safeParse(body);
-
-    if (!validationResult.success) {
-      return NextResponse.json(
-        {
-          error: "Invalid data",
-          details: validationResult.error.format(),
-        },
-        { status: 400 },
-      );
+    if (error.message.includes('not found')) {
+        // This shouldn't happen on save if upsert logic is correct, but good to handle
+        return NextResponse.json({ error: 'Error finding existing CV record for update.' }, { status: 404 });
     }
-
-    // Get user identifier from request if available (could be from headers)
-    const updatedBy = request.headers.get("X-User-Email") || "unknown";
-
-    // Save data with versioning
-    await saveCVData(body, updatedBy);
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    logger.error("Error in CV POST API:", error);
-    return NextResponse.json({ error: "Failed to save CV data" }, { status: 500 });
+    if (error.message.includes('Database error during save')) {
+        return NextResponse.json({ error: 'A database error occurred during save.' }, { status: 500 });
+    }
+    return NextResponse.json({ error: 'Failed to save CV data due to an unexpected server error.' }, { status: 500 });
   }
 }
 
-// Add a versions endpoint to list available versions
-export async function GET_VERSIONS(request: NextRequest) {
+// Note: Implement rate limiting using middleware or a library like 'next-connect'
+//       for enhanced security against brute-force attacks or abuse.
+```
+
+Create a separate route for fetching version metadata:
+
+```typescript
+// src/app/api/cv/versions/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { getCVVersionsMetadata } from '@/lib/cv-data-service';
+import { logger } from '@/lib/logging';
+import { verifyApiToken } from '@/lib/auth';
+
+/**
+ * GET /api/cv/versions
+ * Retrieves metadata for all historical CV versions (protected by API token).
+ */
+export async function GET(request: NextRequest) {
+  // 1. Authentication
+  const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+  if (!verifyApiToken(token)) {
+    logger.warn('Unauthorized attempt to access /api/cv/versions.');
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // 2. Call Data Service
   try {
-    // This endpoint requires authentication too
-    const authHeader = request.headers.get("Authorization");
-    const token = authHeader?.startsWith("Bearer ") ? authHeader.substring(7) : null;
-
-    const isAuthorized = await verifyApiToken(token);
-    if (!isAuthorized) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const versions = await getCVVersions();
+    logger.info('API: Retrieving CV versions metadata.');
+    const versions = await getCVVersionsMetadata();
+    logger.info(`API: Retrieved metadata for ${versions.length} versions.`);
     return NextResponse.json(versions);
-  } catch (error) {
-    logger.error("Error in CV versions API:", error);
-    return NextResponse.json({ error: "Failed to retrieve CV versions" }, { status: 500 });
+  } catch (error: any) {
+    logger.error(`API Error (GET /api/cv/versions): ${error.message}`, { error });
+    return NextResponse.json({ error: 'Failed to retrieve CV versions metadata due to a server error.' }, { status: 500 });
   }
 }
 ```
 
-### 6. Update CV Page to Fetch Data from API
+### 8. Update CV Page Component
 
-Update the CV page to fetch data from the API in `src/app/cv/page.tsx`:
+Update the page component (`src/app/cv/page.tsx`) to fetch data using the service layer function directly, as it's a Next.js Server Component. Error handling should be included.
 
 ```typescript
 // src/app/cv/page.tsx
-import type { Metadata } from "next";
-
-import { CVContent } from "@/components/cv-content";
-import { getCVData } from "@/lib/cv-data-service";
-import { getMetadata } from "@/data-generation/page-metadata";
-
-export const metadata: Metadata = getMetadata({
-  title: "Jim Cresswell | Hands-On Engineering Leadership",
-  description: "CV of Jim Cresswell, Hands-On Engineering Leader",
-});
-
-export default async function CV() {
-  // This is a server component, so we can directly fetch data
-  const data = await getCVData();
-
-  if (!data) {
-    // Handle case where data is not found
-    return <div className="text-center py-8">CV data not found</div>;
-  }
-
-  return <CVContent data={data} />;
-}
-```
-
-### 7. Create Import Script for Initial Data
-
-Create a script to import the initial CV data in `scripts/import-cv-data.ts`:
-
-```typescript
-// scripts/import-cv-data.ts
-import { PrismaClient } from "@prisma/client";
-import cvData from "../src/data/cv-data";
-import { CVSchema } from "../src/lib/schemas/cv-schema";
-
-const prisma = new PrismaClient();
-
-async function importCVData() {
-  try {
-    // Validate data against schema first
-    const validatedData = CVSchema.parse(cvData);
-    console.log("CV data is valid");
-
-    // Insert into database
-    await prisma.cV.upsert({
-      where: { id: "main-cv" },
-      update: { data: validatedData as any },
-      create: {
-        id: "main-cv",
-        data: validatedData as any,
-      },
-    });
-
-    console.log("CV data imported successfully");
-  } catch (error) {
-    console.error("Error importing CV data:", error);
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
-importCVData();
-```
-
-### 8. Configure Environment Variables
-
-Create a `.env` file with the PostgreSQL connection string and API token:
-
-```
-DATABASE_URL="postgresql://username:password@hostname:port/database?schema=public"
-CV_API_TOKEN="your-secure-random-token-here"
-```
-
-For Vercel, add these environment variables in the Vercel dashboard.
-
-To generate a secure random token, you can use:
-
-```bash
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-```
-
-### 9. Implement Backup Mechanism
-
-Create a scheduled database backup solution in `scripts/backup-database.ts`:
-
-```typescript
-// scripts/backup-database.ts
-import { PrismaClient } from "@prisma/client";
-import * as fs from "fs";
-import * as path from "path";
-
-const prisma = new PrismaClient();
-
-async function backupDatabase() {
-  try {
-    // Get all CV data
-    const mainCV = await prisma.cV.findUnique({
-      where: { id: "main-cv" },
-    });
-
-    // Get all versions
-    const versions = await prisma.cVVersion.findMany({
-      where: { cvId: "main-cv" },
-    });
-
-    // Create backup data structure
-    const backupData = {
-      timestamp: new Date().toISOString(),
-      mainCV,
-      versions,
-    };
-
-    // Create backups directory if it doesn't exist
-    const backupDir = path.join(process.cwd(), "backups");
-    if (!fs.existsSync(backupDir)) {
-      fs.mkdirSync(backupDir, { recursive: true });
-    }
-
-    // Create backup filename with timestamp
-    const filename = `cv-backup-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
-    const backupPath = path.join(backupDir, filename);
-
-    // Write backup file
-    fs.writeFileSync(backupPath, JSON.stringify(backupData, null, 2));
-
-    console.log(`Database backup created: ${backupPath}`);
-
-    // If in production (e.g., Vercel), upload to cloud storage
-    if (process.env.NODE_ENV === "production") {
-      // Implement cloud storage upload here (e.g., AWS S3, Google Cloud Storage)
-      // For simplicity, this is left as an exercise
-      console.log("Would upload to cloud storage in production");
-    }
-
-    return backupPath;
-  } catch (error) {
-    console.error("Error backing up database:", error);
-    throw error;
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
-// If run directly
-if (require.main === module) {
-  backupDatabase()
-    .then(() => console.log("Backup completed"))
-    .catch((error) => {
-      console.error("Backup failed:", error);
-      process.exit(1);
-    });
-}
-
-export { backupDatabase };
-```
-
-Configure a scheduled job to run this backup script:
-
-For **Vercel**:
-
-- Create a Vercel Cron Job in your `vercel.json`:
-
-```json
-{
-  "crons": [
-    {
-      "path": "/api/backup",
-      "schedule": "0 0 * * *" // Daily at midnight
-    }
-  ]
-}
-```
-
-- Create the backup endpoint that will be called by the cron job:
-
-```typescript
-// src/app/api/backup/route.ts
-import { NextRequest, NextResponse } from "next/server";
-import { backupDatabase } from "../../../../scripts/backup-database";
-import { verifyApiToken } from "@/lib/auth";
-import { logger } from "@/lib/logging";
-
-export async function GET(request: NextRequest) {
-  try {
-    // Verify this is an authorized request
-    // This can be called by Vercel Cron or manually with proper auth
-    const authHeader = request.headers.get("Authorization");
-    const cronHeader = request.headers.get("x-vercel-cron");
-
-    // Allow the request if it's from Vercel Cron or has a valid API token
-    const isCronJob = cronHeader === process.env.VERCEL_CRON_SECRET;
-    const hasValidToken = await verifyApiToken(
-      authHeader?.startsWith("Bearer ") ? authHeader.substring(7) : null,
-    );
-
-    if (!isCronJob && !hasValidToken) {
-      logger.warn("Unauthorized backup attempt");
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const backupPath = await backupDatabase();
-
-    return NextResponse.json({
-      success: true,
-      message: "Backup completed successfully",
-      timestamp: new Date().toISOString(),
-    });
-  } catch (error) {
-    logger.error("Error in backup API:", error);
-    return NextResponse.json(
-      {
-        error: "Backup failed",
-        message: error instanceof Error ? error.message : "Unknown error",
-      },
-      { status: 500 },
-    );
-  }
-}
-```
-
-### 9. Optional: Create Admin Interface for CV Editing
-
-Create a simple admin interface for editing CV data in `src/app/admin/cv/page.tsx` and `src/app/admin/cv/page.client.tsx`:
-
-```typescript
-// src/app/admin/cv/page.tsx
-import { CVEditor } from './page.client';
+import type { Metadata } from 'next';
+import { CVContent } from '@/components/cv-content'; // Assuming this component renders the CV
 import { getCVData } from '@/lib/cv-data-service';
-
-export default async function AdminCVPage() {
-  const initialData = await getCVData();
-
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">CV Editor</h1>
-      <CVEditor initialData={initialData} />
-    </div>
-  );
-}
-```
-
-```typescript
-// src/app/admin/cv/page.client.tsx
-'use client';
-
-import { useState, useEffect } from 'react';
-import { CVDataType } from '@/lib/schemas/cv-schema';
 import { logger } from '@/lib/logging';
+// import { getMetadata } from '@/data-generation/page-metadata'; // If you have this helper
 
-interface Version {
-  version: number;
-  createdAt: string;
-  updatedBy?: string;
-  isCurrent: boolean;
-}
+// Example Metadata (adjust as needed)
+export const metadata: Metadata = {
+  title: 'Jim Cresswell | CV',
+  description: 'Curriculum Vitae for Jim Cresswell',
+};
 
-export function CVEditor({ initialData }: { initialData: CVDataType | null }) {
-  const [data, setData] = useState<CVDataType | null>(initialData);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
-  const [saveSuccess, setSaveSuccess] = useState(false);
-  const [apiToken, setApiToken] = useState<string>('');
-  const [versions, setVersions] = useState<Version[]>([]);
-  const [selectedVersion, setSelectedVersion] = useState<number | null>(null);
+export default async function CVPage() {
+  logger.info('CVPage: Fetching CV data...');
+  let cvData = null;
+  let fetchError = null;
 
-  // Load API token from local storage if available
-  useEffect(() => {
-    const storedToken = localStorage.getItem('cv_api_token');
-    if (storedToken) {
-      setApiToken(storedToken);
-    }
-  }, []);
-
-  // Load versions when API token changes
-  useEffect(() => {
-    if (apiToken) {
-      fetchVersions();
-    }
-  }, [apiToken]);
-
-  // Fetch available versions
-  const fetchVersions = async () => {
-    try {
-      const response = await fetch('/api/cv/versions', {
-        headers: {
-          'Authorization': `Bearer ${apiToken}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch versions');
-      }
-
-      const versionData = await response.json();
-      setVersions(versionData);
-    } catch (error) {
-      logger.error('Error fetching versions:', error);
-    }
-  };
-
-  // Load a specific version
-  const loadVersion = async (version: number) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`/api/cv?version=${version}`, {
-        headers: {
-          'Authorization': `Bearer ${apiToken}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to load version');
-      }
-
-      const versionData = await response.json();
-      setData(versionData);
-      setSelectedVersion(version);
-    } catch (error) {
-      logger.error('Error loading version:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  if (!data) {
-    return <div>No CV data available</div>;
+  try {
+    cvData = await getCVData();
+  } catch (error: any) {
+    logger.error(`CVPage: Failed to fetch CV data: ${error.message}`, { error });
+    fetchError = error.message || 'An unexpected error occurred while fetching CV data.';
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!apiToken) {
-      setSaveError('API token is required');
-      return;
-    }
-
-    setIsSaving(true);
-    setSaveError(null);
-    setSaveSuccess(false);
-
-    try {
-      const response = await fetch('/api/cv', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiToken}`,
-          'X-User-Email': 'admin-ui' // You could replace this with actual user info
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to save CV data');
-      }
-
-      setSaveSuccess(true);
-
-      // Refetch versions to show the new version
-      await fetchVersions();
-    } catch (error) {
-      setSaveError(error instanceof Error ? error.message : 'An unknown error occurred');
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleApiTokenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newToken = e.target.value;
-    setApiToken(newToken);
-    localStorage.setItem('cv_api_token', newToken);
-  };
-
-  return (
-    <div className="space-y-8">
-      {/* API Token Section */}
-      <div className="mb-6 p-4 border rounded-md bg-gray-50 dark:bg-gray-800">
-        <h2 className="text-lg font-medium mb-2">Authentication</h2>
-        <div className="flex gap-2">
-          <input
-            type="password"
-            value={apiToken}
-            onChange={handleApiTokenChange}
-            placeholder="Enter API token"
-            className="flex-1 p-2 border rounded"
-          />
-        </div>
+  if (fetchError) {
+    return (
+      <div className="container mx-auto px-4 py-8 text-center text-red-600">
+        <p>Error loading CV data:</p>
+        <p>{fetchError}</p>
       </div>
+    );
+  }
 
-      {/* Version History */}
-      {versions.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-lg font-medium mb-2">Version History</h2>
-          <div className="border rounded-md overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50 dark:bg-gray-700">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Version</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Updated</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">By</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                {versions.map((version) => (
-                  <tr key={version.version} className={version
+  if (!cvData) {
+    logger.warn('CVPage: No CV data found after fetch attempt.');
+    return (
+      <div className="container mx-auto px-4 py-8 text-center">
+        CV data is currently unavailable.
+      </div>
+    );
+  }
+
+  logger.info('CVPage: CV data fetched successfully.');
+  // Pass the validated data to the rendering component
+  return <CVContent data={cvData} />;
+}
 ```
+
+### 9. Configure Environment Variables
+
+Ensure the following environment variables are configured both locally (`.env` or `.env.local`) and in the deployment environment (e.g., Vercel dashboard):
+
+*   `DATABASE_URL`: The full connection string for your PostgreSQL database.
+    *   Example: `postgresql://user:password@host:port/database?schema=public`
+*   `CV_API_TOKEN`: A cryptographically secure random string used to authenticate POST requests to `/api/cv` and GET requests to `/api/cv/versions` or specific `/api/cv?version=X`.
+    *   Generate using: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+*   `LOG_LEVEL` (Optional): Set logging level (e.g., `debug`, `info`, `warn`, `error`). Defaults to `info` if using a typical logger setup.
+*   `VERCEL_CRON_SECRET` (If using Vercel Cron for Backups): A secret shared between your backup script/API and the Vercel Cron configuration.
+
+**Security Note:** Never commit `.env` files containing sensitive information like `DATABASE_URL` or `CV_API_TOKEN` to your Git repository. Use `.env.local` (which should be in `.gitignore`) for local development secrets and configure production secrets directly in your hosting provider's settings.
+
+### 10. Implement Backup Strategy
+
+A robust backup strategy is crucial. Consider these approaches:
+
+*   **Managed Database Backups:** Leverage the automated backup features provided by your database host (e.g., Vercel Postgres, AWS RDS, Supabase). This is often the simplest and most reliable method.
+*   **Manual/Scripted Backups:**
+    *   Create a script (`scripts/backup-database.ts`) that uses `pg_dump` or similar database tools to export the database schema and data.
+    *   **Store Backups Securely Offsite:** Upload the backup files to a secure, separate location (e.g., AWS S3, Google Cloud Storage, Backblaze B2). Do not rely solely on backups stored on the same server or platform.
+    *   **Schedule Backups:** Automate the execution of the backup script using:
+        *   **Vercel Cron Jobs:** Define a cron job in `vercel.json` that triggers a secure API endpoint (`/api/backup`) which runs the backup script.
+        *   **GitHub Actions:** Schedule a workflow to run the script and upload the backup.
+        *   **System Cron (if self-hosting):** Use the operating system's cron daemon.
+*   **Regular Testing:** Periodically test your backup restoration process to ensure backups are valid and can be restored successfully.
+
+*(Detailed script implementation for backup is beyond the scope of this core data handling plan but should be tracked as a separate task.)*
+
+## Testing Strategy
+
+*   **Unit Tests:** Use Vitest/Jest for testing individual functions, especially in the data service layer (`cv-data-service.ts`), validation logic (`cv-schema.ts`), and utility functions (`auth.ts`). Mock Prisma client interactions.
+*   **Integration Tests:** Test the interaction between the API routes and the data service layer. This might involve setting up a test database or using Prisma mocking utilities.
+*   **End-to-End Tests (Optional but Recommended):** Use tools like Playwright or Cypress to simulate user interactions with the deployed application, verifying data display and potentially the admin interface (if built).
 
 ## Deployment Process
 
-1. Set up Vercel PostgreSQL:
-
-```bash
-# Install the Vercel CLI
-pnpm add -g vercel
-
-# Link your project
-vercel link
-
-# Add Postgres to your project
-vercel integration add vercel-postgres
-```
-
-2. Generate Prisma client and run migrations:
-
-```bash
-npx prisma generate
-npx prisma migrate dev --name init
-```
-
-3. Run the import script to populate initial data:
-
-```bash
-npx tsx scripts/import-cv-data.ts
-```
-
-4. Deploy to Vercel:
-
-```bash
-vercel --prod
-```
-
-## Benefits of This Approach
-
-1. **Schema Enforcement**: Zod provides runtime validation ensuring data integrity
-2. **TypeScript Integration**: Full type safety from database to UI
-3. **Simple Data Model**: Stores the entire CV as a single JSON document
-4. **API Access**: Clean endpoints for retrieving or updating CV data
-5. **Vercel Compatibility**: Works with Vercel's PostgreSQL offering
-6. **Flexibility**: Easy to extend or modify the schema as needed
-
-## Included in Initial Implementation
-
-1. **Simple Authentication**: API token-based authentication for admin functions
-2. **Versioning**: Basic version control for CV changes with historical snapshots
-3. **Backup Mechanism**: Automated database exports for disaster recovery
-4. **Rich Text Editor**: Add a WYSIWYG editor for description fields
-5. **Revision History**: Track changes to the CV over time
-6. **Exports**: Add PDF and other export formats
-7. **Preview Mode**: Add ability to preview changes before publishing
+1.  **Infrastructure Setup:**
+    *   Ensure your PostgreSQL database is provisioned and accessible (e.g., via Vercel Postgres, Supabase, AWS RDS).
+    *   Configure required environment variables (`DATABASE_URL`, `CV_API_TOKEN`, etc.) in your deployment environment (e.g., Vercel project settings).
+2.  **Database Migration:**
+    *   Generate the Prisma client based on your schema: `pnpm prisma generate`
+    *   Apply database migrations to the production database. **Caution:** Use `prisma migrate deploy` in production environments, not `prisma migrate dev`.
+        ```bash
+        pnpm prisma migrate deploy
+        ```
+3.  **Database Seeding (Initial Deployment Only):**
+    *   Run the seed script against the production database **once** during the initial setup.
+        ```bash
+        pnpm prisma:seed
+        ```
+    *   **Note:** Be careful running seed scripts in production. Ensure your script is idempotent or designed only for initial population.
+4.  **Build and Deploy Application:**
+    *   Build the Next.js application: `pnpm build`
+    *   Deploy using your hosting provider's mechanism (e.g., `vercel deploy --prod`, push to connected Git branch).
+5.  **Configure Backups:** Set up and verify your chosen automated backup mechanism.
+6.  **Monitoring:** Set up logging and monitoring (e.g., Vercel Log Drains, Sentry) to track application health and errors.
 
 ## Security Considerations
 
-1. **API Token Storage**:
+*   **Environment Variables:** Keep secrets out of code; use environment variables configured securely in the deployment environment.
+*   **API Token Security:** Protect the `CV_API_TOKEN`. Use HTTPS for all API communication. Implement rate limiting on protected API endpoints.
+*   **Input Validation:** Rigorously validate all incoming data using Zod schemas (both in API routes and data service layer) to prevent injection attacks and ensure data integrity.
+*   **Database Security:** Use strong database credentials. Limit database user permissions if possible. Ensure the database is not publicly accessible.
+*   **Dependencies:** Keep dependencies updated to patch security vulnerabilities (`pnpm up --latest`). Use tools like `npm audit` or Snyk.
+*   **Error Handling:** Avoid leaking sensitive information in error messages returned to the client.
 
-   - Store the API token securely in environment variables
-   - Never expose the token in client-side code
-   - Rotate tokens periodically for enhanced security
+## Future Enhancements
 
-2. **Authentication Best Practices**:
+*   Implement a more sophisticated Admin UI for editing.
+*   Add more granular role-based access control if multiple users need to edit.
+*   Integrate with a Content Management System (CMS) if desired.
+*   Enhance testing coverage, especially end-to-end tests.
 
-   - Use HTTPS for all communications
-   - Implement rate limiting on API endpoints
-   - Consider IP whitelisting for admin endpoints in production
-
-3. **Database Security**:
-
-   - Use connection pooling with minimum necessary permissions
-   - Encrypt sensitive data at rest (provided by Vercel Postgres)
-   - Regularly audit database access logs
-
-4. **Backup Security**:
-
-   - Encrypt backup files
-   - Control access to backup storage with IAM policies if using cloud storage
-   - Maintain backup history for disaster recovery
-
-5. **Monitoring & Alerting**:
-   - Log all data modification attempts
-   - Set up alerts for failed authentication attempts
-   - Monitor API usage patterns for anomalies
-
-## Integration with Existing Codebase
-
-This implementation has been designed to fit within your current project structure and development practices:
-
-1. **TypeScript**: Uses your existing TypeScript setup with strict typing
-2. **ESLint/Prettier**: Follows your current code style and linting rules
-3. **File Structure**: Matches your current organization of code
-4. **Logging**: Integrates with your Winston logging setup
-5. **Component Structure**: Maintains compatibility with your React component architecture
-6. **Package Management**: Uses pnpm as your package manager
-
-## Implementation Timeline
-
-1. **Setup Database and Authentication**
-
-   - Install dependencies
-   - Configure Prisma
-   - Set up Vercel Postgres
-   - Implement API token authentication
-
-2. **Schema & Data Layer with Versioning**
-
-   - Define Zod schema
-   - Create data access utilities with versioning support
-   - Write data import script
-   - Implement backup mechanism
-
-3. **API Implementation**
-
-   - Create authenticated API routes
-   - Implement version history endpoint
-   - Create backup API for scheduled backups
-   - Test with Postman/Insomnia
-
-4. **UI Integration**
-
-   - Update CV page to use API
-   - Create basic admin interface with version history support
-   - Add version comparison view
-
-5. **Testing & Deployment**
-   - End-to-end testing
-   - Deploy to Vercel
-   - Set up scheduled backups
+This plan provides a structured approach to handling CV data within the Next.js application, incorporating versioning, validation, and security best practices.

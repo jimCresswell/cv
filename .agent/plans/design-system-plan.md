@@ -20,6 +20,23 @@ A single, unified design system based on **Tailwind CSS** will be used across th
 *   **Preserve Root Page Animations**: The unique, responsive animations for `h1#main-title` from `retro.css` must be preserved, but integrated into the new system.
 *   **Deprecate `retro.css`**: The direct import and usage of `retro.css` will be removed.
 
+## Design System Implementation Plan for personal-site
+
+**Status:** In Progress
+
+**Goal:** Create a unified, accessible, and maintainable design system using Tailwind CSS (v4) and potentially Shadcn UI components, while preserving specific keyframe animations from the legacy `retro.css`.
+
+**Reference:** This plan should be implemented following the guidelines in `.agent/best-practices.md`.
+
+**Core Principles:**
+
+*   **Consistency:** Ensure uniform look, feel, and interaction patterns across the site.
+*   **Maintainability:** Easy to update and extend the system.
+*   **Accessibility (A11y):** Adhere to WCAG 2.1 AA standards as a minimum. Components must be usable via keyboard, screen readers, and meet contrast requirements. Follow principles outlined in `best-practices.md#9-accessibility-a11y`.
+*   **Developer Experience:** Clear documentation and easy-to-use components.
+*   **Performance:** Optimized styles and components.
+*   **Best Practice Alignment:** Strictly follow guidelines in `.agent/best-practices.md` regarding testing, TypeScript, styling, code quality, and security.
+
 ## Implementation Plan
 
 This plan follows best practices, including accessibility checks and TDD principles where applicable.
@@ -65,6 +82,34 @@ This plan follows best practices, including accessibility checks and TDD princip
     *   Create a dedicated documentation file: `docs/DESIGN_SYSTEM.md`.
     *   Populate it with details about the finalized colour palettes, typography scales, spacing units, and any custom components or conventions established.
     *   Add a section to the main `README.md` referencing the design system and linking to `docs/DESIGN_SYSTEM.md`.
+
+### 2. Define Core Styling Approach
+
+*   **Tailwind Utility-First:** Primarily use Tailwind utility classes directly in components, adhering to the utility-first principle outlined in `best-practices.md#5-styling-tailwind-css--design-system`.
+*   **Theme Adherence:** Strictly use defined theme tokens (colors, spacing, typography) from `tailwind.config.ts` and `globals.css` (`@theme`). Avoid magic numbers or one-off styles.
+*   **`retro.css` Integration:**
+    *   Identify essential animations (e.g., `#main-title` animation).
+    *   Extract these specific styles into a separate, scoped CSS Module (e.g., `src/components/retro-animations/retro-animations.module.css`) or investigate Tailwind plugins if appropriate.
+    *   Import and apply these scoped styles only where needed.
+    *   **Deprecate** the global import of `retro.css` in `page.tsx` once styles are migrated.
+*   **Shadcn UI (Consideration):** Evaluate Shadcn UI components for common patterns (Buttons, Inputs, Modals, etc.). Customize them via theme configuration and utility overrides to match the design system. Follow `best-practices.md` for leveraging Shadcn.
+*   **Component Abstraction:** Create reusable React components for common UI elements/patterns, styled using the defined system. Apply Tailwind utilities within these components.
+
+### 4. Component Development
+
+*   Develop core reusable components based on identified patterns (e.g., `Button`, `Card`, `Typography` variants, `Link`).
+*   **Props:** Define clear and explicit TypeScript prop types (using interfaces/types, potentially derived from Zod schemas if applicable for data-driven components) as per `best-practices.md#2-typescript--type-safety`.
+*   **Styling:** Style components using the defined Tailwind theme and utility classes.
+*   **Accessibility:** Ensure components are built with accessibility in mind from the start (semantic HTML, ARIA attributes where necessary, keyboard navigation, focus states).
+*   **Testing:** Write unit tests for each component using **Vitest and React Testing Library**, focusing on rendering, props, state changes, and user interactions, following the TDD approach where feasible as outlined in `best-practices.md#1-testing`.
+
+### 5. Documentation
+
+*   Create `docs/DESIGN_SYSTEM.md`.
+*   Document core principles, theme tokens (colors, typography, spacing), component usage examples, and accessibility guidelines.
+*   Use tools like Storybook if component complexity grows significantly (future consideration).
+*   Reference the main `best-practices.md` where applicable.
+*   **Component Documentation:** Add JSDoc comments to complex components explaining their purpose, props, and usage, as recommended in `best-practices.md#6-code-quality--maintainability`.
 
 ## Guiding Principles & Best Practices
 

@@ -1,24 +1,32 @@
-# Project: Jim Cresswell's Personal Website (jimcresswell.net)
+# Project: Jim Cresswell's Personal Website (@jimcresswell/personal-site)
 
 ## Goal
 
-Build and maintain Jim Cresswell's personal website, currently featuring a homepage and a CV page. The site uses modern web technologies, focusing on maintainability, performance, and accessibility.
-
-## Original CV Context
-
-The previous version of the CV exists in the `reference/original-site` directory. Key characteristics of the original site include:
+Build and maintain Jim Cresswell's personal website (`jimcresswell.net`), focusing on a modern, maintainable, performant, and accessible implementation. Key features include a dynamic CV section and potentially blog/portfolio content.
 
 ## Technology Stack
 
-- **Framework:** Next.js 15.3.0 (App Router)
-- **UI Library:** React 19.1.0
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS 4.1.3 (with custom theme variables in `globals.css`)
-- **UI Components:** Radix UI Primitives (`DropdownMenu`, `Slot`), `lucide-react` for icons
-- **Utilities:** `clsx`, `tailwind-merge`, `tailwindcss-animate`
+- **Framework:** Next.js `15.3.0` (App Router)
+- **UI Library:** React `19.1.0`
+- **Language:** TypeScript (Strict)
+- **Styling:**
+  - Tailwind CSS `4.1.3` (via `@tailwindcss/postcss`)
+  - Custom theme variables (`globals.css`)
+  - `tailwindcss-animate` (`^1.0.7`)
+- **UI Components/Methodology:**
+  - Shadcn UI methodology
+  - Radix UI Primitives (e.g., `@radix-ui/react-dropdown-menu` `^2.1.6`, `@radix-ui/react-slot` `^1.1.2`)
+  - `lucide-react` (`^0.487.0`) for icons
+- **State Management:** Primarily local state/Context, Zustand if needed (TBD)
+- **Data Validation:** Zod (Planned/Used for runtime validation)
+- **Data Layer:** Prisma & PostgreSQL (Planned)
+- **Utilities:**
+  - `clsx` (`^2.1.1`)
+  - `tailwind-merge` (`^3.2.0`)
 - **Package Manager:** pnpm
-- **Testing:** Vitest
-- **Linting/Formatting:** ESLint, Commitlint, Husky
+- **Testing:** Vitest & React Testing Library
+- **Linting/Formatting:** ESLint, Prettier, Commitlint, Husky
+- **Deployment:** Vercel (Assumed)
 
 ## Project Structure (`src/`)
 
@@ -42,4 +50,4 @@ The previous version of the CV exists in the `reference/original-site` directory
 
 ## Note
 
-_This summary is based on the project files as of 2025-04-11. It should be updated periodically as the project evolves._
+_This summary is based on the project files as of 2025-04-13. It should be updated periodically as the project evolves._
