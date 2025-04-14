@@ -40,7 +40,7 @@ describe("NotFoundError", () => {
 
   it("should accept a cause", () => {
     const cause = new Error("Query returned no results");
-    const error = new NotFoundError("No results found", cause);
+    const error = new NotFoundError("No results found", { cause: cause });
     expect(error.cause).toBe(cause);
   });
 });

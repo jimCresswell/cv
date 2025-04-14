@@ -19,7 +19,7 @@ interface State {
 const DefaultFallback = () => (
   <div className="p-4 text-center text-red-600 border border-red-300 rounded-md bg-red-50">
     <h2>Something went wrong.</h2>
-    <p>We&apos;ve been notified and are looking into it. Please try refreshing the page.</p>
+    <p>We have been notified and are looking into it. Please try refreshing the page.</p>
   </div>
 );
 
@@ -43,8 +43,7 @@ class ErrorBoundary extends Component<Props, State> {
       // Log the error object itself for Winston to handle
       error: error,
     });
-    // Note: Winston will automatically include stack from the error object if configured.
-    // TODO: Integrate with Sentry or similar service here in the future
+    // Integrate with Sentry or similar once we have it.
     // Sentry.captureException(error, { extra: { errorInfo } });
   }
 

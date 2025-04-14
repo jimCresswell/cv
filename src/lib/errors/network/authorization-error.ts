@@ -1,7 +1,12 @@
-import { AppError } from "../app-error";
+import { NetworkError } from "./network-error";
 
-export class AuthorizationError extends AppError {
-  constructor(message = "Permission denied", cause?: Error | unknown) {
-    super(message, { statusCode: 403, isOperational: true, cause }); // 403 Forbidden
+/**
+ * Represents an error where an action is forbidden due to lack of authorization.
+ * Defaults to HTTP status code 403 (Forbidden).
+ */
+export class AuthorizationError extends NetworkError {
+  constructor(message?: string, options?: { cause?: Error | unknown }) {
+    super(403, message, options);
+    this.name = "AuthorizationError";
   }
 }

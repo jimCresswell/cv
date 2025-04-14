@@ -56,7 +56,7 @@ describe("ErrorBoundary", () => {
 
     // Check for actual fallback UI elements
     expect(screen.getByRole("heading", { name: /something went wrong/i })).toBeInTheDocument();
-    expect(screen.getByText(/we've been notified and are looking into it/i)).toBeInTheDocument();
+    expect(screen.getByText(/we have been notified and are looking into it/i)).toBeInTheDocument();
     // Check that the good child content is NOT rendered
     expect(screen.queryByText("Everything is fine")).not.toBeInTheDocument();
   });

@@ -124,6 +124,12 @@ Robust error handling is essential for maintainability, debugging, and user expe
 - **Graceful Degradation:** Design systems to handle failures in non-critical parts without bringing down the entire application.
 - **Plan for Observability Tools:** While not implementing immediately, design logging and error handling with future integration of tools like Sentry, Datadog, or LogRocket in mind. Ensure logs contain sufficient information for these tools to be effective.
 
+### **Throw Only Error Objects**
+
+- **ALWAYS** throw instances of the standard `Error` class or custom classes that extend `Error` (like `AppError` or `NetworkError`).
+- **NEVER** throw plain JavaScript objects (`{}`), strings, numbers, or other primitive types.
+- **Reasoning**: Throwing actual `Error` objects preserves stack traces crucial for debugging and allows reliable type checking using `instanceof` in error handlers.
+
 ## 11. Code Quality and Maintainability
 
 - **Modularity:** Break down code into small, reusable components and functions with clear responsibilities.

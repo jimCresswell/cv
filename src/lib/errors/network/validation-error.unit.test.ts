@@ -44,14 +44,14 @@ describe("ValidationError", () => {
     expect(error.cause).toBe(cause);
   });
 
-  it("should accept optional details", () => {
-    const details = [{ field: "email", message: "must be a valid email" }];
-    const error = new ValidationError("Invalid input", { details });
-    expect(error.details).toEqual(details);
+  it("should accept optional fieldErrors", () => {
+    const fieldErrors = { email: ["must be a valid email"] };
+    const error = new ValidationError("Invalid input", { fieldErrors });
+    expect(error.fieldErrors).toEqual(fieldErrors);
   });
 
-  it("should have undefined details if not provided", () => {
+  it("should have undefined fieldErrors if not provided", () => {
     const error = new ValidationError();
-    expect(error.details).toBeUndefined();
+    expect(error.fieldErrors).toBeUndefined();
   });
 });

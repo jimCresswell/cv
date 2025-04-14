@@ -176,7 +176,7 @@ This plan represents the **first** major implementation phase, followed by the D
     const DefaultFallback = () => (
       <div className="p-4 text-center text-red-600 border border-red-300 rounded-md bg-red-50">
         <h2>Something went wrong.</h2>
-        <p>We've been notified and are looking into it. Please try refreshing the page.</p>
+        <p>We have been notified and are looking into it. Please try refreshing the page.</p>
       </div>
     );
 
@@ -241,103 +241,159 @@ This plan represents the **first** major implementation phase, followed by the D
 
   - **Rationale:** Implements React best practice for catching client-side rendering errors, provides fallback UI, logs errors using Winston.
 
-- **Step 4: Implement `global-error.tsx` (App Router Production Catch-all) (Not Yet Implemented)**
+- **Step 4: Implement `global-error.tsx` (App Router Production Catch-all) (Code Implemented, Tests Implemented)**
 
   - **Action:** Create `src/app/global-error.tsx`.
-  - \*\*Content (`src/app/global-error.tsx`):
+  - **(Update)**: Implemented `global-error.tsx` to catch unhandled errors, log them using the configured Winston logger, and render a fallback UI.
+  - **(Update)**: Refactored the fallback UI into a separate component `src/components/error-handling/global-error-fallback.tsx` for better modularity and testability.
+  - **(Update)**: Created/updated tests (`src/app/global-error.test.tsx`, `src/components/error-handling/global-error-fallback.test.tsx`) which are passing.
+  - **Content (`src/app/global-error.tsx` - Updated):**
 
     ```typescript
-    'use client'; // global-error must be a Client Component
+    'use client'; // Required for error components
 
-    import { useEffect } from 'react';
-    import { logger } from '@/lib/logging'; // Use Winston logger
+    import React, { useEffect } from 'react';
+    import { logger } from '@/lib/logging';
+    import GlobalErrorFallback from '@/components/error-handling/global-error-fallback'; // Import the separated fallback
 
-    export default function GlobalError({
-      error,
-      reset,
-    }: {
+    interface GlobalErrorProps {
       error: Error & { digest?: string }; // digest is added by Next.js for server errors
       reset: () => void; // Function to attempt recovery
-    }) {
+    }
+
+    export default function GlobalError({ error, reset }: GlobalErrorProps) {
       useEffect(() => {
-        // Log the error using our Winston logger
-        // Pass the error object directly
-        logger.error('GlobalError caught an error:', {
-            digest: error.digest, // Include digest if available
-            // Log the error object itself
-            error: error
+        // Log the error including the digest if available
+        logger.error('Unhandled error caught by global-error boundary:', {
+            error: error, // Log the full error object (Winston handles stack)
+            digest: error.digest,
         });
-        // TODO: Integrate with Sentry or similar service here
-        // Sentry.captureException(error);
-      }, [error]);
+      }, [error]); // Log whenever the error changes
 
       return (
-        <html>
+        <html lang="en">
           <body>
-            <div className="p-4 text-center text-red-600 border border-red-300 rounded-md bg-red-50">
-              <h2>Something went wrong!</h2>
-              <p>An unexpected error occurred. We've logged the issue.</p>
-              <button
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                onClick={
-                  // Attempt to recover by trying to re-render the segment
-                  () => reset()
-                }
-              >
-                Try again
-              </button>
-            </div>
+            {/* Render the separated fallback UI component */}
+            <GlobalErrorFallback reset={reset} />
           </body>
         </html>
       );
     }
+
     ```
 
-  - **Rationale:** Provides a production-only root error UI for errors not caught by specific Error Boundaries, aligning with Next.js App Router conventions and logging via Winston.
+  - **Rationale:** Provides a user-friendly fallback for production errors caught by the App Router, ensuring errors are logged for debugging. Separation improves component structure.
 
-**5. Status & Refinements (As of 2025-04-13):**
+**5. Testing:**
 
-- **Code Implementation Completed:** Steps 1, 2, and 3 have been implemented.
+- **Action:** Create unit tests for custom errors (`*.test.ts` in `src/lib/errors/`). (Completed)
+- **Action:** Create unit/integration tests for `ErrorBoundary` (`error-boundary.unit.test.tsx`). (Completed)
+- **Action:** Create unit/integration tests for `global-error.tsx` (`global-error.test.tsx`). (Completed)
+- **Action:** Create unit tests for `GlobalErrorFallback` (`global-error-fallback.test.tsx`). (Completed)
+- **Rationale:** Ensure error classes behave correctly, and boundary components log errors and render fallbacks as expected.
+
+**6. Next Steps:**
+
+- **Add Tests (TDD):** Write unit/integration tests for the custom error classes (`app-error.ts` and derivatives) and the `error-boundary.tsx` component. **This must be the immediate next step and follow TDD.**
+- **Leverage Next.js `app` Router Error Files:** Explore using `error.tsx` and `not-found.tsx` for more granular, segment-level error handling.
+  - **Implement `not-found.tsx` for handling 404 errors specifically.**
+  - **Refine the visual appearance and content of fallback UIs.**
+
+**7. Status & Refinements (As of 2025-04-13):**
+
+- **Code Implementation Completed:** Steps 1, 2, 3, and 4 have been implemented.
   - Winston logger configured in `src/lib/logging.ts`.
   - Custom error classes created in `src/lib/errors/`.
   - Root client-side `error-boundary.tsx` created and integrated.
+  - `global-error.tsx` implemented for App Router catch-all.
   - Files renamed to kebab-case and imports updated.
 - **Refinements Completed:**
   - The base `app-error.ts` class now uses an optional `statusCode` and an options object constructor for flexibility.
   - Derived error classes updated accordingly.
 
-**6. TDD Adherence & Retrospective:**
+**8. TDD Adherence & Retrospective:**
 
 - **TDD Requirement:** As per `../best-practices.md`, Test-Driven Development (TDD) is mandatory for this project.
 - **Retrospective:** While the _code_ for the custom error classes (Step 2) and the `ErrorBoundary` component (Step 3) has been implemented, the corresponding tests were _not_ written beforehand as required by TDD.
 - **Correction:** Going forward, TDD **must** be strictly adhered to. This includes the immediate next step: writing tests for the already implemented error handling components.
 
-**7. Future Enhancements / Next Steps (Prioritized):**
+**9. Future Enhancements / Next Steps (Prioritized):**
 
-- **1. Add Tests (TDD):** Write unit/integration tests for the custom error classes (`app-error.ts` and derivatives) and the `error-boundary.tsx` component. **This must be the immediate next step and follow TDD.**
-- **2. Implement `global-error.tsx`:** Implement Step 4 from the original plan.
-- **3. Leverage Next.js `app` Router Error Files:** Explore using `error.tsx` and `not-found.tsx` for more granular, segment-level error handling.
-- **4. API Error Handling Strategy:** Define and implement error handling for API routes (when created).
-- **5. External Service Integration:** Plan for and implement integration with error tracking services like Sentry.
+- **1. API Error Handling Strategy:** Define and implement error handling for API routes (when created).
+- **2. External Service Integration:** Plan for and implement integration with error tracking services like Sentry.
 
-**8. Validation:**
+**10. Validation:**
 
 - Regularly validate changes using the project's scripts:
   - `pnpm type-check`
   - `pnpm lint`
   - `pnpm test`
 
-**9. Dependencies:**
+**11. Dependencies:**
 
 - `winston`
 - Potentially `react` types if not already covered.
 - `vitest`, `@testing-library/react` (for tests)
 
-**10. Deliverable:**
+**12. Deliverable:**
 
 - This plan file (`.agent/plans/error-handling-plan.md`).
 - Code files and directories created in Steps 1-4 (using Winston).
 
-**11. Next Steps:**
+**13. Next Steps:**
 
 - Begin **Step 7.2: Write tests for `global-error.tsx`, `not-found.tsx`, and `error.tsx` handlers**.
+
+**Error Handling Refactoring Plan**
+
+**Objective:** Implement a robust and maintainable error handling strategy for the Next.js application, utilizing custom error classes and a centralized handler for processing errors, especially those from network requests.
+
+**Status:** In Progress
+
+**Key Components:**
+
+1.  **Custom Error Classes:** Define a hierarchy of error classes (`AppError`, `NetworkError`, specific network errors like `NotFoundError`, `AuthorizationError`, `DatabaseError`, `ValidationError`) for semantic error representation.
+2.  **Centralized Error Handler:** A function/module responsible for catching raw errors (especially from `fetch` or other operations), inspecting them, creating the appropriate custom error instance (using the raw error's context, e.g., HTTP status), logging, reporting, and then potentially throwing/returning the custom error.
+3.  **Global Error Boundary (`global-error.tsx`):** Catches unhandled errors, logs them, and displays a user-friendly fallback UI.
+4.  **Not Found Boundary (`not-found.tsx`):** Handles specific 404 scenarios.
+5.  **Logging:** Use Winston for structured logging.
+6.  **Testing:** Use Vitest for unit and integration tests.
+
+**Revised Plan:**
+
+1.  **[Done]** Define Base `AppError` Class (`src/lib/errors/app-error.ts`) & Tests (`.unit.test.ts`).
+2.  **[Done]** Define `NetworkError` Class (`src/lib/errors/network/network-error.ts`) extending `AppError`, handling `statusCode` and defaulting messages from `http.STATUS_CODES`.
+3.  **[Done]** Refactor specific network errors (`AuthorizationError`, `NotFoundError`, `DatabaseError`, `ValidationError`) to extend `NetworkError`.
+4.  **[Done]** Create Initial Tests for `NetworkError` (`network-error.unit.test.ts`).
+5.  **[Done]** Create Central Error Handler Tests (TDD):
+    - Create `src/lib/errors/error-handler.unit.test.ts`.
+    - Test scenarios: successful response, 404, 403, 5xx, generic errors, non-errors.
+    - Verify correct custom error type is generated.
+    - Verify `statusCode` is extracted from the original error (if available).
+    - Verify `cause` property is set to the original error.
+    - Verify logging function is called (using mocks).
+6.  **[Done]** Implement Central Error Handler:
+    - Create `src/lib/errors/error-handler.ts`.
+    - Implement the function (e.g., `handleOperationalError` or `processError`) based on the tests.
+    - Include inspection logic and custom error instantiation.
+    - Integrate Winston logging calls.
+7.  **[Done]** Integrate Central Handler (Example):
+    - Find/create an example of a `fetch` call.
+    - Wrap it in `try-catch`.
+    - Call the central error handler in the `catch` block.
+8.  **[Done]** Update `global-error.tsx`:
+    - Ensure it correctly handles custom errors potentially thrown/returned by the central handler.
+    - Check `instanceof NetworkError` for status codes.
+    - Log errors effectively.
+9.  **[Done]** Implement `not-found.tsx` for specific 404 handling within Next.js routing.
+10. **[Moved]** Refine Fallback UIs (`GlobalErrorFallback`, potentially `NotFoundFallback`) - Moved to `./error-handling-enhancement-plan.md`.
+11. **[Moved]** Consider adding external error tracking (e.g., Sentry) integration points in the central handler - Moved to `./error-handling-enhancement-plan.md`.
+12. **[Done]** Final Test Run (`pnpm test`).
+13. **[Done]** Address any remaining linting issues (`pnpm lint --fix`).
+
+**Notes:**
+
+- Adhere to TDD principles.
+- Use kebab-case for new filenames (per project preference).
+- Ensure `cause` is used consistently to maintain error chains.
+- Prioritize logging the _original_ error details within the handler.
