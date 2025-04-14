@@ -33,7 +33,7 @@ describe("NetworkError", () => {
 
   it("should fallback to 'Unknown Network Error' for invalid status codes", () => {
     const error = new NetworkError(999); // Invalid status code
-    expect(error.message).toBe("Unknown Network Error");
+    expect(error.message).toBe("Unknown Network Error with status code 999");
   });
 
   it("should set the name property correctly", () => {

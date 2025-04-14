@@ -1,6 +1,4 @@
-// src/lib/errors/error-handler.ts
-import http from "node:http";
-
+import { getHttpMessageForCode } from "../constants";
 import { logger } from "../logging";
 
 import { AppError } from "./app-error";
@@ -46,7 +44,7 @@ export function processError(originalError: unknown): AppError {
 
   if (isFetchError(originalError)) {
     const { status } = originalError.response;
-    const message = http.STATUS_CODES[status] || originalError.message || "Network Error";
+    const message = getHttpMessageForCode(status) || originalError.message || "Network Error";
 
     switch (status) {
       case 400: {

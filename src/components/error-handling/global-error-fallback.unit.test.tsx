@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { NetworkError } from "@/lib/errors/network/network-error";
-import { logger as actualLogger } from "@/lib/logging";
+import { NetworkError } from "@/lib/shared/errors/network/network-error";
+import { logger } from "@/lib/shared/logging";
 
 import GlobalErrorFallback from "./global-error-fallback";
 
-vi.mock("@/lib/logging", () => ({
+vi.mock("@/lib/shared/logging", () => ({
   logger: {
     error: vi.fn(),
     info: vi.fn(),
@@ -15,7 +15,7 @@ vi.mock("@/lib/logging", () => ({
   },
 }));
 
-const mockedLogger = vi.mocked(actualLogger, true);
+const mockedLogger = vi.mocked(logger, true);
 
 describe("GlobalErrorFallback Component", () => {
   const mockReset = vi.fn();

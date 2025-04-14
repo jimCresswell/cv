@@ -2,12 +2,12 @@ import { render, screen } from "@testing-library/react";
 import type React from "react";
 import { beforeEach, describe, it, expect, vi, afterEach } from "vitest";
 
-import { logger } from "../../lib/logging";
+import { logger } from "@/lib/shared/logging";
 
 import ErrorBoundary from "./error-boundary";
 
 // Mock the logger
-vi.mock("../../lib/logging", () => {
+vi.mock("@/lib/shared/logging", () => {
   // Explicitly create the mock logger object
   const mockLogger = {
     error: vi.fn(),

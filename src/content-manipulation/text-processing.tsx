@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type React from "react";
 
-import { logger } from "@/lib/logging";
+import { logger } from "@/lib/shared/logging";
 
 /**
  * Converts markdown-style links in a string into Next.js Link components.

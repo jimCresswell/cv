@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
-import { logger } from "@/lib/logging"; // Import logger to potentially spy on
+import { logger } from "@/lib/shared/logging"; // Import logger to potentially spy on
 
 import FetchExampleClient from "./fetch-example-client";
 
 // Mock the logger to prevent console noise during tests and allow spying
-vi.mock("@/lib/logging", () => ({
+vi.mock("@/lib/shared/logging", () => ({
   logger: {
     info: vi.fn(),
     warn: vi.fn(),

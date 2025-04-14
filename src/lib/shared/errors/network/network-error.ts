@@ -1,5 +1,5 @@
 // src/lib/errors/network/network-error.ts
-import http from "node:http";
+import { getHttpMessageForCode } from "@/lib/shared/constants";
 
 import { AppError, type AppErrorOptions } from "../app-error";
 
@@ -16,7 +16,19 @@ export class NetworkError extends AppError {
 
   constructor(statusCode: number, message?: string, options?: NetworkErrorOptions) {
     // Determine the final message: use provided message, or lookup standard HTTP message, or fallback
-    const finalMessage = message ?? http.STATUS_CODES[statusCode] ?? "Unknown Network Error";
+    let finalMessage: string;
+    if (message) {
+      finalMessage = message;
+    } else {
+      try {
+        finalMessage = getHttpMessageForCode(statusCode);
+      } catch {
+        // If the status code is unknown and no message was provided, use a fallback
+        finalMessage = `Unknown Network Error with status code ${statusCode}`;
+        // Optionally log the original error for debugging purposes
+        // console.error(`NetworkError: Failed to get message for status code ${statusCode}`);
+      }
+    }
 
     // Call the AppError constructor
     super(finalMessage, options);

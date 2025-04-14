@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
-import { logger } from "@/lib/logging";
+import { logger } from "@/lib/shared/logging";
 
 interface FetchExampleErrorProps {
   error: Error & { digest?: string };

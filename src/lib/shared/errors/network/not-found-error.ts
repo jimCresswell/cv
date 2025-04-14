@@ -1,4 +1,4 @@
-import { HttpStatus } from "@/lib/constants";
+import { HttpStatus } from "@/lib/shared/constants";
 
 import { NetworkError } from "./network-error";
 
@@ -13,7 +13,7 @@ export class NotFoundError extends NetworkError {
   ) {
     // Pass the specific message to super.
     // NetworkError correctly defaults isOperational to true for 404.
-    super(HttpStatus.NOT_FOUND, message, options);
+    super(HttpStatus.NOT_FOUND.code, message, options);
     this.name = "NotFoundError";
   }
 }

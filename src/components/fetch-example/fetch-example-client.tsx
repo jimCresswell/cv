@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-import type { AppError } from "@/lib/errors/app-error";
-import { processError } from "@/lib/errors/error-handler";
+import type { AppError } from "@/lib/shared/errors/app-error";
+import { processError } from "@/lib/shared/errors/error-handler";
 
 export default function FetchExampleClient() {
   const [result, setResult] = useState<string | undefined>();

@@ -1,8 +1,8 @@
 // src/components/error-handling/global-error-fallback.tsx
 import React, { useEffect } from "react";
 
-import { NetworkError } from "@/lib/errors/network/network-error"; // Import NetworkError
-import { logger } from "@/lib/logging"; // Import logger
+import { NetworkError } from "@/lib/shared/errors/network/network-error"; // Import NetworkError
+import { logger } from "@/lib/shared/logging"; // Import logger
 
 interface GlobalErrorFallbackProps {
   readonly error: Error & { digest?: string }; // Add error prop

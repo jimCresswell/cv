@@ -1,7 +1,7 @@
 // src/lib/errors/error-handler.unit.test.ts
 import { expect, describe, it, vi, beforeEach } from "vitest";
 
-import { logger } from "@/lib/logging"; // Mock this
+import { logger } from "@/lib/shared/logging"; // Mock this
 
 import { AppError } from "./app-error"; // Correct import path
 import { processError } from "./error-handler"; // Import the function under test
@@ -13,7 +13,7 @@ import { NotFoundError } from "./network/not-found-error";
 import { ValidationError } from "./network/validation-error";
 
 // Import and mock the logger
-vi.mock("@/lib/logging", () => ({
+vi.mock("@/lib/shared/logging", () => ({
   logger: {
     error: vi.fn(),
     warn: vi.fn(),

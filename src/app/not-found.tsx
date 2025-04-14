@@ -2,7 +2,6 @@
 import Link from "next/link";
 import React from "react";
 
-// TODO: Style this component properly - create NotFoundFallback?
 export default function NotFound() {
   return (
     <html lang="en">

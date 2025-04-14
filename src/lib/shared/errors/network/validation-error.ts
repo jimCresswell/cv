@@ -1,5 +1,5 @@
-import { HttpStatus } from "@/lib/constants";
-import type { FieldErrorDetail } from "@/lib/types";
+import { HttpStatus } from "@/lib/shared/constants";
+import type { FieldErrorDetail } from "@/lib/shared/types";
 
 import { NetworkError } from "./network-error";
 
@@ -21,7 +21,7 @@ export class ValidationError extends NetworkError {
   ) {
     // Pass the specific message to super.
     // NetworkError correctly defaults isOperational to true for 400.
-    super(HttpStatus.BAD_REQUEST, message, options);
+    super(HttpStatus.BAD_REQUEST.code, message, options);
     this.name = "ValidationError";
     this.fieldErrors = options?.fieldErrors;
   }

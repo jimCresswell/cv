@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import type { ErrorInfo, ReactNode } from "react"; // Use import type
 
-import { logger } from "@/lib/logging"; // Use our Winston logger
+import { logger } from "@/lib/shared/logging";
 
 interface Props {
   children: ReactNode;
@@ -35,12 +35,12 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log the error using our Winston logger
-    // Pass the error object directly, Winston's 'errors' format handles the stack.
+    // Log the error using our Pino logger
+    // Pass the error object directly, Pino's 'stdSerializers.err' handles the stack.
     logger.error("ErrorBoundary caught an error:", {
       // Include component stack separately if desired
       componentStack: errorInfo.componentStack,
-      // Log the error object itself for Winston to handle
+      // Log the error object itself for Pino to handle
       error: error,
     });
     // Integrate with Sentry or similar once we have it.
@@ -48,7 +48,6 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   // This is a standard React pattern for error boundaries
-  // eslint-disable-next-line sonarjs/function-return-type
   public render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI

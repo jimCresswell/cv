@@ -4,14 +4,14 @@ This document outlines the error handling strategy implemented in the `@jimcress
 
 ## Core Components
 
-1.  **Winston Logger (`src/lib/logging.ts`)**
+1.  **Pino Logger (`src/lib/shared/logging.ts`)**
 
-    - Provides structured logging.
     - Configurable log levels via `process.env.LOG_LEVEL`.
-    - Outputs readable format in development and JSON format in production.
-    - Includes stack traces for errors.
+    - Outputs readable format (via `pino-pretty`) in development and JSON format in production (server-side).
+    - Logs to the browser console client-side.
+    - Includes stack traces for errors via standard serializers.
 
-2.  **Custom Error Classes (`src/lib/errors/`)**
+2.  **Custom Error Classes (`src/lib/shared/errors/`)**
 
     - **`AppError` (`app-error.ts`):** Base class for all custom application errors. Supports `isOperational` flag to distinguish expected errors from programmer errors, and includes a `cause` property.
     - **`NetworkError` (`network/network-error.ts`):** Extends `AppError` for network-related issues. Includes an HTTP `statusCode` and defaults messages based on `http.STATUS_CODES`.
@@ -32,7 +32,7 @@ This document outlines the error handling strategy implemented in the `@jimcress
       - If it's a generic `Error`, it wraps it in a non-operational `AppError`.
       - If it's not an error object (e.g., a thrown string), it creates a generic non-operational `AppError`.
     - Sets the original caught item as the `cause` for the new `AppError`.
-    - Logs the _processed_ error using the Winston logger.
+    - Logs the _processed_ error using the Pino logger.
     - Returns the processed `AppError` instance.
     - **Example Usage:** See `src/app/fetch-example/page.tsx` for how to use `processError` in a `try...catch` block around `fetch` calls.
 
@@ -41,7 +41,7 @@ This document outlines the error handling strategy implemented in the `@jimcress
     - A React Class Component using `getDerivedStateFromError` and `componentDidCatch`.
     - Wraps the main application content in `src/app/layout.tsx`.
     - Catches rendering errors in its component tree _during client-side navigation/interaction_, specifically for components within the main layout shell (header, main, footer).
-    - Logs the caught error and component stack using Winston.
+    - Logs the caught error and component stack using the Pino logger.
     - Displays a fallback UI (`DefaultFallback` within the component).
 
 5.  **App Router Segment-Level Error Boundaries (`error.tsx`)**
@@ -49,7 +49,7 @@ This document outlines the error handling strategy implemented in the `@jimcress
     - Next.js convention: Create an `error.tsx` file alongside a `page.tsx` within a route segment (e.g., `src/app/fetch-example/error.tsx`).
     - This component acts as a UI boundary for errors occurring within that specific segment and its children, both during server-side rendering and client-side rendering/navigation.
     - It receives `error` (the error instance) and `reset` (a function to attempt re-rendering the segment) props.
-    - Allows for more granular error handling and UI fallbacks compared to the global error boundary.
+    - Allows for more granular error handling and UI fall-backs compared to the global error boundary.
     - Errors caught here _do not_ propagate to `global-error.tsx`.
     - **Note:** You are responsible for implementing logging within segment-level `error.tsx` files if desired (e.g., using `useEffect` and the logger).
 
@@ -63,7 +63,7 @@ This document outlines the error handling strategy implemented in the `@jimcress
 
     - This component renders the actual fallback UI displayed when an error is caught by `global-error.tsx`.
     - It receives the `error` and `reset` props from `global-error.tsx`.
-    - **Crucially, this component now handles the logging** of these globally caught errors using `useEffect` and the Winston logger. It logs details like the error message, stack, `digest` (for server errors), and `statusCode` (if available).
+    - **Crucially, this component now handles the logging** of these globally caught errors using `useEffect` and the Pino logger. It logs details like the error message, stack, `digest` (for server errors), and `statusCode` (if available).
 
 8.  **App Router Not Found Boundary (`src/app/not-found.tsx`)**
     - Automatically rendered by Next.js when `notFound()` is called or a route segment is missing.

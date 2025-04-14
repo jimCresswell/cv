@@ -1,4 +1,4 @@
-import { HttpStatus } from "@/lib/constants";
+import { HttpStatus } from "@/lib/shared/constants";
 
 import { NetworkError } from "./network-error";
 
@@ -12,7 +12,7 @@ export class DatabaseError extends NetworkError {
     options?: { cause?: Error | unknown; isOperational?: boolean },
   ) {
     // Pass the specific message and explicitly default isOperational to false
-    super(HttpStatus.INTERNAL_SERVER_ERROR, message, {
+    super(HttpStatus.INTERNAL_SERVER_ERROR.code, message, {
       ...options, // Spread existing options first
       isOperational: options?.isOperational ?? false, // Default to false
     });

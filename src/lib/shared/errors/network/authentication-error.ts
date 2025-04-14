@@ -1,7 +1,5 @@
 // src/lib/errors/network/authentication-error.ts
-import http from "node:http";
-
-import { HttpStatus } from "@/lib/constants";
+import { getHttpMessageForCode, HttpStatus } from "@/lib/shared/constants";
 
 import { NetworkError, type NetworkErrorOptions } from "./network-error";
 
@@ -11,8 +9,8 @@ import { NetworkError, type NetworkErrorOptions } from "./network-error";
  */
 export class AuthenticationError extends NetworkError {
   constructor(message?: string, options?: NetworkErrorOptions) {
-    const defaultMessage = http.STATUS_CODES[HttpStatus.UNAUTHORIZED] || "Unauthorized";
-    super(HttpStatus.UNAUTHORIZED, message || defaultMessage, options);
+    const defaultMessage = getHttpMessageForCode(HttpStatus.UNAUTHORIZED.code) || "Unauthorized";
+    super(HttpStatus.UNAUTHORIZED.code, message || defaultMessage, options);
     this.name = "AuthenticationError";
 
     // Ensure the prototype chain is correctly set
