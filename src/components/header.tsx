@@ -22,7 +22,7 @@ export function Header({
   location,
 }: Readonly<HeaderProperties>) {
   return (
-    <header className="text-center md:text-left border-b pb-6 dark:border-gray-700 print:pb-2">
+    <header className="text-center md:text-left border-b pb-6 print:pb-2">
       <div className="pb-2">
         <h1 className="text-4xl md:text-5xl md:text-[3.1rem] font-bold mb-2 print:mb-1">{name}</h1>
         <p className="text-xl md:text-2xl text-muted-foreground mb-4 print:mb-2">{title}</p>
@@ -76,12 +76,10 @@ export function Header({
             </Button>
           )}
           {email && (
-            <Button variant="outline" size="sm" asChild>
-              <span aria-label="Email" className="inline-flex items-center">
-                <Mail className="h-4 w-4 mr-2" />
-                <span>{email}</span>
-              </span>
-            </Button>
+            <div className="inline-flex items-center text-sm px-3 py-1.5">
+              <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
+              <span aria-label="Email">{email}</span>
+            </div>
           )}
 
           {location && (

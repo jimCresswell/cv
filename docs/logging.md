@@ -4,10 +4,10 @@ This document outlines the logging strategy implemented in the `@jimcresswell/pe
 
 ## Core Components
 
--   **Pino Logger (`src/lib/shared/logging.ts`)**
-    -   Provides fast, structured JSON logging.
-    -   Configurable log levels via the `LOG_LEVEL` environment variable (defaults to `info`).
-    -   Designed to be **isomorphic**, working correctly in both server (Node.js) and client (browser) environments.
+- **Pino Logger (`src/lib/shared/logging.ts`)**
+  - Provides fast, structured JSON logging.
+  - Configurable log levels via the `LOG_LEVEL` environment variable (defaults to `info`).
+  - Designed to be **isomorphic**, working correctly in both server (Node.js) and client (browser) environments.
 
 ## Configuration
 
@@ -19,16 +19,16 @@ The logger instance is configured within `src/lib/shared/logging.ts`:
 
 ### Server-Side Configuration
 
--   When running in Node.js (`globalThis.window === undefined`):
-    -   In **development** (`process.env.NODE_ENV === 'development'`), it uses the `pino-pretty` transport for human-readable, colorized console output.
-    -   In **production**, it uses Pino's default behavior, outputting structured JSON logs to `stdout`.
+- When running in Node.js (`globalThis.window === undefined`):
+  - In **development** (`process.env.NODE_ENV === 'development'`), it uses the `pino-pretty` transport for human-readable, colorized console output.
+  - In **production**, it uses Pino's default behavior, outputting structured JSON logs to `stdout`.
 
 ### Client-Side Configuration
 
--   When running in a browser (`globalThis.window !== undefined`):
-    -   It initializes Pino using its standard browser configuration.
-    -   Logs are directed to the browser's developer console.
-    -   Standard error serializers are included.
+- When running in a browser (`globalThis.window !== undefined`):
+  - It initializes Pino using its standard browser configuration.
+  - Logs are directed to the browser's developer console.
+  - Standard error serializers are included.
 
 ## Usage
 

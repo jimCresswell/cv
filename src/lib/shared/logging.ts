@@ -1,7 +1,6 @@
 import { pino } from "pino";
 
 const logLevel = process.env.LOG_LEVEL || "info";
-const isDevelopment = process.env.NODE_ENV === "development";
 
 let logger: pino.Logger;
 
@@ -15,17 +14,6 @@ if (globalThis.window === undefined) {
       error: pino.stdSerializers.err,
     },
   };
-
-  if (isDevelopment) {
-    serverOptions.transport = {
-      target: "pino-pretty",
-      options: {
-        colorize: true,
-        translateTime: "SYS:standard",
-        ignore: "pid,hostname",
-      },
-    };
-  }
 
   logger = pino(serverOptions);
 

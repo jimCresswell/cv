@@ -41,7 +41,7 @@ A single, unified design system based on **Tailwind CSS** will be used across th
 
 This plan follows best practices, including accessibility checks and TDD principles where applicable.
 
-1.  **Define/Refine Shared Tailwind Tokens**:
+1.  **Define/Refine Shared Tailwind Tokens (@theme in `globals.css`)**:
 
     - Review and finalize colour palettes (primary, secondary, accent, background, foreground, etc.) in `globals.css` for both light and dark modes. Ensure sufficient contrast ratios (WCAG AA).
     - Define typography scales (font sizes, weights, line heights) using the current `Inter` font.
@@ -83,7 +83,16 @@ This plan follows best practices, including accessibility checks and TDD princip
     - Ensure consistent look and feel with the layout and CV page (colours, fonts).
     - Perform accessibility checks (contrast, keyboard navigation).
 
-6.  **Document the Design System**:
+6.  **Add a navigation bar and menu**
+
+    - Create a new component `src/components/navigation.tsx`.
+    - Use Tailwind classes and theme variables to style the navigation bar.
+    - Add the navigation bar to the root layout (`src/app/layout.tsx`).
+    - Add a subset of key pages to the navigation menu
+    - Add a menu button to the header
+    - Have all pages available in the menu
+
+7.  **Document the Design System**:
     - Create a dedicated documentation file: `docs/DESIGN_SYSTEM.md`.
     - Populate it with details about the finalized colour palettes, typography scales, spacing units, and any custom components or conventions established.
     - Add a section to the main `README.md` referencing the design system and linking to `docs/DESIGN_SYSTEM.md`.
@@ -91,7 +100,7 @@ This plan follows best practices, including accessibility checks and TDD princip
 ### 2. Define Core Styling Approach
 
 - **Tailwind Utility-First:** Primarily use Tailwind utility classes directly in components, adhering to the utility-first principle outlined in `best-practices.md#5-styling-tailwind-css--design-system`.
-- **Theme Adherence:** Strictly use defined theme tokens (colors, spacing, typography) from `tailwind.config.ts` and `globals.css` (`@theme`). Avoid magic numbers or one-off styles.
+- **Theme Adherence:** Strictly use defined theme tokens (colors, spacing, typography) from `@theme` in `globals.css`. Avoid magic numbers or one-off styles.
 - **`retro.css` Integration:**
   - Identify essential animations (e.g., `#main-title` animation).
   - Extract these specific styles into a separate, scoped CSS Module (e.g., `src/components/retro-animations/retro-animations.module.css`) or investigate Tailwind plugins if appropriate.
