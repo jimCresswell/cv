@@ -16,7 +16,8 @@ This directory contains for use by LLM agents.
 | ---------------------------------------------------------------------- | ------ | ------------ | -------------------------------------------------------------------------- |
 | [theme-management-plan](plans/theme-management-plan.md)                | medium | **complete** | Manage theme settings and apply them consistently.                         |
 | [Error Handling Foundations](plans/error-handling-plan.md)             | medium | **complete** | Implement foundational logging, custom errors, and root error boundaries.  |
-| [Design System](plans/design-system-plan.md)                           | medium | not started  | Unify styling with Tailwind, integrate legacy animations, document system. |
+| [Design System](plans/design-system-plan.md)                           | medium | **complete** | Unify styling with Tailwind, integrate legacy animations, document system. |
+| [Responsive & Accessible Navigation](plans/navigation-plan.md)         | medium | **complete** | Implement responsive nav bar, mobile menu, skip link with A11y focus.      |
 | [Structured Data Handling](plans/structured-data-handling-plan.md)     | large  | not started  | Implement backend data management (Postgres/Prisma/Zod) for CV content.    |
 | [Error Handling Enhancement](plans/error-handling-enhancement-plan.md) | medium | not started  | Implement error handling enhancements.                                     |
 

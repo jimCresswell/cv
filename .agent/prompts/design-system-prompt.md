@@ -8,15 +8,15 @@ Execute the plan outlined in `.agent/plans/design-system-plan.md` to create a un
 
 Strictly adhere to the guidelines defined in `.agent/best-practices.md` throughout this process. Pay special attention to:
 
--   **Quality Assurance:** Run `pnpm type-check`, `pnpm lint`, and `pnpm test` frequently after changes.
--   **Accessibility (A11y):** Ensure WCAG 2.1 AA compliance (semantic HTML, keyboard nav, contrast, ARIA where needed). Test using browser tools.
--   **Testing:** Use TDD where practical (Vitest + RTL). Focus on component rendering, props, and interactions.
--   **TypeScript:** Strict mode, use Zod for validation -> infer types, **NO `as` assertions**, explicit prop/function types.
--   **Styling:** Tailwind utility-first, theme adherence (`@theme` in `globals.css`), component abstraction. Use CSS Modules for complex/scoped styles (like retro animations). Consider Shadcn UI components, customize via theme/utilities.
--   **Code Quality:** Readability, ESLint/Prettier adherence, Modularity (SRP), DRY, JSDoc for complex components.
--   **Error Handling:** Follow established patterns (Error Boundaries, structured logging, throw only `Error` objects).
--   **File Naming:** Use **kebab-case** for all new files.
--   **Next.js/React:** Use RSCs by default, client components selectively, composition over inheritance, etc.
+- **Quality Assurance:** Run `pnpm type-check`, `pnpm lint`, and `pnpm test` frequently after changes.
+- **Accessibility (A11y):** Ensure WCAG 2.1 AA compliance (semantic HTML, keyboard nav, contrast, ARIA where needed). Test using browser tools.
+- **Testing:** Use TDD where practical (Vitest + RTL). Focus on component rendering, props, and interactions.
+- **TypeScript:** Strict mode, use Zod for validation -> infer types, **NO `as` assertions**, explicit prop/function types.
+- **Styling:** Tailwind utility-first, theme adherence (`@theme` in `globals.css`), component abstraction. Use CSS Modules for complex/scoped styles (like retro animations). Consider Shadcn UI components, customize via theme/utilities.
+- **Code Quality:** Readability, ESLint/Prettier adherence, Modularity (SRP), DRY, JSDoc for complex components.
+- **Error Handling:** Follow established patterns (Error Boundaries, structured logging, throw only `Error` objects).
+- **File Naming:** Use **kebab-case** for all new files.
+- **Next.js/React:** Use RSCs by default, client components selectively, composition over inheritance, etc.
 
 ## 3. Implementation Steps (Summary - Refer to Plan for Details)
 

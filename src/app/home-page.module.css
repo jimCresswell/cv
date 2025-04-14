@@ -1,0 +1,133 @@
+/* Styles extracted from retro.css for the home page title animation */
+
+.me {
+  position: relative;
+  text-align: center;
+  /* top: 14%; Default vertical position - adjust or handle with layout if needed */
+  margin: 0 auto;
+  /* color: #ccc; Should inherit from globals.css --foreground */
+}
+
+.mainTitle {
+  /* Base styles for the h1 container if needed, e.g., padding */
+  /* font-size: 1em; Inherited? Tailwind likely handles h1 size */
+  padding-top: 12px; /* Keep padding? */
+}
+
+.mainTitle span {
+  display: inline-block; /* Crucial for transforms */
+  font-size: 4.5em; /* Keep large size */
+  font-weight: bold; /* Keep bold */
+}
+
+/* Responsive Animations & Adjustments */
+
+@media all and (max-width: 550px) {
+  /* .me { top: 12%; } */
+  .mainTitle span {
+    letter-spacing: -2px;
+  }
+  .s0 {
+    transform: rotate(10deg);
+  }
+  .s1 {
+    transform: rotate(-30deg);
+  }
+}
+
+@media all and (max-width: 510px) {
+  /* .me { top: 11%; } */
+  .mainTitle span {
+    letter-spacing: -3px;
+  }
+  .s11 {
+    transform: rotate(-15deg);
+  }
+}
+
+@media all and (max-width: 480px) {
+  /* .me { top: 10%; } */
+  .mainTitle span {
+    letter-spacing: -4px;
+  }
+  .s6 {
+    transform: rotate(20deg);
+  }
+}
+
+@media all and (max-width: 460px) {
+  /* .me { top: 9%; } */
+  .s4 {
+    transform: rotate(10deg);
+  }
+  .s5 {
+    transform: rotate(-8deg);
+  }
+}
+
+@media all and (max-width: 450px) {
+  /* .me { top: 8%; } */
+  .mainTitle span {
+    letter-spacing: -5px;
+  }
+  .s9 {
+    transform: rotate(8deg);
+  }
+}
+
+@media all and (max-width: 445px) {
+  /* .me { top: 7%; } */
+  .s3 {
+    transform: rotate(8deg);
+  }
+  .s9 {
+    transform: rotate(-10deg);
+  }
+}
+
+@media all and (max-width: 440px) {
+  /* .me { top: 6%; } */
+  .mainTitle span {
+    letter-spacing: -7px;
+  }
+  .s4 {
+    transform: rotate(-12deg);
+  }
+}
+
+@media all and (max-width: 430px) {
+  /* .me { top: 4%; } */
+  .s4 {
+    transform: rotate(-6deg);
+  }
+}
+
+@media all and (max-width: 400px) {
+  /* .me { top: 2%; } */
+  .mainTitle span {
+    letter-spacing: -8px;
+  }
+  .s4 {
+    transform: rotate(-2deg) translate(0, -7px);
+  }
+}
+
+/* Commenting out height/layout adjustments for now, handle with Tailwind layout */
+/* @media all and (max-height: 460px) {
+  .me { top: 0; }
+} */
+/* @media all and (max-height: 460px) and (min-width: 730px) {
+  .me {
+    width: 80%;
+    text-align: left;
+  }
+  .mainTitle,
+  .description { // Assuming .description is handled separately
+    margin: 0;
+    padding-top: 12px;
+    padding-right: 20px;
+  }
+  .mainTitle {
+    float: left;
+  }
+} */
