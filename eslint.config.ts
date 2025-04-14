@@ -127,19 +127,6 @@ const config = tseslint.config(
   /**
    * The main config.
    */
-  {
-    plugins: {
-      "@typescript-eslint": tseslint.plugin,
-      importPlugin,
-    },
-    languageOptions: {
-      parser: tseslint.parser,
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: thisDirectory,
-      },
-    },
-  },
   eslint.configs.recommended,
   tseslint.configs.strict,
   tseslint.configs.stylistic,

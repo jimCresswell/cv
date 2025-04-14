@@ -8,7 +8,7 @@ import {
   getGenerateImageMetadata,
   getIconConfig,
 } from "@/data-generation/icon";
-import { logger } from "@/lib/logging";
+import { logger } from "@/lib/shared/logging";
 
 // The word to be displayed on the icon
 const WORD = "JC";
